@@ -2,9 +2,11 @@
 
 const fs = require("fs");
 const path = require("path");
+const cp = require("child_process");
 const { buildBm25, searchBm25 } = require("./bm25");
 const { buildVectorIndex, searchVector } = require("./vector");
 const { shouldRetrieve, fuseResults, mmrSelect } = require("./retrieval");
+const { loadProfile } = require("./profile");
 const {
   resolveWorkspaceRoot,
   getMemoryPaths,
@@ -27,11 +29,15 @@ function printHelp() {
 Usage:
   echodb memory reindex [--disable-noise-filter]
   echodb memory search <query> [--topK 20] [--scope all|global|agent:main] [--mode hybrid|bm25|vector]
-                      [--fusion rrf|weighted] [--bm25Weight 0.6] [--vectorWeight 0.4] [--force] [--json] [--mmr]
+                      [--fusion rrf|weighted] [--bm25Weight 0.6] [--vectorWeight 0.4] [--halfLifeDays 30] [--force] [--json] [--mmr]
   echodb memory list [--scope ...] [--type ...] [--limit 20] [--json]
   echodb memory stats [--json]
   echodb memory export --out <file> [--scope ...] [--type ...]
   echodb memory forget --id <id>
+  echodb memory regress [--dataset <file>]
+  echodb memory tune [--dataset <file>] [--apply]
+  echodb memory feedback --query "..." --id <id> --label up|down [--scope ...]
+  echodb memory selflearn --once
 `);
 }
 
@@ -74,16 +80,26 @@ function filterScopeType(results, scope, type) {
   return results.filter((r) => (scope === "all" ? true : r.scope === scope) && (type ? r.type === type : true));
 }
 
+function getSearchParams(paths, args = []) {
+  const profile = loadProfile(paths.workspaceRoot);
+  return {
+    topK: parseTopK(args),
+    scope: parseScope(args),
+    mode: (argValue(args, "--mode", profile.retrieval.mode) || "hybrid").toLowerCase(),
+    fusion: (argValue(args, "--fusion", profile.retrieval.fusion) || "rrf").toLowerCase(),
+    bm25Weight: Number(argValue(args, "--bm25Weight", profile.retrieval.bm25Weight)),
+    vectorWeight: Number(argValue(args, "--vectorWeight", profile.retrieval.vectorWeight)),
+    recencyHalfLifeDays: Number(argValue(args, "--halfLifeDays", profile.retrieval.recencyHalfLifeDays)),
+    force: hasFlag(args, "--force"),
+    json: hasFlag(args, "--json"),
+    useMmr: hasFlag(args, "--mmr") || (!args.includes("--no-mmr") && !!profile.retrieval.mmr),
+    profile,
+  };
+}
+
 function search(paths, query, args = []) {
-  const topK = parseTopK(args);
-  const scope = parseScope(args);
-  const mode = (argValue(args, "--mode", "hybrid") || "hybrid").toLowerCase();
-  const fusion = (argValue(args, "--fusion", "rrf") || "rrf").toLowerCase();
-  const bm25Weight = Number(argValue(args, "--bm25Weight", 0.6));
-  const vectorWeight = Number(argValue(args, "--vectorWeight", 0.4));
-  const force = hasFlag(args, "--force");
-  const json = hasFlag(args, "--json");
-  const useMmr = hasFlag(args, "--mmr");
+  const params = getSearchParams(paths, args);
+  const { topK, scope, mode, fusion, bm25Weight, vectorWeight, recencyHalfLifeDays, force, json, useMmr } = params;
 
   const gate = shouldRetrieve(query, { forceRetrieve: force });
   if (!gate.retrieve) {
@@ -107,18 +123,26 @@ function search(paths, query, args = []) {
   bResults = filterScopeType(bResults, scope);
   vResults = filterScopeType(vResults, scope);
 
-  let results = mode === "bm25" ? bResults : mode === "vector" ? vResults : fuseResults({ bm25: bResults, vector: vResults, strategy: fusion, bm25Weight, vectorWeight, topK: topK * 2 });
+  let results = mode === "bm25" ? bResults : mode === "vector" ? vResults : fuseResults({
+    bm25: bResults,
+    vector: vResults,
+    strategy: fusion,
+    bm25Weight,
+    vectorWeight,
+    recencyHalfLifeDays,
+    topK: topK * 2,
+  });
   if (mode !== "hybrid") results = results.map((r) => ({ ...r, finalScore: r.score, debug: { [mode]: r.score } }));
   if (useMmr) results = mmrSelect(results, 0.7, topK);
   results = results.slice(0, topK);
 
-  const out = { query, mode, scope, fusion: mode === "hybrid" ? fusion : undefined, results: results.map((r) => ({
+  const out = { query, mode, scope, fusion: mode === "hybrid" ? fusion : undefined, profileSource: params.profile.source, results: results.map((r) => ({
     id: r.id, score: Number((r.finalScore || r.score || 0).toFixed(6)), source: r.source, scope: r.scope, type: r.type, preview: r.preview, debug: r.debug,
   })) };
 
   asJson(json, out, () => {
     if (!results.length) return console.log(`No results for scope=${scope}.`);
-    console.log(`Found ${results.length} result(s) (mode=${mode}, scope=${scope}):`);
+    console.log(`Found ${results.length} result(s) (mode=${mode}, scope=${scope}, profile=${params.profile.source}):`);
     results.forEach((r, i) => {
       console.log(`\n#${i + 1} score=${(r.finalScore || r.score || 0).toFixed(4)} [scope=${r.scope}] ${r.source}`);
       console.log(`   id=${r.id}`);
@@ -204,12 +228,48 @@ function forget(paths, args = []) {
   return 0;
 }
 
-function runRegression(paths) {
-  const dataset = path.join(paths.workspaceRoot, "echodb-fusion/ours/memory-engine/mvp-bm25/datasets/regression-zh.json");
+function runRegression(paths, args = []) {
+  const dataset = argValue(args, "--dataset", path.join(paths.workspaceRoot, "echodb-fusion/ours/memory-engine/mvp-bm25/datasets/regression-zh.json"));
   const script = path.join(paths.workspaceRoot, "echodb-fusion/ours/memory-engine/mvp-bm25/scripts/regression.js");
   if (!fs.existsSync(script) || !fs.existsSync(dataset)) return console.error("Regression assets missing."), 1;
-  const cp = require("child_process");
   cp.execFileSync(process.execPath, [script, "--dataset", dataset], { stdio: "inherit" });
+  return 0;
+}
+
+function runTune(paths, args = []) {
+  const dataset = argValue(args, "--dataset", path.join(paths.workspaceRoot, "echodb-fusion/ours/memory-engine/mvp-bm25/datasets/regression-zh.json"));
+  const script = path.join(paths.workspaceRoot, "echodb-fusion/ours/memory-engine/mvp-bm25/scripts/tune.js");
+  if (!fs.existsSync(script) || !fs.existsSync(dataset)) return console.error("Tune assets missing."), 1;
+  const cliArgs = [script, "--dataset", dataset, "--apply"];
+  cp.execFileSync(process.execPath, cliArgs, { stdio: "inherit" });
+  return 0;
+}
+
+function feedback(paths, args = []) {
+  const query = argValue(args, "--query", "").trim();
+  const id = argValue(args, "--id", "").trim();
+  const label = argValue(args, "--label", "").trim().toLowerCase();
+  const scope = parseScope(args);
+  if (!query || !id || !["up", "down"].includes(label)) {
+    console.error("Usage: echodb memory feedback --query \"...\" --id <id> --label up|down [--scope ...]");
+    return 1;
+  }
+  fs.mkdirSync(paths.indexesDir, { recursive: true });
+  const file = path.join(paths.indexesDir, "feedback-log.jsonl");
+  const row = { ts: new Date().toISOString(), query, id, label, scope };
+  fs.appendFileSync(file, `${JSON.stringify(row)}\n`, "utf8");
+  appendAudit(paths, "feedback", { query, id, label, scope });
+  console.log(`Feedback saved: ${label} id=${id}`);
+  return 0;
+}
+
+function selflearn(paths, args = []) {
+  if (!hasFlag(args, "--once")) {
+    console.error("Usage: echodb memory selflearn --once");
+    return 1;
+  }
+  const script = path.join(paths.workspaceRoot, "echodb-fusion/ours/memory-engine/mvp-bm25/scripts/selflearn.js");
+  cp.execFileSync(process.execPath, [script], { stdio: "inherit" });
   return 0;
 }
 
@@ -225,14 +285,11 @@ function main(argv, cliDir = __dirname) {
   try {
     if (cmd === "reindex") return reindex(paths, rest);
     if (cmd === "search") {
-      const takesValue = new Set(["--topK", "-k", "--scope", "--mode", "--fusion", "--bm25Weight", "--vectorWeight"]);
+      const takesValue = new Set(["--topK", "-k", "--scope", "--mode", "--fusion", "--bm25Weight", "--vectorWeight", "--halfLifeDays"]);
       const queryParts = [];
       for (let i = 0; i < rest.length; i++) {
         const t = rest[i];
-        if (takesValue.has(t)) {
-          i += 1;
-          continue;
-        }
+        if (takesValue.has(t)) { i += 1; continue; }
         if (t.startsWith("--")) continue;
         queryParts.push(t);
       }
@@ -247,7 +304,10 @@ function main(argv, cliDir = __dirname) {
     }
     if (cmd === "export") return exportMemories(paths, rest);
     if (cmd === "forget") return forget(paths, rest);
-    if (cmd === "regress") return runRegression(paths);
+    if (cmd === "regress") return runRegression(paths, rest);
+    if (cmd === "tune") return runTune(paths, rest);
+    if (cmd === "feedback") return feedback(paths, rest);
+    if (cmd === "selflearn") return selflearn(paths, rest);
     return printHelp(), 1;
   } catch (err) {
     console.error(`Error: ${err.message}`);

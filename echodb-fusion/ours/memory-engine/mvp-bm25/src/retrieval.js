@@ -4,7 +4,7 @@ function shouldRetrieve(query, context = {}) {
   if (context.forceRetrieve) return { retrieve: true, reason: "forced" };
   const q = (query || "").trim().toLowerCase();
   if (!q) return { retrieve: false, reason: "empty-query" };
-  const shortTalk = [/^你好[呀啊!！]?$/, /^hi+$/i, /^hello$/i, /^ok(ay)?$/i, /^收到$/, /^嗯+$/, /^谢谢[你]?$/];
+  const shortTalk = [/^你好[呀吗呢]?([!！。？?])?$/, /^hi+$/i, /^hello$/i, /^ok(ay)?$/i, /^收到$/, /^嗯+$/, /^谢谢(你)?$/];
   if (q.length <= 4 || shortTalk.some((r) => r.test(q))) {
     return { retrieve: false, reason: "small-talk-or-confirmation" };
   }
@@ -59,7 +59,7 @@ function normalizeByMax(v, max) {
   return max > 0 ? v / max : 0;
 }
 
-function fuseResults({ bm25 = [], vector = [], strategy = "rrf", bm25Weight = 0.6, vectorWeight = 0.4, topK = 20 }) {
+function fuseResults({ bm25 = [], vector = [], strategy = "rrf", bm25Weight = 0.6, vectorWeight = 0.4, topK = 20, recencyHalfLifeDays = 30 }) {
   const byId = new Map();
   const maxB = Math.max(0, ...bm25.map((x) => x.score || 0));
   const maxV = Math.max(0, ...vector.map((x) => x.score || 0));
@@ -92,7 +92,7 @@ function fuseResults({ bm25 = [], vector = [], strategy = "rrf", bm25Weight = 0.
       const k = 60;
       base = (x.debug.bm25Rank ? 1 / (k + x.debug.bm25Rank) : 0) + (x.debug.vectorRank ? 1 / (k + x.debug.vectorRank) : 0);
     }
-    const recency = scoreRecency(x.createdAt);
+    const recency = scoreRecency(x.createdAt, recencyHalfLifeDays);
     const lengthNorm = scoreLengthNorm(x.preview);
     x.debug.recency = recency;
     x.debug.lengthNorm = lengthNorm;
