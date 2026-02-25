@@ -1,0 +1,77 @@
+{
+  "policy_version": "1.0.0",
+  "policy_name": "edict-governance-effective",
+  "effective_from": "2026-02-26T00:00:00+08:00",
+  "default_effect": "deny",
+  "risk_levels": {
+    "L1": {"description": "低风险，可追溯", "approval": "auto_or_single", "sla": "5m"},
+    "L2": {"description": "中风险，需人工审批", "approval": "single_required", "sla": "30m"},
+    "L3": {"description": "高风险，需双人审批", "approval": "two_man_required", "sla": "60m"}
+  },
+  "roles": [
+    "zhongshu_planner",
+    "menxia_reviewer",
+    "shangshu_dispatcher",
+    "hubu_allocator",
+    "libu_secretariat",
+    "bingbu_executor",
+    "xingbu_auditor",
+    "gongbu_infra",
+    "censorate_reviewer"
+  ],
+  "operations": {
+    "message.send.external": {
+      "risk_level": "L3",
+      "approval_chain": ["menxia_reviewer", "xingbu_auditor"],
+      "two_man_rule": true,
+      "audit_schema": "AUDIT_SCHEMA.json",
+      "rollback": "ROLLBACK_PLAYBOOK.md#外发误发回滚"
+    },
+    "workspace.edit.batch": {
+      "risk_level": "L2",
+      "approval_chain": ["menxia_reviewer"],
+      "two_man_rule": false,
+      "audit_schema": "AUDIT_SCHEMA.json",
+      "conditions": {"changed_files_gte": 10},
+      "rollback": "ROLLBACK_PLAYBOOK.md#文件改动回滚"
+    },
+    "cron.schedule.change": {
+      "risk_level": "L3",
+      "approval_chain": ["menxia_reviewer", "gongbu_infra"],
+      "two_man_rule": true,
+      "audit_schema": "AUDIT_SCHEMA.json",
+      "rollback": "ROLLBACK_PLAYBOOK.md#cron变更回滚"
+    },
+    "workspace.edit.single": {
+      "risk_level": "L1",
+      "approval_chain": [],
+      "two_man_rule": false,
+      "audit_schema": "AUDIT_SCHEMA.json"
+    }
+  },
+  "approval_rules": {
+    "token_required_for": ["L2", "L3"],
+    "token_value": "APPROVED",
+    "expire_minutes": 120,
+    "emergency_override": {
+      "enabled": true,
+      "required_roles": ["menxia_reviewer", "censorate_reviewer"],
+      "post_audit_within_hours": 24
+    }
+  },
+  "audit": {
+    "enabled": true,
+    "log_path": "memory-echoDB/indexes/edict-audit-log.jsonl",
+    "required_fields": [
+      "request_id",
+      "timestamp",
+      "operation",
+      "risk_level",
+      "decision",
+      "reason",
+      "approval_chain",
+      "actor",
+      "status"
+    ]
+  }
+}

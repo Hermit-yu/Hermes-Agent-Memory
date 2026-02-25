@@ -30,7 +30,10 @@
 ### 新增融合（edict）
 
 - 上游快照：`upstream/edict/`（README/README_EN/LICENSE/清单/元信息）
-- 我方治理设计：`ours/edict-governance/`
-- 本轮记录：`notes/edict-integration-round1.md`
+- 我方治理设计：`ours/edict-governance/`（含 roles SOUL 体系、DAILY_OPERATION_GUIDE）
+- 可执行融合产物：`merged/edict-governance/`（POLICY_EFFECTIVE / APPROVAL_MATRIX / AUDIT_SCHEMA / RUNBOOK / ROLLBACK_PLAYBOOK）
+- 本轮记录：
+  - `notes/edict-integration-round1.md`
+  - `notes/edict-integration-round2-completion.md`
 
 > 备注：原则上不把运行态目录（logs/state/runtime）塞进来。

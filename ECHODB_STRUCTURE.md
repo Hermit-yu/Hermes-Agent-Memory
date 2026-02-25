@@ -32,7 +32,19 @@
 ## 3) 自动化脚本
 
 - `automation/`
-  - 放自动化脚本（同步、构建索引、未来 CLI 封装等）
+  - 放自动化脚本（同步、构建索引、治理执行等）
   - `automation/echodb/sync.ps1`：双边同步（pull--rebase → commit → push）
+  - `automation/edict/preflight-check.ps1`：执行前风险判定（allow/deny）
+  - `automation/edict/audit-log.ps1`：审计日志追加（JSONL）
+  - `automation/edict/simulate-flow.ps1`：三类流程模拟（外发/批改/cron）
+
+## 4) edict 治理融合（新增）
+
+- `echodb-fusion/ours/edict-governance/roles/`
+  - 三省六部+都察院角色 SOUL（共 9 份）
+- `echodb-fusion/merged/edict-governance/`
+  - 可执行治理包（策略、审批矩阵、审计结构、runbook、回滚手册）
+- `echodb-fusion/notes/edict-integration-round2-completion.md`
+  - round2 差异、风险、后续路线
 
 > 原则：运行态日志/大文件（logs/state/runtime/音频）默认忽略，不进入 EchoDB。

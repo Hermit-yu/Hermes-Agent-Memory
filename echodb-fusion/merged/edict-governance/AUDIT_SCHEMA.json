@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Edict Governance Audit Record",
+  "type": "object",
+  "required": [
+    "request_id",
+    "timestamp",
+    "operation",
+    "risk_level",
+    "decision",
+    "reason",
+    "approval_chain",
+    "actor",
+    "status"
+  ],
+  "properties": {
+    "request_id": {"type": "string", "minLength": 6},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "operation": {"type": "string"},
+    "risk_level": {"type": "string", "enum": ["L1", "L2", "L3"]},
+    "decision": {"type": "string", "enum": ["allow", "deny", "rollback", "need-info"]},
+    "reason": {"type": "string"},
+    "approval_chain": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role", "result", "at"],
+        "properties": {
+          "role": {"type": "string"},
+          "result": {"type": "string", "enum": ["approved", "rejected", "commented"]},
+          "at": {"type": "string", "format": "date-time"},
+          "token": {"type": "string"}
+        }
+      }
+    },
+    "actor": {"type": "string"},
+    "scope": {"type": "string"},
+    "artifacts": {"type": "array", "items": {"type": "string"}},
+    "status": {"type": "string", "enum": ["requested", "approved", "executed", "failed", "rolled_back"]},
+    "rollback_ref": {"type": "string"},
+    "tool_call_refs": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": true
+}
