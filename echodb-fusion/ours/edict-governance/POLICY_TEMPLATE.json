@@ -1,0 +1,104 @@
+{
+  "policy_version": "0.1.0",
+  "policy_name": "edict-governance-baseline",
+  "default_effect": "allow",
+  "roles": [
+    {
+      "id": "emperor",
+      "name": "请求发起者",
+      "can_request": ["*"],
+      "can_approve": ["L1", "L2"]
+    },
+    {
+      "id": "zhongshu_planner",
+      "name": "中书省-规划",
+      "can_request": ["plan", "workspace_change", "tool_exec"],
+      "can_approve": []
+    },
+    {
+      "id": "menxia_reviewer",
+      "name": "门下省-审核",
+      "can_request": [],
+      "can_approve": ["L1", "L2", "L3"]
+    },
+    {
+      "id": "shangshu_dispatcher",
+      "name": "尚书省-派发",
+      "can_request": ["dispatch"],
+      "can_approve": []
+    },
+    {
+      "id": "xingbu_auditor",
+      "name": "刑部-审计合规",
+      "can_request": ["audit_query"],
+      "can_approve": ["L3"]
+    }
+  ],
+  "operations": [
+    {
+      "op": "message.send.external",
+      "risk_level": "L3",
+      "requires_approval": true,
+      "approver_role": ["menxia_reviewer", "xingbu_auditor"],
+      "two_man_rule": true,
+      "audit_required": true
+    },
+    {
+      "op": "workspace.edit.batch",
+      "risk_level": "L2",
+      "requires_approval": true,
+      "conditions": {
+        "changed_files_gte": 10
+      },
+      "approver_role": ["menxia_reviewer"],
+      "audit_required": true
+    },
+    {
+      "op": "cron.schedule.change",
+      "risk_level": "L3",
+      "requires_approval": true,
+      "approver_role": ["menxia_reviewer", "xingbu_auditor"],
+      "two_man_rule": true,
+      "audit_required": true
+    },
+    {
+      "op": "file.read",
+      "risk_level": "L1",
+      "requires_approval": false,
+      "audit_required": false
+    },
+    {
+      "op": "file.write.single",
+      "risk_level": "L1",
+      "requires_approval": false,
+      "audit_required": true
+    }
+  ],
+  "approval_flow": {
+    "states": ["requested", "under_review", "approved", "rejected", "executed", "rolled_back"],
+    "sla": {
+      "L1": "auto",
+      "L2": "30m",
+      "L3": "60m"
+    },
+    "emergency_override": {
+      "enabled": true,
+      "requires_reason": true,
+      "post_audit_within": "24h"
+    }
+  },
+  "audit_fields": [
+    "request_id",
+    "requester",
+    "operation",
+    "risk_level",
+    "scope",
+    "approval_chain",
+    "decision",
+    "reason",
+    "tool_call_refs",
+    "execution_result",
+    "timestamp",
+    "rollback_ref"
+  ]
+}

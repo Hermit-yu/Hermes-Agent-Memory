@@ -27,4 +27,10 @@
 - 我方任务分解：`ours/memory-engine/INTEGRATION_BACKLOG.md`
 - 记录日志：`notes/memory-engine/merge-checklist-INIT.md`
 
+### 新增融合（edict）
+
+- 上游快照：`upstream/edict/`（README/README_EN/LICENSE/清单/元信息）
+- 我方治理设计：`ours/edict-governance/`
+- 本轮记录：`notes/edict-integration-round1.md`
+
 > 备注：原则上不把运行态目录（logs/state/runtime）塞进来。
