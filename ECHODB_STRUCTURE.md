@@ -23,8 +23,8 @@
 
 - `echodb-fusion/`
   - 专门用来引入第三方配置/脚本，并进行“可审计融合”
-  - `upstream/`：第三方原版只读备份
-  - `ours/`：我们自己的设计与实现
+  - `upstream/`：第三方原版只读快照（示例：`upstream/memory-lancedb-pro/`，含 README/README_CN/plugin 清单与 LICENSE 记录）
+  - `ours/`：我们自己的设计与实现（示例：`ours/memory-engine/UPSTREAM_FEATURE_MAP.md`、`INTEGRATION_BACKLOG.md`）
   - `merged/`：融合后的可落地版本（准备迁入正式目录时使用）
   - `notes/`：每次融合记录（来源/差异/取舍/风险/验证）
   - `templates/`：融合清单模板

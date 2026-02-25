@@ -15,9 +15,16 @@
 
 ## 使用流程（建议）
 
-1) 把第三方配置完整放进 `upstream/<source>/<version>/`
+1) 把第三方配置快照放进 `upstream/<source>/`（并记录 commit、文件清单、LICENSE 信息）
 2) 把我们的对应配置放进 `ours/<module>/`
-3) 在 `notes/` 新建一份融合记录（用模板）
+3) 在 `notes/` 追加融合记录（来源、差异、风险、下一步）
 4) 产物输出到 `merged/<module>/`，跑验证后再考虑迁入正式目录
+
+### 当前示例
+
+- 上游快照：`upstream/memory-lancedb-pro/`
+- 我方映射：`ours/memory-engine/UPSTREAM_FEATURE_MAP.md`
+- 我方任务分解：`ours/memory-engine/INTEGRATION_BACKLOG.md`
+- 记录日志：`notes/memory-engine/merge-checklist-INIT.md`
 
 > 备注：原则上不把运行态目录（logs/state/runtime）塞进来。
