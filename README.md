@@ -7,5 +7,9 @@
 - memory-echoDB/：记忆数据库
   - long-term/MEMORY.md：长期记忆（精炼版）
   - daily/：每日记忆日志（原始记录）
+  - schema/：记忆结构约定（未来索引一致口径）
+  - indexes/：可再生索引（默认不进 Git）
+- echodb-fusion/：第三方融合区（防止仓库变乱）
+- ECHODB_STRUCTURE.md：仓库结构中文说明（强烈建议先读）
 
 > 说明：默认忽略运行态目录、日志、音频等大文件与隐私风险文件。
