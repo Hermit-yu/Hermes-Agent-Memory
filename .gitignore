@@ -1,0 +1,26 @@
+# OpenClaw workspace: ignore runtime/artifacts by default
+
+# OpenClaw runtime & caches
+runtime/
+.clawhub/
+
+# Logs/state/artifacts
+**/logs/
+**/state/
+**/github-updates/
+
+# Media & large binaries
+*.wav
+*.mp3
+*.mp4
+*.zip
+*.7z
+
+# Temp/dev scratch
+tmp_*.py
+tmp_*.ps1
+trending*.html
+
+# OS
+.DS_Store
+Thumbs.db
