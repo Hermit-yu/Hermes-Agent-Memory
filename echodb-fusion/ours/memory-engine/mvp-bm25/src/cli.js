@@ -4,7 +4,8 @@ const { buildBm25, searchBm25 } = require("./bm25");
 const {
   resolveWorkspaceRoot,
   getMemoryPaths,
-  readDocuments,
+  normalizeMemoryItems,
+  readDocumentsFromItems,
   saveIndex,
   loadIndex,
 } = require("./memory-store");
@@ -15,10 +16,12 @@ function printHelp() {
 Usage:
   echodb memory reindex
   echodb memory search <query> [--topK 20]
+  echodb memory stats
 
 Node invocation:
   node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory reindex
   node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory search "query" --topK 20
+  node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory stats
 `);
 }
 
@@ -31,11 +34,12 @@ function parseTopK(args) {
 }
 
 function reindex(paths) {
-  const docs = readDocuments(paths);
+  const items = normalizeMemoryItems(paths);
+  const docs = readDocumentsFromItems(paths);
   const index = buildBm25(docs);
   saveIndex(paths, index);
   console.log(
-    `Reindex done: ${index.docs.length} docs, avgdl=${index.avgdl.toFixed(2)}, file=${paths.indexFile}`
+    `Reindex done: memoryItems=${items.length}, docs=${index.docs.length}, avgdl=${index.avgdl.toFixed(2)}, files=[${paths.memoryItemsFile}, ${paths.indexFile}]`
   );
 }
 
@@ -58,6 +62,26 @@ function search(paths, query, topK) {
     console.log(`\n#${idx + 1} score=${r.score.toFixed(4)}  ${r.source}`);
     console.log(`   ${r.preview}`);
   });
+}
+
+function stats(paths) {
+  const index = loadIndex(paths);
+  if (!index) {
+    console.error("Index not found. Please run: echodb memory reindex");
+    return 1;
+  }
+
+  const docs = Array.isArray(index.docs) ? index.docs : [];
+  const terms = index.df ? Object.keys(index.df).length : 0;
+  const sources = new Set(docs.map((d) => d.source).filter(Boolean)).size;
+
+  console.log("EchoDB Memory Stats");
+  console.log(`docs: ${docs.length}`);
+  console.log(`terms: ${terms}`);
+  console.log(`avgdl: ${(index.avgdl || 0).toFixed(2)}`);
+  console.log(`sources: ${sources}`);
+  console.log(`indexCreatedAt: ${index.createdAt || "unknown"}`);
+  return 0;
 }
 
 function main(argv, cliDir = __dirname) {
@@ -101,6 +125,10 @@ function main(argv, cliDir = __dirname) {
     const topK = parseTopK(rest);
     search(paths, query, topK);
     return 0;
+  }
+
+  if (cmd === "stats") {
+    return stats(paths);
   }
 
   printHelp();

@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 function resolveWorkspaceRoot(cliDir) {
   // mvp-bm25/bin -> mvp-bm25 -> memory-engine -> ours -> echodb-fusion -> workspace
@@ -14,48 +15,111 @@ function getMemoryPaths(workspaceRoot) {
     workspaceRoot,
     memoryRoot,
     dailyDir: path.join(memoryRoot, "daily"),
-    longTermFile: path.join(memoryRoot, "long-term", "MEMORY.md"),
+    longTermDir: path.join(memoryRoot, "long-term"),
     indexesDir: path.join(memoryRoot, "indexes"),
     indexFile: path.join(memoryRoot, "indexes", "bm25-index.json"),
+    memoryItemsFile: path.join(memoryRoot, "indexes", "memory-items.jsonl"),
   };
-}
-
-function readDocuments(paths) {
-  const docs = [];
-
-  if (fs.existsSync(paths.dailyDir)) {
-    const dailyFiles = fs
-      .readdirSync(paths.dailyDir)
-      .filter((f) => f.toLowerCase().endsWith(".md"))
-      .sort();
-
-    for (const file of dailyFiles) {
-      const full = path.join(paths.dailyDir, file);
-      const content = fs.readFileSync(full, "utf8");
-      docs.push({
-        id: `daily:${file}`,
-        source: `memory-echoDB/daily/${file}`,
-        title: file,
-        content,
-      });
-    }
-  }
-
-  if (fs.existsSync(paths.longTermFile)) {
-    const content = fs.readFileSync(paths.longTermFile, "utf8");
-    docs.push({
-      id: "long-term:MEMORY.md",
-      source: "memory-echoDB/long-term/MEMORY.md",
-      title: "MEMORY.md",
-      content,
-    });
-  }
-
-  return docs;
 }
 
 function ensureIndexesDir(paths) {
   fs.mkdirSync(paths.indexesDir, { recursive: true });
+}
+
+function toRelativeSource(workspaceRoot, filePath) {
+  return path.relative(workspaceRoot, filePath).replace(/\\/g, "/");
+}
+
+function parseTitle(content, fallbackName) {
+  const lines = (content || "").split(/\r?\n/);
+  const h1 = lines.find((line) => /^\s*#\s+/.test(line));
+  if (h1) return h1.replace(/^\s*#\s+/, "").trim();
+  return fallbackName;
+}
+
+function inferCreatedAt(fileName, stat) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})\.md$/i.exec(fileName);
+  if (m) {
+    return new Date(`${m[1]}-${m[2]}-${m[3]}T00:00:00.000Z`).toISOString();
+  }
+  return stat.birthtime ? stat.birthtime.toISOString() : stat.mtime.toISOString();
+}
+
+function makeId(sourcePath, content) {
+  return crypto
+    .createHash("sha1")
+    .update(`${sourcePath}\n${content || ""}`, "utf8")
+    .digest("hex");
+}
+
+function collectMarkdownFiles(dirPath) {
+  if (!fs.existsSync(dirPath)) return [];
+  return fs
+    .readdirSync(dirPath)
+    .filter((f) => f.toLowerCase().endsWith(".md"))
+    .sort()
+    .map((f) => path.join(dirPath, f));
+}
+
+function normalizeMemoryItems(paths) {
+  const files = [
+    ...collectMarkdownFiles(paths.dailyDir),
+    ...collectMarkdownFiles(paths.longTermDir),
+  ];
+
+  const items = files.map((fullPath) => {
+    const stat = fs.statSync(fullPath);
+    const fileName = path.basename(fullPath);
+    const content = fs.readFileSync(fullPath, "utf8");
+    const sourcePath = toRelativeSource(paths.workspaceRoot, fullPath);
+    const isDaily = sourcePath.startsWith("memory-echoDB/daily/");
+
+    const createdAt = inferCreatedAt(fileName, stat);
+    const updatedAt = stat.mtime?.toISOString();
+
+    const item = {
+      id: makeId(sourcePath, content),
+      scope: isDaily ? "agent:main" : "global",
+      type: isDaily ? "daily-note" : "long-term-note",
+      title: parseTitle(content, fileName),
+      content,
+      sourcePath,
+      createdAt,
+      importance: 0.5,
+    };
+
+    if (updatedAt && updatedAt !== createdAt) {
+      item.updatedAt = updatedAt;
+    }
+
+    return item;
+  });
+
+  ensureIndexesDir(paths);
+  const jsonl = items.map((i) => JSON.stringify(i)).join("\n");
+  fs.writeFileSync(paths.memoryItemsFile, jsonl ? `${jsonl}\n` : "", "utf8");
+  return items;
+}
+
+function readMemoryItems(paths) {
+  if (!fs.existsSync(paths.memoryItemsFile)) return [];
+  const lines = fs
+    .readFileSync(paths.memoryItemsFile, "utf8")
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter(Boolean);
+
+  return lines.map((line) => JSON.parse(line));
+}
+
+function readDocumentsFromItems(paths) {
+  const items = readMemoryItems(paths);
+  return items.map((item) => ({
+    id: item.id,
+    source: item.sourcePath,
+    title: item.title,
+    content: item.content,
+  }));
 }
 
 function saveIndex(paths, index) {
@@ -71,7 +135,9 @@ function loadIndex(paths) {
 module.exports = {
   resolveWorkspaceRoot,
   getMemoryPaths,
-  readDocuments,
+  normalizeMemoryItems,
+  readMemoryItems,
+  readDocumentsFromItems,
   saveIndex,
   loadIndex,
 };
