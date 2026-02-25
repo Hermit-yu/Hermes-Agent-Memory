@@ -25,6 +25,10 @@ trending*.html
 **/upstream/**/*.zip
 **/upstream/**/*.7z
 
+# EchoDB indexes are rebuildable; keep directory but ignore contents
+memory-echoDB/indexes/**
+!memory-echoDB/indexes/.gitkeep
+
 # OS
 .DS_Store
 Thumbs.db
