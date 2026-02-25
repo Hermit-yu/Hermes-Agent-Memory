@@ -11,6 +11,7 @@
 - Round 01：`reports/rounds/R01-稳态基线与执行机制固化.md`
 - Round 02：`reports/rounds/R02-指标半自动化与口径统一.md`
 - Round 03：`reports/rounds/R03-严格口径升级与周报起步.md`
+- Round 04：`reports/rounds/R04-稳态检查与任务编排启动.md`
 
 ## 阶段性累计结论（动态更新）
 - 已完成“指标统计半自动化 + 统计口径统一”基线落地。
