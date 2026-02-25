@@ -1,106 +1,69 @@
-# EchoDB BM25 使用说明（中文）
+# EchoDB Memory Engine 使用说明（MVP+）
 
-## 命令总览
-
-```bash
-echodb memory reindex
-echodb memory search "<查询词>" --topK 20 --scope all
-echodb memory stats
-```
-
-- `reindex`：先规范化生成 `memory-items.jsonl`，再构建 BM25 索引
-- `search`：查询索引并返回最相关结果
-- `stats`：输出索引统计信息（docs / terms / avgdl / sources / indexCreatedAt / scopes / types）
-- `--topK`：返回条数（默认 20）
-- `--scope`：搜索作用域过滤（默认 `all`）
-  - `all`：不过滤
-  - `global`：仅长期记忆
-  - `agent:main`：仅主会话日记/短期记忆
-
-## 数据来源与规范化
-
-固定读取以下路径：
-
-- `memory-echoDB/daily/*.md`
-- `memory-echoDB/long-term/*.md`
-
-规范化输出：
-
-- `memory-echoDB/indexes/memory-items.jsonl`
-
-MemoryItem 字段（当前最小集合）：
-
-- `id`
-- `scope`
-- `type`
-- `title`
-- `content`
-- `sourcePath`
-- `createdAt`
-- `updatedAt`（可选）
-- `tags`（可选，当前未自动填充）
-- `importance`（默认 `0.5`）
-
-作用域策略 v0：
-
-- `long-term/*` => `global`
-- `daily/*` => `agent:main`
-
-## 索引产物
-
-固定写入：
-
-- `memory-echoDB/indexes/bm25-index.json`
-
-该目录已在 `.gitignore` 配置为可忽略（保留 `.gitkeep`）。
-
-## 两种运行方式
-
-### 方式一：Node 脚本
+## 命令
 
 ```bash
-node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory reindex
-node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory search "项目进展" --topK 20 --scope all
-node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory search "项目进展" --topK 20 --scope global
-node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory stats
+echodb memory reindex [--disable-noise-filter]
+echodb memory search "<query>" --topK 20 [--scope all|global|agent:main] [--mode hybrid|bm25|vector]
+                    [--fusion rrf|weighted] [--bm25Weight 0.6] [--vectorWeight 0.4] [--force] [--mmr] [--json]
+echodb memory list [--scope ...] [--type ...] [--limit 20] [--json]
+echodb memory stats [--json]
+echodb memory export --out <file> [--scope ...] [--type ...]
+echodb memory forget --id <id>
 ```
 
-### 方式二：系统命令包装
+## 核心能力
 
-包装器位置：
+- **向量检索接入（B3）**：输出 `memory-echoDB/indexes/vector-index.json`。
+  - 默认 provider=`local-hash`（无 key 也可运行）
+  - 若设置 `ECHODB_EMBED_PROVIDER + ECHODB_EMBED_API_KEY`，当前版本仅记录 provider 标识（MVP）
+- **Hybrid 融合（B4）**：支持 `rrf` 与 `weighted`
+  - `--bm25Weight/--vectorWeight`
+  - 返回 `debug` 子分数（bm25/vector/recency/lengthNorm）
+- **Adaptive Retrieval（C1）**：寒暄/确认句默认跳过检索（如“你好”）
+  - `--force` 可强制检索
+- **Noise Filter（C2）**：reindex 时默认去空/模板噪声/重复
+  - `--disable-noise-filter` 可关闭
+- **打分治理（C3）**：融合后叠加 recency 衰减 + length norm
+  - `--mmr` 可启用简单 MMR 去冗余
+- **CLI 完整性（D1）**：新增 `list`，`search/stats/list` 支持 `--json`
+- **forget/export（D2）**：
+  - forget 采用 tombstone（`forget-tombstones.json`）
+  - 审计日志：`audit-log.jsonl`
+- **灾备（D3）**：`echodb memory reindex` 一键重建 `memory-items/bm25/vector`
 
-- `automation/echodb/echodb.ps1`
-- `automation/echodb/echodb.cmd`
+## 回归测试（C4）
 
-把 `automation/echodb` 加到 PATH 后即可直接用 `echodb`。
+```bash
+node echodb-fusion/ours/memory-engine/mvp-bm25/scripts/regression.js
+# 或
+echodb memory regress
+```
 
-## 输出格式
+数据集：`datasets/regression-zh.json`
 
-### search 结果
+输出指标：
+- `totalQueries`
+- `hitRate`
+- `top1Rate`
+- `adaptiveSkipPass`
 
-每条结果包含：
+## stats 输出字段（当前）
 
-- `score`：BM25 分数（越高相关性越高）
-- `scope`：命中文档作用域（如 `global` / `agent:main`）
-- `source`：命中来源文件
-- `preview`：内容预览
+- `docs`
+- `terms`
+- `avgdl`
+- `sources`
+- `indexCreatedAt`
+- `vectorIndexCreatedAt`
+- `vectorProvider`
+- `forgotten`
+- `scopes`
+- `types`
 
-### stats 结果
+## 灾备步骤
 
-- `docs`：索引文档数
-- `terms`：词项数（df 键数量）
-- `avgdl`：平均文档长度
-- `sources`：来源文件去重计数
-- `indexCreatedAt`：索引生成时间
-- `scopes`：按 scope 的文档计数
-- `types`：按 type 的文档计数
-
-## 稳定性与错误提示
-
-以下情况会给出友好错误信息：
-
-- `reindex` 时没有任何源 markdown（`daily/` 与 `long-term/` 都为空）
-- `memory-items.jsonl` 缺失或为空
-- `bm25-index.json` 缺失/不可解析
-
-原则：`memory-items.jsonl` 与 `bm25-index.json` 为可再生产物，真相源始终是 Markdown 原文。
+1. 保留真相源：`memory-echoDB/daily` + `memory-echoDB/long-term`
+2. 若索引损坏，删除/忽略 `memory-echoDB/indexes/*`
+3. 运行 `echodb memory reindex`
+4. 用 `echodb memory stats` 验证重建结果

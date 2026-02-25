@@ -1,0 +1,19 @@
+[
+  {
+    "query": "EchoDB",
+    "expects": ["echodb", "memory"]
+  },
+  {
+    "query": "长期记忆",
+    "expects": ["long-term", "memory"]
+  },
+  {
+    "query": "语音主声线",
+    "expects": ["2026-02-15", "主声线"]
+  },
+  {
+    "query": "你好",
+    "expects": [],
+    "shouldSkip": true
+  }
+]

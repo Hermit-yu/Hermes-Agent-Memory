@@ -1,6 +1,10 @@
 "use strict";
 
+const fs = require("fs");
+const path = require("path");
 const { buildBm25, searchBm25 } = require("./bm25");
+const { buildVectorIndex, searchVector } = require("./vector");
+const { shouldRetrieve, fuseResults, mmrSelect } = require("./retrieval");
 const {
   resolveWorkspaceRoot,
   getMemoryPaths,
@@ -11,207 +15,244 @@ const {
   hasMemoryItemsFile,
   saveIndex,
   loadIndex,
+  readTombstones,
+  writeTombstones,
+  appendAudit,
 } = require("./memory-store");
 
 const ALLOWED_SCOPES = new Set(["all", "global", "agent:main"]);
 
 function printHelp() {
-  console.log(`EchoDB MVP (BM25)
-
+  console.log(`EchoDB MVP+ (BM25 + Vector + Hybrid)
 Usage:
-  echodb memory reindex
-  echodb memory search <query> [--topK 20] [--scope all|global|agent:main]
-  echodb memory stats
-
-Node invocation:
-  node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory reindex
-  node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory search "query" --topK 20 --scope all
-  node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory stats
+  echodb memory reindex [--disable-noise-filter]
+  echodb memory search <query> [--topK 20] [--scope all|global|agent:main] [--mode hybrid|bm25|vector]
+                      [--fusion rrf|weighted] [--bm25Weight 0.6] [--vectorWeight 0.4] [--force] [--json] [--mmr]
+  echodb memory list [--scope ...] [--type ...] [--limit 20] [--json]
+  echodb memory stats [--json]
+  echodb memory export --out <file> [--scope ...] [--type ...]
+  echodb memory forget --id <id>
 `);
 }
 
-function parseTopK(args) {
-  const i = args.findIndex((a) => a === "--topK" || a === "-k");
-  if (i === -1) return 20;
-  const v = Number(args[i + 1]);
-  if (!Number.isFinite(v) || v <= 0) return 20;
-  return Math.floor(v);
+function argValue(args, key, fallback = undefined) {
+  const i = args.findIndex((a) => a === key);
+  if (i === -1) return fallback;
+  return args[i + 1] ?? fallback;
 }
-
+function hasFlag(args, key) { return args.includes(key); }
+function parseTopK(args) { return Math.max(1, Math.floor(Number(argValue(args, "--topK", argValue(args, "-k", 20))) || 20)); }
+function parseLimit(args) { return Math.max(1, Math.floor(Number(argValue(args, "--limit", 20)) || 20)); }
 function parseScope(args) {
-  const i = args.findIndex((a) => a === "--scope");
-  if (i === -1) return "all";
-  const value = (args[i + 1] || "").trim();
-  if (!value) return "all";
-  if (!ALLOWED_SCOPES.has(value)) {
-    throw new Error(`Invalid --scope value: ${value}. Allowed: all | global | agent:main`);
-  }
+  const value = (argValue(args, "--scope", "all") || "all").trim();
+  if (!ALLOWED_SCOPES.has(value)) throw new Error(`Invalid --scope: ${value}. Allowed: all|global|agent:main`);
   return value;
 }
+function asJson(enabled, data, prettyFallback) {
+  if (enabled) console.log(JSON.stringify(data, null, 2));
+  else if (prettyFallback) prettyFallback();
+}
 
-function reindex(paths) {
-  const items = normalizeMemoryItems(paths);
-  if (items.length === 0) {
-    console.error("Reindex failed: no memory markdown found under memory-echoDB/daily or memory-echoDB/long-term.");
-    console.error("Please add at least one .md file, then run: echodb memory reindex");
+function reindex(paths, args = []) {
+  const items = normalizeMemoryItems(paths, { noiseFilter: !hasFlag(args, "--disable-noise-filter") });
+  if (!items.length) {
+    console.error("Reindex failed: no memory markdown found or all filtered as noise.");
     return 1;
   }
-
-  const docs = readDocumentsFromItems(paths);
-  if (docs.length === 0) {
-    console.error(`Reindex failed: ${paths.memoryItemsFile} is empty or unreadable.`);
-    console.error("Please verify source markdown files and run: echodb memory reindex");
-    return 1;
-  }
-
-  const index = buildBm25(docs);
-  saveIndex(paths, index);
-  console.log(
-    `Reindex done: memoryItems=${items.length}, docs=${index.docs.length}, avgdl=${index.avgdl.toFixed(2)}, files=[${paths.memoryItemsFile}, ${paths.indexFile}]`
-  );
+  const docs = readDocumentsFromItems(paths, { excludeForgotten: false });
+  const bm25 = buildBm25(docs);
+  const provider = process.env.ECHODB_EMBED_PROVIDER && process.env.ECHODB_EMBED_API_KEY ? process.env.ECHODB_EMBED_PROVIDER : "local-hash";
+  const vector = buildVectorIndex(docs, { provider });
+  saveIndex(paths.indexFile, bm25);
+  saveIndex(paths.vectorIndexFile, vector);
+  appendAudit(paths, "reindex", { docs: docs.length, provider });
+  console.log(`Reindex done: memoryItems=${items.length}, docs=${docs.length}, bm25=${path.basename(paths.indexFile)}, vector=${path.basename(paths.vectorIndexFile)}, provider=${provider}`);
   return 0;
 }
 
-function filterByScope(results, scope) {
-  if (scope === "all") return results;
-  return results.filter((r) => r.scope === scope);
+function filterScopeType(results, scope, type) {
+  return results.filter((r) => (scope === "all" ? true : r.scope === scope) && (type ? r.type === type : true));
 }
 
-function search(paths, query, topK, scope) {
-  let index = loadIndex(paths);
-  if (!index) {
-    console.log("Index not found, building now...");
-    const code = reindex(paths);
-    if (code !== 0) return code;
-    index = loadIndex(paths);
+function search(paths, query, args = []) {
+  const topK = parseTopK(args);
+  const scope = parseScope(args);
+  const mode = (argValue(args, "--mode", "hybrid") || "hybrid").toLowerCase();
+  const fusion = (argValue(args, "--fusion", "rrf") || "rrf").toLowerCase();
+  const bm25Weight = Number(argValue(args, "--bm25Weight", 0.6));
+  const vectorWeight = Number(argValue(args, "--vectorWeight", 0.4));
+  const force = hasFlag(args, "--force");
+  const json = hasFlag(args, "--json");
+  const useMmr = hasFlag(args, "--mmr");
+
+  const gate = shouldRetrieve(query, { forceRetrieve: force });
+  if (!gate.retrieve) {
+    return asJson(json, { query, skipped: true, reason: gate.reason, results: [] }, () => console.log(`Adaptive retrieval skipped: ${gate.reason}`)), 0;
   }
 
-  if (!index || !Array.isArray(index.docs) || index.docs.length === 0) {
-    console.error("Search failed: index is missing or empty.");
-    console.error("Please prepare memory markdown and run: echodb memory reindex");
-    return 1;
+  let bm25 = loadIndex(paths.indexFile);
+  let vector = loadIndex(paths.vectorIndexFile);
+  if (!bm25 || !vector) {
+    console.log("Index not complete, building now...");
+    const code = reindex(paths, args);
+    if (code) return code;
+    bm25 = loadIndex(paths.indexFile);
+    vector = loadIndex(paths.vectorIndexFile);
   }
 
-  const rawResults = searchBm25(index, query, topK * 3);
-  const results = filterByScope(rawResults, scope).slice(0, topK);
-  if (results.length === 0) {
-    console.log(`No results for scope=${scope}.`);
-    return 0;
-  }
+  const tombstones = readTombstones(paths);
+  let bResults = mode === "vector" ? [] : searchBm25(bm25, query, topK * 5).filter((x) => !tombstones.has(x.id));
+  let vResults = mode === "bm25" ? [] : searchVector(vector, query, topK * 5).filter((x) => !tombstones.has(x.id));
 
-  console.log(`Found ${results.length} result(s) (scope=${scope}):`);
-  results.forEach((r, idx) => {
-    console.log(`\n#${idx + 1} score=${r.score.toFixed(4)}  [scope=${r.scope}]  ${r.source}`);
-    console.log(`   ${r.preview}`);
+  bResults = filterScopeType(bResults, scope);
+  vResults = filterScopeType(vResults, scope);
+
+  let results = mode === "bm25" ? bResults : mode === "vector" ? vResults : fuseResults({ bm25: bResults, vector: vResults, strategy: fusion, bm25Weight, vectorWeight, topK: topK * 2 });
+  if (mode !== "hybrid") results = results.map((r) => ({ ...r, finalScore: r.score, debug: { [mode]: r.score } }));
+  if (useMmr) results = mmrSelect(results, 0.7, topK);
+  results = results.slice(0, topK);
+
+  const out = { query, mode, scope, fusion: mode === "hybrid" ? fusion : undefined, results: results.map((r) => ({
+    id: r.id, score: Number((r.finalScore || r.score || 0).toFixed(6)), source: r.source, scope: r.scope, type: r.type, preview: r.preview, debug: r.debug,
+  })) };
+
+  asJson(json, out, () => {
+    if (!results.length) return console.log(`No results for scope=${scope}.`);
+    console.log(`Found ${results.length} result(s) (mode=${mode}, scope=${scope}):`);
+    results.forEach((r, i) => {
+      console.log(`\n#${i + 1} score=${(r.finalScore || r.score || 0).toFixed(4)} [scope=${r.scope}] ${r.source}`);
+      console.log(`   id=${r.id}`);
+      console.log(`   ${r.preview || ""}`);
+      if (r.debug) console.log(`   debug=${JSON.stringify(r.debug)}`);
+    });
   });
   return 0;
 }
 
-function countBy(docs, key, fallback = "unknown") {
-  const grouped = {};
-  for (const d of docs) {
-    const name = d?.[key] || fallback;
-    grouped[name] = (grouped[name] || 0) + 1;
-  }
-  return grouped;
+function listMemories(paths, args = []) {
+  const scope = parseScope(args);
+  const type = argValue(args, "--type", "").trim();
+  const limit = parseLimit(args);
+  const json = hasFlag(args, "--json");
+  const tombstones = readTombstones(paths);
+  const items = readMemoryItems(paths)
+    .filter((x) => !tombstones.has(x.id))
+    .filter((x) => (scope === "all" ? true : x.scope === scope))
+    .filter((x) => (type ? x.type === type : true))
+    .slice(0, limit)
+    .map((x) => ({ id: x.id, title: x.title, scope: x.scope, type: x.type, sourcePath: x.sourcePath, createdAt: x.createdAt }));
+
+  asJson(json, { total: items.length, items }, () => {
+    if (!items.length) return console.log("No items.");
+    items.forEach((x, i) => console.log(`#${i + 1} ${x.id} [${x.scope}/${x.type}] ${x.sourcePath}`));
+  });
+  return 0;
 }
 
-function stats(paths) {
-  if (!hasIndexFile(paths)) {
-    console.error(`Index not found: ${paths.indexFile}`);
-    console.error("Please run: echodb memory reindex");
-    return 1;
-  }
+function stats(paths, args = []) {
+  const json = hasFlag(args, "--json");
+  const bm25 = loadIndex(paths.indexFile);
+  const vector = loadIndex(paths.vectorIndexFile);
+  if (!bm25) return console.error("Index not found. Run: echodb memory reindex"), 1;
+  const docs = Array.isArray(bm25.docs) ? bm25.docs : [];
+  const by = (k) => docs.reduce((m, d) => ((m[d[k] || "unknown"] = (m[d[k] || "unknown"] || 0) + 1), m), {});
+  const tombstones = readTombstones(paths);
+  const out = {
+    docs: docs.length,
+    terms: bm25.df ? Object.keys(bm25.df).length : 0,
+    avgdl: Number((bm25.avgdl || 0).toFixed(2)),
+    sources: new Set(docs.map((d) => d.source).filter(Boolean)).size,
+    indexCreatedAt: bm25.createdAt,
+    vectorIndexCreatedAt: vector?.createdAt || null,
+    vectorProvider: vector?.provider || "local-hash",
+    forgotten: tombstones.size,
+    scopes: by("scope"),
+    types: by("type"),
+  };
+  asJson(json, out, () => {
+    console.log("EchoDB Memory Stats");
+    Object.entries(out).forEach(([k, v]) => console.log(`${k}: ${typeof v === "object" ? JSON.stringify(v) : v}`));
+  });
+  return 0;
+}
 
-  const index = loadIndex(paths);
-  if (!index) {
-    console.error("Index file exists but cannot be parsed.");
-    console.error("Please run: echodb memory reindex");
-    return 1;
-  }
+function exportMemories(paths, args = []) {
+  const outFile = argValue(args, "--out", "");
+  if (!outFile) return console.error("Error: export requires --out <file>"), 1;
+  const scope = parseScope(args);
+  const type = argValue(args, "--type", "").trim();
+  const tombstones = readTombstones(paths);
+  const data = readMemoryItems(paths).filter((x) => !tombstones.has(x.id)).filter((x) => (scope === "all" ? true : x.scope === scope)).filter((x) => (type ? x.type === type : true));
+  const target = path.isAbsolute(outFile) ? outFile : path.join(paths.workspaceRoot, outFile);
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.writeFileSync(target, JSON.stringify({ exportedAt: new Date().toISOString(), count: data.length, items: data }, null, 2), "utf8");
+  appendAudit(paths, "export", { out: path.relative(paths.workspaceRoot, target).replace(/\\/g, "/"), count: data.length });
+  console.log(`Exported ${data.length} item(s) -> ${target}`);
+  return 0;
+}
 
-  const docs = Array.isArray(index.docs) ? index.docs : [];
-  const terms = index.df ? Object.keys(index.df).length : 0;
-  const sources = new Set(docs.map((d) => d.source).filter(Boolean)).size;
-  const scopes = countBy(docs, "scope");
-  const types = countBy(docs, "type");
+function forget(paths, args = []) {
+  const id = argValue(args, "--id", "").trim();
+  if (!id) return console.error("Error: forget requires --id <id>"), 1;
+  const exists = readMemoryItems(paths).some((x) => x.id === id);
+  if (!exists) return console.error(`Error: id not found: ${id}`), 1;
+  const tombstones = readTombstones(paths);
+  tombstones.add(id);
+  writeTombstones(paths, tombstones);
+  appendAudit(paths, "forget", { id, tombstone: true });
+  console.log(`Forgotten (tombstone): ${id}`);
+  return 0;
+}
 
-  console.log("EchoDB Memory Stats");
-  console.log(`docs: ${docs.length}`);
-  console.log(`terms: ${terms}`);
-  console.log(`avgdl: ${(index.avgdl || 0).toFixed(2)}`);
-  console.log(`sources: ${sources}`);
-  console.log(`indexCreatedAt: ${index.createdAt || "unknown"}`);
-  console.log(`scopes: ${JSON.stringify(scopes)}`);
-  console.log(`types: ${JSON.stringify(types)}`);
+function runRegression(paths) {
+  const dataset = path.join(paths.workspaceRoot, "echodb-fusion/ours/memory-engine/mvp-bm25/datasets/regression-zh.json");
+  const script = path.join(paths.workspaceRoot, "echodb-fusion/ours/memory-engine/mvp-bm25/scripts/regression.js");
+  if (!fs.existsSync(script) || !fs.existsSync(dataset)) return console.error("Regression assets missing."), 1;
+  const cp = require("child_process");
+  cp.execFileSync(process.execPath, [script, "--dataset", dataset], { stdio: "inherit" });
   return 0;
 }
 
 function main(argv, cliDir = __dirname) {
   const args = argv.slice(2);
-  if (args.length === 0 || args.includes("-h") || args.includes("--help")) {
-    printHelp();
-    return 0;
-  }
+  if (!args.length || args.includes("-h") || args.includes("--help")) return printHelp(), 0;
 
   const workspaceRoot = resolveWorkspaceRoot(cliDir);
   const paths = getMemoryPaths(workspaceRoot);
-
   const [scope, cmd, ...rest] = args;
-  if (scope !== "memory") {
-    printHelp();
+  if (scope !== "memory") return printHelp(), 1;
+
+  try {
+    if (cmd === "reindex") return reindex(paths, rest);
+    if (cmd === "search") {
+      const takesValue = new Set(["--topK", "-k", "--scope", "--mode", "--fusion", "--bm25Weight", "--vectorWeight"]);
+      const queryParts = [];
+      for (let i = 0; i < rest.length; i++) {
+        const t = rest[i];
+        if (takesValue.has(t)) {
+          i += 1;
+          continue;
+        }
+        if (t.startsWith("--")) continue;
+        queryParts.push(t);
+      }
+      const query = queryParts.join(" ").trim();
+      if (!query) return console.error("Error: query is empty."), 1;
+      return search(paths, query, rest);
+    }
+    if (cmd === "list") return listMemories(paths, rest);
+    if (cmd === "stats") {
+      if (!hasMemoryItemsFile(paths) || !hasIndexFile(paths.indexFile)) return console.error("Index missing. Run: echodb memory reindex"), 1;
+      return stats(paths, rest);
+    }
+    if (cmd === "export") return exportMemories(paths, rest);
+    if (cmd === "forget") return forget(paths, rest);
+    if (cmd === "regress") return runRegression(paths);
+    return printHelp(), 1;
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
     return 1;
   }
-
-  if (cmd === "reindex") {
-    return reindex(paths);
-  }
-
-  if (cmd === "search") {
-    const queryParts = [];
-    for (let i = 0; i < rest.length; i++) {
-      const token = rest[i];
-      if (token === "--topK" || token === "-k" || token === "--scope") {
-        i += 1;
-        continue;
-      }
-      queryParts.push(token);
-    }
-
-    const query = queryParts.join(" ").trim();
-    if (!query) {
-      console.error("Error: query is empty.");
-      return 1;
-    }
-
-    const topK = parseTopK(rest);
-    let scopeFilter = "all";
-    try {
-      scopeFilter = parseScope(rest);
-    } catch (err) {
-      console.error(err.message);
-      return 1;
-    }
-    return search(paths, query, topK, scopeFilter);
-  }
-
-  if (cmd === "stats") {
-    if (!hasMemoryItemsFile(paths)) {
-      console.error(`Memory items not found: ${paths.memoryItemsFile}`);
-      console.error("Please run: echodb memory reindex");
-      return 1;
-    }
-    const items = readMemoryItems(paths);
-    if (items.length === 0) {
-      console.error(`Memory items are empty: ${paths.memoryItemsFile}`);
-      console.error("Please ensure source markdown exists, then run: echodb memory reindex");
-      return 1;
-    }
-    return stats(paths);
-  }
-
-  printHelp();
-  return 1;
 }
 
 module.exports = { main };

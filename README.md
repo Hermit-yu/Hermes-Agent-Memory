@@ -13,3 +13,10 @@
 - ECHODB_STRUCTURE.md：仓库结构中文说明（强烈建议先读）
 
 > 说明：默认忽略运行态目录、日志、音频等大文件与隐私风险文件。
+
+## EchoDB Memory CLI（MVP+）
+
+- 命令入口：`automation/echodb/echodb.cmd` / `automation/echodb/echodb.ps1`
+- 详细用法：`echodb-fusion/ours/memory-engine/mvp-bm25/docs/USAGE.md`
+- 中文操作手册：`echodb-fusion/ours/memory-engine/mvp-bm25/docs/操作手册-中文.md`
+- 回归脚本：`node echodb-fusion/ours/memory-engine/mvp-bm25/scripts/regression.js`
