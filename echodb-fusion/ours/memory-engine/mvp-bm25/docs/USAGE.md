@@ -1,22 +1,53 @@
-# 使用说明（MVP 阶段）
+# EchoDB BM25 使用说明（中文）
 
-## 你会用到的命令
+## 命令总览
 
-目标命令：
-- `echodb memory search "<关键词>" --topK 20`
+```bash
+echodb memory reindex
+echodb memory search "<查询词>" --topK 20
+```
 
-MVP 阶段会先提供一个可运行脚本版本，后续再把它封装成真正的 `echodb` 命令。
+- `reindex`：重新读取记忆源并构建 BM25 索引
+- `search`：查询索引并返回最相关结果
+- `--topK`：返回条数（默认 20）
 
-## 输出格式（建议）
+## 数据来源
+
+固定读取以下路径：
+
+- `memory-echoDB/daily/*.md`
+- `memory-echoDB/long-term/MEMORY.md`
+
+## 索引产物
+
+固定写入：
+
+- `memory-echoDB/indexes/bm25-index.json`
+
+该目录已在 `.gitignore` 配置为可忽略（保留 `.gitkeep`）。
+
+## 两种运行方式
+
+### 方式一：Node 脚本
+
+```bash
+node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory reindex
+node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory search "项目进展" --topK 20
+```
+
+### 方式二：系统命令包装
+
+包装器位置：
+
+- `automation/echodb/echodb.ps1`
+- `automation/echodb/echodb.cmd`
+
+把 `automation/echodb` 加到 PATH 后即可直接用 `echodb`。
+
+## 输出格式
+
 每条结果包含：
-- `score`：BM25 分数（可比较，不一定可跨库对比）
-- `sourcePath`：来源文件
-- `snippet`：命中片段（上下文）
 
-## 常见问题
-
-### 1) 为什么搜不到设备名/人名？
-BM25 是关键词检索，拼写必须接近；后续会加入向量检索补强。
-
-### 2) 索引文件为什么不进 Git？
-因为索引可再生、可能包含碎片化内容、会膨胀仓库。真相源仍是 Markdown。
+- `score`：BM25 分数（越高相关性越高）
+- `source`：命中来源文件
+- `preview`：内容预览

@@ -1,29 +1,49 @@
-# EchoDB Memory Engine · MVP(BM25)（方案A：Node/TS 路线）
+# EchoDB Memory Engine · MVP(BM25)
 
-宝贝，这个模块是我们在 **不改变现有记忆写法** 的前提下，先把“可检索记忆”做出来的第一步。
+这是 EchoDB 的最小可用检索引擎（Node/JS 实现，TS 风格结构）。
 
-## 目标
-- 读取真相源：
+## 已实现能力
+
+- 数据源：
   - `memory-echoDB/daily/*.md`
   - `memory-echoDB/long-term/MEMORY.md`
-- 生成可再生索引：写入 `memory-echoDB/indexes/`（**默认不进 Git**）
-- 提供命令：`echodb memory search <query>`
-  - 默认 `topK=20`
-  - 返回：命中摘要 + 来源路径
+- 索引输出：
+  - `memory-echoDB/indexes/bm25-index.json`
+- 命令：
+  - `echodb memory reindex`
+  - `echodb memory search <query> --topK 20`
 
-## 为什么先做 BM25
-- 不需要 embedding key（环境更稳）
-- 关键词命中直观、可解释
-- 后续可平滑升级到：Hybrid(Vector+BM25) + rerank
+## 目录
 
-## 目录说明（中文标注）
-- `src/`
-  - 源码（TypeScript）。
-- `bin/`
-  - CLI 入口（后续会放 `echodb` 命令封装）。
-- `docs/`
-  - 使用说明、FAQ、调参说明。
-- `out/`
-  - 构建产物（可删除，可重建）。
+- `src/bm25.js`：分词、建索引、BM25 检索
+- `src/memory-store.js`：记忆文件读写、索引落盘
+- `src/cli.js`：命令解析与执行逻辑
+- `bin/echodb-memory.js`：Node 入口
+- `docs/USAGE.md`：中文使用说明
 
-> 注意：本模块目前先搭脚手架与规划，确保仓库结构清晰、不影响你现有习惯；实现会按 Phase B 逐步补齐。
+## 两种调用方式
+
+### 1) Node 直接调用
+
+```bash
+node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory reindex
+node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory search "关键词" --topK 20
+```
+
+### 2) 系统包装命令（Windows）
+
+已提供：
+- `automation/echodb/echodb.ps1`
+- `automation/echodb/echodb.cmd`
+
+如果将 `automation/echodb` 加入 PATH，即可直接执行：
+
+```bash
+echodb memory reindex
+echodb memory search "关键词" --topK 20
+```
+
+## 说明
+
+- 索引属于可再生产物，不应作为真相源。
+- 真相源永远是 `memory-echoDB` 下 Markdown 文件。
