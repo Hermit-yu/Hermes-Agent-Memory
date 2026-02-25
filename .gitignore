@@ -21,6 +21,10 @@ tmp_*.py
 tmp_*.ps1
 trending*.html
 
+# Fusion scratch (keep structure, ignore dropped archives if any)
+**/upstream/**/*.zip
+**/upstream/**/*.7z
+
 # OS
 .DS_Store
 Thumbs.db
