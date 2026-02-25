@@ -1,7 +1,7 @@
 ﻿{
-    "roundId":  "R04",
-    "metricsVersion":  "v2-round03-strict",
-    "generatedAt":  "2026-02-26T06:41:54.6704332+08:00",
+    "roundId":  "R05",
+    "metricsVersion":  "v3-round05-structured-first",
+    "generatedAt":  "2026-02-26T07:53:52.3520982+08:00",
     "sourceFile":  "E:\\OpenClawAI_bot\\workspace\\memory-echoDB\\indexes\\edict-audit-log.jsonl",
     "window":  {
                    "from":  null,
@@ -14,10 +14,15 @@
                     "highRiskApprovedCount":  2,
                     "highRiskDeniedCount":  2,
                     "preflightRelatedCount":  6,
-                    "uniqueHighRiskOps":  2,
+                    "uniqueHighRiskOps":  0,
                     "uniquePreflightOps":  0,
                     "strictHighRiskPreflightIntersectOps":  0,
-                    "strictPreflightCoverage":  0,
+                    "strictPreflightCoverage":  "N/A",
+                    "strictMode":  "structured_only",
+                    "strictStructuredRecords":  0,
+                    "strictFallbackRecords":  0,
+                    "compatFallbackRatio":  "N/A",
+                    "unknownEventTypeCount":  0,
                     "roughPreflightCoverage":  {
                                                    "value":  1,
                                                    "raw":  1.5,
@@ -37,7 +42,8 @@
                                                   ],
                         "preflightRelatedRule":  "operation contains preflight OR decision is allow/deny",
                         "roughCoverageRule":  "estimated: preflightRelatedCount / highRiskCount, clamped to [0,1]",
-                        "strictCoverageRule":  "strict: INTERSECT(uniquePreflightOps, uniqueHighRiskOps) / uniqueHighRiskOps, N/A if uniqueHighRiskOps=0",
+                        "strictCoverageRule":  "strict(v2): INTERSECT(uniquePreflightOps, uniqueHighRiskOps) / uniqueHighRiskOps; structured fields first(event_type/op_key/preflight_flag), operation fallback enabled",
+                        "strictFallbackRule":  "fallback is counted when op_key is missing and operation is used as effectiveOpKey",
                         "defaultAcceptanceMetricFrom":  "Round 03",
                         "defaultAcceptanceMetric":  "strictPreflightCoverage"
                     }

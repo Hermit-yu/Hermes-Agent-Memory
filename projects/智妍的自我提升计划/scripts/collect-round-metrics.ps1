@@ -26,6 +26,41 @@ function Get-SafeRatio {
     return [Math]::Round($ratio, $Digits)
 }
 
+function Get-StringProp {
+    param(
+        [object]$Obj,
+        [string]$Name
+    )
+    if (-not $Obj) { return $null }
+    $exists = $Obj.PSObject.Properties.Name -contains $Name
+    if (-not $exists) { return $null }
+    $v = [string]$Obj.$Name
+    if ([string]::IsNullOrWhiteSpace($v)) { return $null }
+    return $v.Trim()
+}
+
+function Get-BoolProp {
+    param(
+        [object]$Obj,
+        [string]$Name
+    )
+    if (-not $Obj) { return $null }
+    $exists = $Obj.PSObject.Properties.Name -contains $Name
+    if (-not $exists) { return $null }
+
+    $raw = $Obj.$Name
+    if ($null -eq $raw) { return $null }
+    if ($raw -is [bool]) { return [bool]$raw }
+
+    $s = [string]$raw
+    if ([string]::IsNullOrWhiteSpace($s)) { return $null }
+    switch -Regex ($s.Trim().ToLowerInvariant()) {
+        '^(true|1|yes|y)$' { return $true }
+        '^(false|0|no|n)$' { return $false }
+        default { return $null }
+    }
+}
+
 $workspaceRoot = (Resolve-Path (Join-Path $PSScriptRoot "../../..")).Path
 $inputPath = Join-Path $workspaceRoot "memory-echoDB/indexes/edict-audit-log.jsonl"
 $metricsDir = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
@@ -76,6 +111,12 @@ $highRiskDeniedCount = 0
 $uniqueHighRiskOpsSet = New-Object 'System.Collections.Generic.HashSet[string]'
 $uniquePreflightOpsSet = New-Object 'System.Collections.Generic.HashSet[string]'
 
+$structuredHighRiskCount = 0
+$structuredPreflightCount = 0
+$compatFallbackHighRiskCount = 0
+$compatFallbackPreflightCount = 0
+$unknownEventTypeCount = 0
+
 foreach ($r in $records) {
     $filled = 0
     foreach ($f in $keyFields) {
@@ -84,9 +125,21 @@ foreach ($r in $records) {
     }
     $completeScoreSum += ($filled / $keyFields.Count)
 
-    $operation = [string]$r.operation
-    $decision = [string]$r.decision
-    $riskLevel = [string]$r.risk_level
+    $operation = Get-StringProp -Obj $r -Name 'operation'
+    $decision = Get-StringProp -Obj $r -Name 'decision'
+    $riskLevel = Get-StringProp -Obj $r -Name 'risk_level'
+
+    $eventType = Get-StringProp -Obj $r -Name 'event_type'
+    $phase = Get-StringProp -Obj $r -Name 'phase'
+    $opKey = Get-StringProp -Obj $r -Name 'op_key'
+    $preflightFlag = Get-BoolProp -Obj $r -Name 'preflight_flag'
+
+    $effectiveOpKey = $opKey
+    $usedFallbackOp = $false
+    if ([string]::IsNullOrWhiteSpace($effectiveOpKey) -and -not [string]::IsNullOrWhiteSpace($operation)) {
+        $effectiveOpKey = $operation
+        $usedFallbackOp = $true
+    }
 
     $isHighRisk = $riskLevel -match '^(?i)L3$'
     $isPreflightOp = $operation -match '(?i)preflight'
@@ -94,18 +147,26 @@ foreach ($r in $records) {
 
     if ($isHighRisk) {
         $highRiskCount++
-        if (-not [string]::IsNullOrWhiteSpace($operation)) {
-            [void]$uniqueHighRiskOpsSet.Add($operation)
-        }
-
         if ($decision -match '^(?i)allow$') { $highRiskApprovedCount++ }
         if ($decision -match '^(?i)deny$') { $highRiskDeniedCount++ }
+
+        $isStructuredHighRisk = ($eventType -match '^(?i)execute$') -and -not [string]::IsNullOrWhiteSpace($effectiveOpKey)
+        if ($isStructuredHighRisk) {
+            [void]$uniqueHighRiskOpsSet.Add($effectiveOpKey)
+            if ($usedFallbackOp) { $compatFallbackHighRiskCount++ } else { $structuredHighRiskCount++ }
+        }
+        elseif (-not [string]::IsNullOrWhiteSpace($eventType) -and $eventType -notmatch '^(?i)(preflight|execute|rollback|audit_only)$') {
+            $unknownEventTypeCount++
+        }
     }
 
-    if ($isPreflightOp) {
-        if (-not [string]::IsNullOrWhiteSpace($operation)) {
-            [void]$uniquePreflightOpsSet.Add($operation)
-        }
+    $isStructuredPreflight = ($eventType -match '^(?i)preflight$') -and ($preflightFlag -eq $true) -and -not [string]::IsNullOrWhiteSpace($effectiveOpKey)
+    if ($isStructuredPreflight) {
+        [void]$uniquePreflightOpsSet.Add($effectiveOpKey)
+        if ($usedFallbackOp) { $compatFallbackPreflightCount++ } else { $structuredPreflightCount++ }
+    }
+    elseif (-not [string]::IsNullOrWhiteSpace($eventType) -and $eventType -notmatch '^(?i)(preflight|execute|rollback|audit_only)$') {
+        $unknownEventTypeCount++
     }
 
     if ($isPreflightOp -or $isRecognizableDecision) { $preflightRelatedCount++ }
@@ -140,10 +201,15 @@ if ($uniqueHighRiskOps -gt 0 -and $uniquePreflightOps -gt 0) {
 }
 
 $strictPreflightCoverage = Get-SafeRatio -Numerator $strictIntersectCount -Denominator $uniqueHighRiskOps -Digits 4
+$strictDenominatorRecords = $structuredHighRiskCount + $compatFallbackHighRiskCount
+$strictFallbackRecords = $compatFallbackHighRiskCount + $compatFallbackPreflightCount
+$strictStructuredRecords = $structuredHighRiskCount + $structuredPreflightCount
+$compatFallbackRatio = Get-SafeRatio -Numerator $strictFallbackRecords -Denominator ($strictFallbackRecords + $strictStructuredRecords) -Digits 4
+$strictMode = if ($strictFallbackRecords -gt 0) { 'structured_with_fallback' } else { 'structured_only' }
 
 $result = [ordered]@{
     roundId = $RoundId
-    metricsVersion = "v2-round03-strict"
+    metricsVersion = "v3-round05-structured-first"
     generatedAt = (Get-Date).ToString('o')
     sourceFile = $inputPath
     window = [ordered]@{
@@ -161,6 +227,11 @@ $result = [ordered]@{
         uniquePreflightOps = $uniquePreflightOps
         strictHighRiskPreflightIntersectOps = $strictIntersectCount
         strictPreflightCoverage = if ($null -eq $strictPreflightCoverage) { 'N/A' } else { $strictPreflightCoverage }
+        strictMode = $strictMode
+        strictStructuredRecords = $strictStructuredRecords
+        strictFallbackRecords = $strictFallbackRecords
+        compatFallbackRatio = if ($null -eq $compatFallbackRatio) { 'N/A' } else { $compatFallbackRatio }
+        unknownEventTypeCount = $unknownEventTypeCount
         roughPreflightCoverage = [ordered]@{
             value = if ($null -eq $roughCoverageClamped) { 'N/A' } else { $roughCoverageClamped }
             raw = if ($null -eq $roughCoverageRaw) { 'N/A' } else { $roughCoverageRaw }
@@ -172,7 +243,8 @@ $result = [ordered]@{
         completenessKeyFields = $keyFields
         preflightRelatedRule = "operation contains preflight OR decision is allow/deny"
         roughCoverageRule = "estimated: preflightRelatedCount / highRiskCount, clamped to [0,1]"
-        strictCoverageRule = "strict: INTERSECT(uniquePreflightOps, uniqueHighRiskOps) / uniqueHighRiskOps, N/A if uniqueHighRiskOps=0"
+        strictCoverageRule = "strict(v2): INTERSECT(uniquePreflightOps, uniqueHighRiskOps) / uniqueHighRiskOps; structured fields first(event_type/op_key/preflight_flag), operation fallback enabled"
+        strictFallbackRule = "fallback is counted when op_key is missing and operation is used as effectiveOpKey"
         defaultAcceptanceMetricFrom = "Round 03"
         defaultAcceptanceMetric = "strictPreflightCoverage"
     }
@@ -182,12 +254,13 @@ New-Item -ItemType Directory -Path $metricsDir -Force | Out-Null
 $roundFile = Join-Path $metricsDir ("round-metrics-{0}.json" -f $RoundId)
 $latestFile = Join-Path $metricsDir "latest-round-metrics.json"
 
-$json = $result | ConvertTo-Json -Depth 10
+$json = $result | ConvertTo-Json -Depth 12
 Set-Content -Path $roundFile -Value $json -Encoding UTF8
 Set-Content -Path $latestFile -Value $json -Encoding UTF8
 
 Write-Host "Round Metrics generated"
 Write-Host "- roundId: $RoundId"
+Write-Host "- metricsVersion: $($result.metricsVersion)"
 Write-Host "- auditTotal: $auditTotal"
 Write-Host "- auditCompleteRate: $auditCompleteRate"
 Write-Host "- highRiskCount: $highRiskCount"
@@ -197,6 +270,8 @@ Write-Host "- uniqueHighRiskOps: $uniqueHighRiskOps"
 Write-Host "- uniquePreflightOps: $uniquePreflightOps"
 Write-Host "- strictHighRiskPreflightIntersectOps: $strictIntersectCount"
 Write-Host "- strictPreflightCoverage: $(if ($null -eq $strictPreflightCoverage) { 'N/A' } else { $strictPreflightCoverage })"
+Write-Host "- strictMode: $strictMode"
+Write-Host "- compatFallbackRatio: $(if ($null -eq $compatFallbackRatio) { 'N/A' } else { $compatFallbackRatio })"
 Write-Host "- roughPreflightCoverage(estimated): $(if ($null -eq $roughCoverageClamped) { 'N/A' } else { $roughCoverageClamped })"
 if ($roughCoverageExplanation) { Write-Host "- roughCoverageExplanation: $roughCoverageExplanation" }
 Write-Host "- output: $roundFile"
