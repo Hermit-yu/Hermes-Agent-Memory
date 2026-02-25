@@ -1,0 +1,29 @@
+﻿{
+    "roundId":  "R02",
+    "generatedAt":  "2026-02-26T02:34:03.9768384+08:00",
+    "sourceFile":  "E:\\OpenClawAI_bot\\workspace\\memory-echoDB\\indexes\\edict-audit-log.jsonl",
+    "window":  {
+                   "from":  null,
+                   "to":  null
+               },
+    "metrics":  {
+                    "auditTotal":  6,
+                    "auditCompleteRate":  1,
+                    "highRiskCount":  4,
+                    "preflightRelatedCount":  6,
+                    "roughPreflightCoverage":  1.5
+                },
+    "assumptions":  {
+                        "completenessKeyFields":  [
+                                                      "request_id",
+                                                      "timestamp",
+                                                      "operation",
+                                                      "risk_level",
+                                                      "decision",
+                                                      "status",
+                                                      "actor"
+                                                  ],
+                        "preflightRelatedRule":  "operation contains preflight OR decision is allow/deny",
+                        "coverageRule":  "preflightRelatedCount / highRiskCount; N/A if highRiskCount=0"
+                    }
+}
