@@ -23,7 +23,7 @@
 
 ---
 
-## 统计口径定义（Round 02 基线）
+## 统计口径定义（Round 03 起）
 
 数据源：`memory-echoDB/indexes/edict-audit-log.jsonl`（JSONL，一行一条审计记录）  
 脚本：`scripts/collect-round-metrics.ps1`
@@ -31,40 +31,38 @@
 ### 1) auditTotal
 - 定义：统计窗口内可解析审计记录总数。
 - 计算：`count(valid_json_records)`。
-- 边界：空行/坏 JSON 跳过，不计入总数。
 
 ### 2) auditCompleteRate
 - 定义：审计关键字段完整率（估算）。
 - 关键字段：`request_id, timestamp, operation, risk_level, decision, status, actor`。
 - 单条记录得分：`完整字段数 / 关键字段总数`。
 - 指标计算：所有记录得分平均值，保留 4 位小数。
-- N/A 条件：无记录时当前口径返回 `0`（后续严格口径可升级为 `N/A`）。
 
-### 3) highRiskCount（L3）
-- 定义：`risk_level = L3` 的记录数（大小写不敏感）。
-- 计算：`count(risk_level == L3)`。
+### 3) highRiskCount / highRiskApprovedCount / highRiskDeniedCount
+- `highRiskCount`：`risk_level = L3` 的记录数（大小写不敏感）。
+- `highRiskApprovedCount`：L3 且 `decision=allow` 的记录数。
+- `highRiskDeniedCount`：L3 且 `decision=deny` 的记录数。
 
-### 4) preflightRelatedCount
-- 定义：可识别为“preflight 相关”的记录数。
-- 识别规则（估算口径）：
-  - `operation` 包含 `preflight`；或
-  - `decision` 可识别为 `allow/deny`。
-- 说明：当前规则偏宽松，用于快速趋势观测。
+### 4) roughPreflightCoverage（估算口径，保留用于趋势）
+- 相关字段：`preflightRelatedCount`。
+- 识别规则：`operation` 包含 `preflight`，或 `decision` 可识别为 `allow/deny`。
+- 计算：`preflightRelatedCount / highRiskCount`。
+- 约束：输出会 clamp 到 `[0,1]`，并附带 explanation；该值标记为 `estimated`。
 
-### 5) roughPreflightCoverage
-- 定义：高风险场景下的 preflight 粗覆盖率。
-- 计算：`preflightRelatedCount / highRiskCount`，保留 4 位小数。
-- N/A 条件：`highRiskCount = 0` 时返回 `N/A`。
+### 5) strictPreflightCoverage（严格口径，默认验收）
+- 相关字段：
+  - `uniqueHighRiskOps`：L3 记录的去重 operation 数量。
+  - `uniquePreflightOps`：operation 包含 `preflight` 的去重 operation 数量。
+  - `strictHighRiskPreflightIntersectOps`：两者交集去重 operation 数量。
+- 计算：
+  `strictPreflightCoverage = |uniquePreflightOps ∩ uniqueHighRiskOps| / |uniqueHighRiskOps|`
+- 约束：结果严格在 `[0,1]`；当 `uniqueHighRiskOps=0` 返回 `N/A`。
 
-## 口径分层与升级路径
+---
 
-### 当前：估算口径（Round 02）
-- 优先目标：快速可运行、可复盘、可跨轮次对比。
-- 特征：基于字段启发式识别，容忍历史日志结构不一致。
+## 口径分层（Round 03 正式生效）
 
-### 后续：严格口径（建议 Round 03+）
-- 引入标准事件模型：统一 `event_type`, `phase`, `decision_source` 字段。
-- preflight 识别从“文本匹配”升级为“结构化标记（preflight=true）”。
-- 完整率从“关键字段估算”升级为“schema 校验通过率”。
-- 统一窗口定义（按业务日/轮次 tag）并补齐缺失 timestamp 的处理策略。
-- 指标版本化（`metricsVersion`）确保历史可追溯与可重算。
+- **rough（estimated）**：启发式快速趋势观测；允许历史异构日志兼容，但可能高估。
+- **strict（default acceptance）**：以去重 operation 交集计算，具备可解释边界，作为验收与对外汇报默认口径。
+
+> 从 **Round 03** 起，`strictPreflightCoverage` 为默认验收口径；`roughPreflightCoverage` 仅作辅助趋势参考。

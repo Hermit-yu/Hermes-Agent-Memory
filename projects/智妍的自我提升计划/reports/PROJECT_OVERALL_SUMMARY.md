@@ -10,11 +10,13 @@
 ## 轮次汇总索引
 - Round 01：`reports/rounds/R01-稳态基线与执行机制固化.md`
 - Round 02：`reports/rounds/R02-指标半自动化与口径统一.md`
+- Round 03：`reports/rounds/R03-严格口径升级与周报起步.md`
 
 ## 阶段性累计结论（动态更新）
 - 已完成“指标统计半自动化 + 统计口径统一”基线落地。
-- 形成可复用脚本与双份指标产物（按轮次 + latest），支持后续连续追踪。
-- 已识别口径风险点（coverage 可能 >1），为 Round 03 的严格口径升级提供明确改进方向。
+- Round 03 完成严格口径落地：`strictPreflightCoverage` 成为默认验收指标，覆盖率结果强约束在 `[0,1]`。
+- `roughPreflightCoverage` 保留为 estimated 趋势指标，并新增 raw/clamp/explanation 输出，解决 `coverage > 1` 的解释风险。
+- 新增周报模板与首份治理周报，形成“轮次报告 + 周报”双轨汇报机制。
 
 ## 最终达成度（项目收官时填写）
 - 治理与安全：

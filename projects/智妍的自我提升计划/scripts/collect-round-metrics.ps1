@@ -13,6 +13,19 @@ function Parse-DateOrNull {
     catch { throw "Invalid date: '$Value'. Use ISO8601 like 2026-02-26T00:00:00+08:00" }
 }
 
+function Get-SafeRatio {
+    param(
+        [double]$Numerator,
+        [double]$Denominator,
+        [int]$Digits = 4
+    )
+    if ($Denominator -le 0) { return $null }
+    $ratio = $Numerator / $Denominator
+    if ($ratio -lt 0) { $ratio = 0 }
+    if ($ratio -gt 1) { $ratio = 1 }
+    return [Math]::Round($ratio, $Digits)
+}
+
 $workspaceRoot = (Resolve-Path (Join-Path $PSScriptRoot "../../..")).Path
 $inputPath = Join-Path $workspaceRoot "memory-echoDB/indexes/edict-audit-log.jsonl"
 $metricsDir = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
@@ -57,6 +70,11 @@ $auditTotal = $records.Count
 $completeScoreSum = 0.0
 $highRiskCount = 0
 $preflightRelatedCount = 0
+$highRiskApprovedCount = 0
+$highRiskDeniedCount = 0
+
+$uniqueHighRiskOpsSet = New-Object 'System.Collections.Generic.HashSet[string]'
+$uniquePreflightOpsSet = New-Object 'System.Collections.Generic.HashSet[string]'
 
 foreach ($r in $records) {
     $filled = 0
@@ -66,18 +84,66 @@ foreach ($r in $records) {
     }
     $completeScoreSum += ($filled / $keyFields.Count)
 
-    if (([string]$r.risk_level) -match '^(?i)L3$') { $highRiskCount++ }
+    $operation = [string]$r.operation
+    $decision = [string]$r.decision
+    $riskLevel = [string]$r.risk_level
 
-    $isPreflightOp = ([string]$r.operation) -match '(?i)preflight'
-    $isRecognizableDecision = ([string]$r.decision) -match '^(?i)(allow|deny)$'
+    $isHighRisk = $riskLevel -match '^(?i)L3$'
+    $isPreflightOp = $operation -match '(?i)preflight'
+    $isRecognizableDecision = $decision -match '^(?i)(allow|deny)$'
+
+    if ($isHighRisk) {
+        $highRiskCount++
+        if (-not [string]::IsNullOrWhiteSpace($operation)) {
+            [void]$uniqueHighRiskOpsSet.Add($operation)
+        }
+
+        if ($decision -match '^(?i)allow$') { $highRiskApprovedCount++ }
+        if ($decision -match '^(?i)deny$') { $highRiskDeniedCount++ }
+    }
+
+    if ($isPreflightOp) {
+        if (-not [string]::IsNullOrWhiteSpace($operation)) {
+            [void]$uniquePreflightOpsSet.Add($operation)
+        }
+    }
+
     if ($isPreflightOp -or $isRecognizableDecision) { $preflightRelatedCount++ }
 }
 
 $auditCompleteRate = if ($auditTotal -gt 0) { [Math]::Round(($completeScoreSum / $auditTotal), 4) } else { 0 }
-$roughPreflightCoverage = if ($highRiskCount -gt 0) { [Math]::Round(($preflightRelatedCount / $highRiskCount), 4) } else { 'N/A' }
+
+$roughCoverageRaw = $null
+$roughCoverageClamped = $null
+$roughCoverageExplanation = ""
+if ($highRiskCount -gt 0) {
+    $roughCoverageRaw = [Math]::Round(($preflightRelatedCount / $highRiskCount), 4)
+    $roughCoverageClamped = Get-SafeRatio -Numerator $preflightRelatedCount -Denominator $highRiskCount -Digits 4
+    if ($roughCoverageRaw -gt 1) {
+        $roughCoverageExplanation = "estimated ratio exceeded 1 due to heuristic numerator (preflightRelatedCount); output is clamped to 1.0000. strictPreflightCoverage is the default acceptance metric from Round 03."
+    }
+    else {
+        $roughCoverageExplanation = "estimated ratio based on heuristic preflight-related records; retained for trend only."
+    }
+}
+else {
+    $roughCoverageExplanation = "highRiskCount=0, estimated ratio is N/A."
+}
+
+$uniqueHighRiskOps = $uniqueHighRiskOpsSet.Count
+$uniquePreflightOps = $uniquePreflightOpsSet.Count
+$strictIntersectCount = 0
+if ($uniqueHighRiskOps -gt 0 -and $uniquePreflightOps -gt 0) {
+    $intersectSet = New-Object 'System.Collections.Generic.HashSet[string]' ($uniqueHighRiskOpsSet)
+    $intersectSet.IntersectWith($uniquePreflightOpsSet)
+    $strictIntersectCount = $intersectSet.Count
+}
+
+$strictPreflightCoverage = Get-SafeRatio -Numerator $strictIntersectCount -Denominator $uniqueHighRiskOps -Digits 4
 
 $result = [ordered]@{
     roundId = $RoundId
+    metricsVersion = "v2-round03-strict"
     generatedAt = (Get-Date).ToString('o')
     sourceFile = $inputPath
     window = [ordered]@{
@@ -88,13 +154,27 @@ $result = [ordered]@{
         auditTotal = $auditTotal
         auditCompleteRate = $auditCompleteRate
         highRiskCount = $highRiskCount
+        highRiskApprovedCount = $highRiskApprovedCount
+        highRiskDeniedCount = $highRiskDeniedCount
         preflightRelatedCount = $preflightRelatedCount
-        roughPreflightCoverage = $roughPreflightCoverage
+        uniqueHighRiskOps = $uniqueHighRiskOps
+        uniquePreflightOps = $uniquePreflightOps
+        strictHighRiskPreflightIntersectOps = $strictIntersectCount
+        strictPreflightCoverage = if ($null -eq $strictPreflightCoverage) { 'N/A' } else { $strictPreflightCoverage }
+        roughPreflightCoverage = [ordered]@{
+            value = if ($null -eq $roughCoverageClamped) { 'N/A' } else { $roughCoverageClamped }
+            raw = if ($null -eq $roughCoverageRaw) { 'N/A' } else { $roughCoverageRaw }
+            label = "estimated"
+            explanation = $roughCoverageExplanation
+        }
     }
     assumptions = [ordered]@{
         completenessKeyFields = $keyFields
         preflightRelatedRule = "operation contains preflight OR decision is allow/deny"
-        coverageRule = "preflightRelatedCount / highRiskCount; N/A if highRiskCount=0"
+        roughCoverageRule = "estimated: preflightRelatedCount / highRiskCount, clamped to [0,1]"
+        strictCoverageRule = "strict: INTERSECT(uniquePreflightOps, uniqueHighRiskOps) / uniqueHighRiskOps, N/A if uniqueHighRiskOps=0"
+        defaultAcceptanceMetricFrom = "Round 03"
+        defaultAcceptanceMetric = "strictPreflightCoverage"
     }
 }
 
@@ -102,7 +182,7 @@ New-Item -ItemType Directory -Path $metricsDir -Force | Out-Null
 $roundFile = Join-Path $metricsDir ("round-metrics-{0}.json" -f $RoundId)
 $latestFile = Join-Path $metricsDir "latest-round-metrics.json"
 
-$json = $result | ConvertTo-Json -Depth 8
+$json = $result | ConvertTo-Json -Depth 10
 Set-Content -Path $roundFile -Value $json -Encoding UTF8
 Set-Content -Path $latestFile -Value $json -Encoding UTF8
 
@@ -111,7 +191,13 @@ Write-Host "- roundId: $RoundId"
 Write-Host "- auditTotal: $auditTotal"
 Write-Host "- auditCompleteRate: $auditCompleteRate"
 Write-Host "- highRiskCount: $highRiskCount"
-Write-Host "- preflightRelatedCount: $preflightRelatedCount"
-Write-Host "- roughPreflightCoverage: $roughPreflightCoverage"
+Write-Host "- highRiskApprovedCount: $highRiskApprovedCount"
+Write-Host "- highRiskDeniedCount: $highRiskDeniedCount"
+Write-Host "- uniqueHighRiskOps: $uniqueHighRiskOps"
+Write-Host "- uniquePreflightOps: $uniquePreflightOps"
+Write-Host "- strictHighRiskPreflightIntersectOps: $strictIntersectCount"
+Write-Host "- strictPreflightCoverage: $(if ($null -eq $strictPreflightCoverage) { 'N/A' } else { $strictPreflightCoverage })"
+Write-Host "- roughPreflightCoverage(estimated): $(if ($null -eq $roughCoverageClamped) { 'N/A' } else { $roughCoverageClamped })"
+if ($roughCoverageExplanation) { Write-Host "- roughCoverageExplanation: $roughCoverageExplanation" }
 Write-Host "- output: $roundFile"
 Write-Host "- latest: $latestFile"
