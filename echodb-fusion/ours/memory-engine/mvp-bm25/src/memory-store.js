@@ -118,8 +118,18 @@ function readDocumentsFromItems(paths) {
     id: item.id,
     source: item.sourcePath,
     title: item.title,
+    scope: item.scope || "unknown",
+    type: item.type || "unknown",
     content: item.content,
   }));
+}
+
+function hasIndexFile(paths) {
+  return fs.existsSync(paths.indexFile);
+}
+
+function hasMemoryItemsFile(paths) {
+  return fs.existsSync(paths.memoryItemsFile);
 }
 
 function saveIndex(paths, index) {
@@ -138,6 +148,8 @@ module.exports = {
   normalizeMemoryItems,
   readMemoryItems,
   readDocumentsFromItems,
+  hasIndexFile,
+  hasMemoryItemsFile,
   saveIndex,
   loadIndex,
 };

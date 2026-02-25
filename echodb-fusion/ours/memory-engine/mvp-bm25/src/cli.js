@@ -6,21 +6,26 @@ const {
   getMemoryPaths,
   normalizeMemoryItems,
   readDocumentsFromItems,
+  readMemoryItems,
+  hasIndexFile,
+  hasMemoryItemsFile,
   saveIndex,
   loadIndex,
 } = require("./memory-store");
+
+const ALLOWED_SCOPES = new Set(["all", "global", "agent:main"]);
 
 function printHelp() {
   console.log(`EchoDB MVP (BM25)
 
 Usage:
   echodb memory reindex
-  echodb memory search <query> [--topK 20]
+  echodb memory search <query> [--topK 20] [--scope all|global|agent:main]
   echodb memory stats
 
 Node invocation:
   node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory reindex
-  node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory search "query" --topK 20
+  node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory search "query" --topK 20 --scope all
   node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory stats
 `);
 }
@@ -33,47 +38,103 @@ function parseTopK(args) {
   return Math.floor(v);
 }
 
+function parseScope(args) {
+  const i = args.findIndex((a) => a === "--scope");
+  if (i === -1) return "all";
+  const value = (args[i + 1] || "").trim();
+  if (!value) return "all";
+  if (!ALLOWED_SCOPES.has(value)) {
+    throw new Error(`Invalid --scope value: ${value}. Allowed: all | global | agent:main`);
+  }
+  return value;
+}
+
 function reindex(paths) {
   const items = normalizeMemoryItems(paths);
+  if (items.length === 0) {
+    console.error("Reindex failed: no memory markdown found under memory-echoDB/daily or memory-echoDB/long-term.");
+    console.error("Please add at least one .md file, then run: echodb memory reindex");
+    return 1;
+  }
+
   const docs = readDocumentsFromItems(paths);
+  if (docs.length === 0) {
+    console.error(`Reindex failed: ${paths.memoryItemsFile} is empty or unreadable.`);
+    console.error("Please verify source markdown files and run: echodb memory reindex");
+    return 1;
+  }
+
   const index = buildBm25(docs);
   saveIndex(paths, index);
   console.log(
     `Reindex done: memoryItems=${items.length}, docs=${index.docs.length}, avgdl=${index.avgdl.toFixed(2)}, files=[${paths.memoryItemsFile}, ${paths.indexFile}]`
   );
+  return 0;
 }
 
-function search(paths, query, topK) {
+function filterByScope(results, scope) {
+  if (scope === "all") return results;
+  return results.filter((r) => r.scope === scope);
+}
+
+function search(paths, query, topK, scope) {
   let index = loadIndex(paths);
   if (!index) {
     console.log("Index not found, building now...");
-    reindex(paths);
+    const code = reindex(paths);
+    if (code !== 0) return code;
     index = loadIndex(paths);
   }
 
-  const results = searchBm25(index, query, topK);
-  if (results.length === 0) {
-    console.log("No results.");
-    return;
+  if (!index || !Array.isArray(index.docs) || index.docs.length === 0) {
+    console.error("Search failed: index is missing or empty.");
+    console.error("Please prepare memory markdown and run: echodb memory reindex");
+    return 1;
   }
 
-  console.log(`Found ${results.length} result(s):`);
+  const rawResults = searchBm25(index, query, topK * 3);
+  const results = filterByScope(rawResults, scope).slice(0, topK);
+  if (results.length === 0) {
+    console.log(`No results for scope=${scope}.`);
+    return 0;
+  }
+
+  console.log(`Found ${results.length} result(s) (scope=${scope}):`);
   results.forEach((r, idx) => {
-    console.log(`\n#${idx + 1} score=${r.score.toFixed(4)}  ${r.source}`);
+    console.log(`\n#${idx + 1} score=${r.score.toFixed(4)}  [scope=${r.scope}]  ${r.source}`);
     console.log(`   ${r.preview}`);
   });
+  return 0;
+}
+
+function countBy(docs, key, fallback = "unknown") {
+  const grouped = {};
+  for (const d of docs) {
+    const name = d?.[key] || fallback;
+    grouped[name] = (grouped[name] || 0) + 1;
+  }
+  return grouped;
 }
 
 function stats(paths) {
+  if (!hasIndexFile(paths)) {
+    console.error(`Index not found: ${paths.indexFile}`);
+    console.error("Please run: echodb memory reindex");
+    return 1;
+  }
+
   const index = loadIndex(paths);
   if (!index) {
-    console.error("Index not found. Please run: echodb memory reindex");
+    console.error("Index file exists but cannot be parsed.");
+    console.error("Please run: echodb memory reindex");
     return 1;
   }
 
   const docs = Array.isArray(index.docs) ? index.docs : [];
   const terms = index.df ? Object.keys(index.df).length : 0;
   const sources = new Set(docs.map((d) => d.source).filter(Boolean)).size;
+  const scopes = countBy(docs, "scope");
+  const types = countBy(docs, "type");
 
   console.log("EchoDB Memory Stats");
   console.log(`docs: ${docs.length}`);
@@ -81,6 +142,8 @@ function stats(paths) {
   console.log(`avgdl: ${(index.avgdl || 0).toFixed(2)}`);
   console.log(`sources: ${sources}`);
   console.log(`indexCreatedAt: ${index.createdAt || "unknown"}`);
+  console.log(`scopes: ${JSON.stringify(scopes)}`);
+  console.log(`types: ${JSON.stringify(types)}`);
   return 0;
 }
 
@@ -101,15 +164,14 @@ function main(argv, cliDir = __dirname) {
   }
 
   if (cmd === "reindex") {
-    reindex(paths);
-    return 0;
+    return reindex(paths);
   }
 
   if (cmd === "search") {
     const queryParts = [];
     for (let i = 0; i < rest.length; i++) {
       const token = rest[i];
-      if (token === "--topK" || token === "-k") {
+      if (token === "--topK" || token === "-k" || token === "--scope") {
         i += 1;
         continue;
       }
@@ -123,11 +185,28 @@ function main(argv, cliDir = __dirname) {
     }
 
     const topK = parseTopK(rest);
-    search(paths, query, topK);
-    return 0;
+    let scopeFilter = "all";
+    try {
+      scopeFilter = parseScope(rest);
+    } catch (err) {
+      console.error(err.message);
+      return 1;
+    }
+    return search(paths, query, topK, scopeFilter);
   }
 
   if (cmd === "stats") {
+    if (!hasMemoryItemsFile(paths)) {
+      console.error(`Memory items not found: ${paths.memoryItemsFile}`);
+      console.error("Please run: echodb memory reindex");
+      return 1;
+    }
+    const items = readMemoryItems(paths);
+    if (items.length === 0) {
+      console.error(`Memory items are empty: ${paths.memoryItemsFile}`);
+      console.error("Please ensure source markdown exists, then run: echodb memory reindex");
+      return 1;
+    }
     return stats(paths);
   }
 

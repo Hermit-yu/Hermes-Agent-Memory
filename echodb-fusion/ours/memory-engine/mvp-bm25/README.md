@@ -15,7 +15,7 @@
   - 输出：`memory-echoDB/indexes/bm25-index.json`
 - 命令：
   - `echodb memory reindex`
-  - `echodb memory search <query> --topK 20`
+  - `echodb memory search <query> --topK 20 [--scope all|global|agent:main]`
   - `echodb memory stats`
 
 ## 目录
@@ -32,7 +32,7 @@
 
 ```bash
 node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory reindex
-node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory search "关键词" --topK 20
+node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory search "关键词" --topK 20 --scope all
 node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory stats
 ```
 
@@ -46,7 +46,7 @@ node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory stats
 
 ```bash
 echodb memory reindex
-echodb memory search "关键词" --topK 20
+echodb memory search "关键词" --topK 20 --scope all
 echodb memory stats
 ```
 
@@ -54,3 +54,6 @@ echodb memory stats
 
 - `memory-items.jsonl` 与 `bm25-index.json` 都是可再生产物，不应作为真相源。
 - 真相源永远是 `memory-echoDB` 下 Markdown 文件。
+- `search` 支持 `--scope`（默认 `all`），结果会显示命中的 `scope`。
+- `stats` 额外输出 `scopes`、`types` 计数，便于观察作用域与类型分布。
+- 当 `memory-items` 为空或索引文件缺失时，CLI 会给出明确错误提示。

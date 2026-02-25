@@ -4,14 +4,18 @@
 
 ```bash
 echodb memory reindex
-echodb memory search "<查询词>" --topK 20
+echodb memory search "<查询词>" --topK 20 --scope all
 echodb memory stats
 ```
 
 - `reindex`：先规范化生成 `memory-items.jsonl`，再构建 BM25 索引
 - `search`：查询索引并返回最相关结果
-- `stats`：输出索引统计信息（docs / terms / avgdl / sources / indexCreatedAt）
+- `stats`：输出索引统计信息（docs / terms / avgdl / sources / indexCreatedAt / scopes / types）
 - `--topK`：返回条数（默认 20）
+- `--scope`：搜索作用域过滤（默认 `all`）
+  - `all`：不过滤
+  - `global`：仅长期记忆
+  - `agent:main`：仅主会话日记/短期记忆
 
 ## 数据来源与规范化
 
@@ -56,7 +60,8 @@ MemoryItem 字段（当前最小集合）：
 
 ```bash
 node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory reindex
-node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory search "项目进展" --topK 20
+node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory search "项目进展" --topK 20 --scope all
+node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory search "项目进展" --topK 20 --scope global
 node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory stats
 ```
 
@@ -76,6 +81,7 @@ node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory stats
 每条结果包含：
 
 - `score`：BM25 分数（越高相关性越高）
+- `scope`：命中文档作用域（如 `global` / `agent:main`）
 - `source`：命中来源文件
 - `preview`：内容预览
 
@@ -86,3 +92,15 @@ node echodb-fusion/ours/memory-engine/mvp-bm25/bin/echodb-memory.js memory stats
 - `avgdl`：平均文档长度
 - `sources`：来源文件去重计数
 - `indexCreatedAt`：索引生成时间
+- `scopes`：按 scope 的文档计数
+- `types`：按 type 的文档计数
+
+## 稳定性与错误提示
+
+以下情况会给出友好错误信息：
+
+- `reindex` 时没有任何源 markdown（`daily/` 与 `long-term/` 都为空）
+- `memory-items.jsonl` 缺失或为空
+- `bm25-index.json` 缺失/不可解析
+
+原则：`memory-items.jsonl` 与 `bm25-index.json` 为可再生产物，真相源始终是 Markdown 原文。
