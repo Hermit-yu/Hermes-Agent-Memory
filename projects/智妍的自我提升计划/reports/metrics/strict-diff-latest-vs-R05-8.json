@@ -1,0 +1,46 @@
+﻿{
+    "comparedAt":  "2026-02-26T11:52:48.4627082+08:00",
+    "latestRoundId":  "R05-8",
+    "realWindowRoundId":  "R05-8",
+    "sourceLatest":  "reports/metrics/latest-round-metrics.json",
+    "sourceRealWindow":  "reports/metrics/round-metrics-R05-8.json",
+    "strictFieldDiff":  [
+                            {
+                                "field":  "strictPreflightCoverage",
+                                "latest":  1,
+                                "realWindow":  1,
+                                "equal":  true
+                            },
+                            {
+                                "field":  "strictMode",
+                                "latest":  "structured_only",
+                                "realWindow":  "structured_only",
+                                "equal":  true
+                            },
+                            {
+                                "field":  "compatFallbackRatio",
+                                "latest":  0,
+                                "realWindow":  0,
+                                "equal":  true
+                            },
+                            {
+                                "field":  "unknownEventTypeCount",
+                                "latest":  0,
+                                "realWindow":  0,
+                                "equal":  true
+                            },
+                            {
+                                "field":  "strictStructuredRecords",
+                                "latest":  10,
+                                "realWindow":  10,
+                                "equal":  true
+                            },
+                            {
+                                "field":  "strictFallbackRecords",
+                                "latest":  0,
+                                "realWindow":  0,
+                                "equal":  true
+                            }
+                        ],
+    "allEqual":  true
+}
