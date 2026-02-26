@@ -23,6 +23,6 @@
 ## 当前状态
 - 状态：Active（长期项目）
 - 启动日期：2026-02-26
-- 最新轮次进度：Round 05 进行中（已完成至 R05-12：R04 收官未完成项持续为 0；已完成 latest vs real-window strict 字段差异短报，`allEqual=true`，未发现口径漂移）；下一步执行 R05-13（补一份 W05 真实窗口周报并复核 strict gate 与双口径差异）
+- 最新轮次进度：Round 05 进行中（已完成至 R05-19：R04 收官未完成项持续为 0；新增结构化回归样本包并产出 `strict-diff-R05-19-sample.json`；W08 周报与 `weekly-diff-evidence-check-R05-19.json` 校验 `allPass=true`）；下一步执行 R05-20（补充 R05-14 vs R05-19 基线对比结论并固化到周报漂移判定段）。
 - 负责人：智妍
 - 审核人/最终决策：你（皇上位）

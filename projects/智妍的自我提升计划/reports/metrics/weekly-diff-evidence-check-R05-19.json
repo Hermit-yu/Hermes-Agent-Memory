@@ -1,0 +1,12 @@
+﻿{
+    "generatedAt":  "2026-02-26T13:38:47.8908553+08:00",
+    "weeklyReport":  "E:\\OpenClawAI_bot\\workspace\\projects\\智妍的自我提升计划\\reports\\weekly\\W08-R05-19-structured-sample-refresh.md",
+    "diffJson":  "E:\\OpenClawAI_bot\\workspace\\projects\\智妍的自我提升计划\\reports\\metrics\\strict-diff-R05-19-sample.json",
+    "checks":  {
+                   "containsArtifactPath":  true,
+                   "containsCoverage":  true,
+                   "containsCompatRatio":  true,
+                   "containsFallbackRecords":  true
+               },
+    "allPass":  true
+}
