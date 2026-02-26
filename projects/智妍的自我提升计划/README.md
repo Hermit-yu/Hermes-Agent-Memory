@@ -23,6 +23,6 @@
 ## 当前状态
 - 状态：Active（长期项目）
 - 启动日期：2026-02-26
-- 最新轮次进度：Round 05 进行中（已完成：R05-6 稳态复跑；默认口径 auditTotal=16、includeSynthetic=18，两口径 strictPreflightCoverage=1.0，strictMode=structured_only）；下一步执行 R05-7（以上游真实结构化写入后的首个生产窗口做差异验收短报）
+- 最新轮次进度：Round 05 进行中（已完成至 R05-11：R04 收官未完成项持续为 0；已产出样例周报 W03 与真实窗口周报 W04，strict gate 均 PASS，且模板字段无漂移）；下一步执行 R05-12（补一份 latest vs real-window 严格字段差异短报，持续盯防口径漂移）
 - 负责人：智妍
 - 审核人/最终决策：你（皇上位）
