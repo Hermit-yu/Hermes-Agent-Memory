@@ -1,5 +1,6 @@
-param(
-    [int]$PairCount = 5
+﻿param(
+    [int]$PairCount = 5,
+    [switch]$Force
 )
 
 $ErrorActionPreference = 'Stop'
@@ -11,6 +12,10 @@ $auditPath = Join-Path $workspaceRoot "memory-echoDB/indexes/edict-audit-log.jso
 
 if (-not (Test-Path $auditPath)) {
     throw "Audit log not found: $auditPath"
+}
+
+if (-not $Force) {
+    throw "Safety gate: regression sample injection is test-only. Re-run with -Force to append synthetic records."
 }
 
 $seedOps = @(
@@ -45,6 +50,7 @@ for ($i = 0; $i -lt $PairCount; $i++) {
         decision = 'allow'
         status = 'ok'
         actor = 'r05-2-regression'
+        synthetic = $true
     }
 
     $execute = [ordered]@{
@@ -61,6 +67,7 @@ for ($i = 0; $i -lt $PairCount; $i++) {
         decision = 'allow'
         status = 'ok'
         actor = 'r05-2-regression'
+        synthetic = $true
     }
 
     $lines.Add(($preflight | ConvertTo-Json -Compress -Depth 6))
@@ -73,3 +80,4 @@ Write-Host "R05-2 regression samples appended"
 Write-Host "- auditPath: $auditPath"
 Write-Host "- pairCount: $PairCount"
 Write-Host "- recordsAdded: $($PairCount * 2)"
+Write-Host "- syntheticTag: true"
