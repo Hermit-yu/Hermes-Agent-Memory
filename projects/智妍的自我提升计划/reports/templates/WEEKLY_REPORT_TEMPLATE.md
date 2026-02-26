@@ -1,67 +1,73 @@
-﻿# WXX-治理周报（模板）
+﻿# WXX Weekly Report Template
 
-- 周期：YYYY-MM-DD ~ YYYY-MM-DD
-- 负责人：
-- 版本：v2（strict gate 内建）
+- Week: YYYY-MM-DD ~ YYYY-MM-DD
+- Owner:
+- Version: v3 (strict + structured-diff evidence)
 
-## 1. 本周指标快照（strict 默认验收）
-- auditTotal：
-- auditCompleteRate：
-- highRiskCount：
-- highRiskApprovedCount：
-- highRiskDeniedCount：
-- uniqueHighRiskOps：
-- uniquePreflightOps：
-- strictHighRiskPreflightIntersectOps：
-- strictPreflightCoverage（默认验收）：
-- strictMode（structured_only / structured_with_fallback）：
-- compatFallbackRatio（结构化缺失回退占比）：
-- unknownEventTypeCount（枚举漂移观测）：
-- roughPreflightCoverage（estimated，仅趋势参考）：
+## 1) Core Metrics (strict first)
+- auditTotal
+- auditCompleteRate
+- highRiskCount
+- highRiskApprovedCount
+- highRiskDeniedCount
+- uniqueHighRiskOps
+- uniquePreflightOps
+- strictHighRiskPreflightIntersectOps
+- strictPreflightCoverage (strict gate primary)
+- strictMode (structured_only / structured_with_fallback)
+- compatFallbackRatio (structured fallback ratio)
+- unknownEventTypeCount (enum drift)
+- roughPreflightCoverage (estimated, reference only)
 
-## 2. Strict Gate 验收（每周必填）
-- Gate-1 `strictPreflightCoverage >= 1.0`：PASS / FAIL
-- Gate-2 `compatFallbackRatio <= 0.0`：PASS / FAIL
-- Gate-3 `unknownEventTypeCount <= 0`：PASS / FAIL
-- 证据文件：`reports/metrics/latest-round-metrics.json`
-- 验证命令（建议原样粘贴输出片段到周报附件）：
+## 2) Strict Gate Result (mandatory)
+- Gate-1 `strictPreflightCoverage >= 1.0`: PASS / FAIL
+- Gate-2 `compatFallbackRatio <= 0.0`: PASS / FAIL
+- Gate-3 `unknownEventTypeCount <= 0`: PASS / FAIL
+- Metrics artifact: `reports/metrics/latest-round-metrics.json`
 
+Verification command:
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/assert-strict-gate.ps1 -MetricsFile reports/metrics/latest-round-metrics.json
+```
 
-# optional: structured sample strict/compat diff evidence
-powershell -ExecutionPolicy Bypass -File scripts/diff-strict-compat-sample.ps1 
-  -InputJsonl reports/samples/R05-14-structured-first-regression.jsonl 
-  -OutJson rreports/metrics/strict-diff-R05-14-sample.json
-`
+## 3) Structured Diff Evidence (recommended; required when sample is updated)
+- Diff artifact: `reports/metrics/strict-diff-R05-14-sample.json`
+- Weekly evidence check artifact: `reports/metrics/weekly-diff-evidence-check-<RUN_ID>.json`
 
-- optional diff evidence artifact: 
-reports/metrics/strict-diff-R05-14-sample.json
-- optional evidence check: strictPreflightCoverage=1.0 and compatFallbackRatio=0.0``
+Verification commands:
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/diff-strict-compat-sample.ps1 \
+  -InputJsonl reports/samples/R05-14-structured-first-regression.jsonl \
+  -OutJson reports/metrics/strict-diff-R05-14-sample.json
 
-## 3. 风险事件
-- 事件 1：
-  - 现象：
-  - 影响：
-  - 处置：
-  - 当前状态：
+powershell -ExecutionPolicy Bypass -File scripts/assert-weekly-diff-evidence.ps1 \
+  -WeeklyReport reports/weekly/<THIS_WEEK_REPORT>.md \
+  -DiffJson reports/metrics/strict-diff-R05-14-sample.json \
+  -OutJson reports/metrics/weekly-diff-evidence-check-<RUN_ID>.json
+```
 
-## 4. 改进动作（本周完成）
-- 动作 A：
-- 动作 B：
+Required evidence fields in weekly report:
+- diff artifact path
+- strictPreflightCoverage
+- compatFallbackRatio
+- strictFallbackRecords
 
-## 5. 下周计划
-- 计划 1：
-- 计划 2：
-- 计划 3：
+## 4) Key Events
+- Event 1
+  - Background:
+  - Impact:
+  - Resolution:
+  - Status:
 
-## 6. 备注
-- 数据来源：`scripts/collect-round-metrics.ps1` + `reports/metrics/latest-round-metrics.json`
-- 口径规则：Round 03 起 strict 为默认验收口径
-- strict 字段映射（建议固定）：
-  - `strictPreflightCoverage` ← `metrics.strictPreflightCoverage`
-  - `strictMode` ← `metrics.strictMode`
-  - `compatFallbackRatio` ← `metrics.compatFallbackRatio`
-  - `unknownEventTypeCount` ← `metrics.unknownEventTypeCount`
-  - `strictHighRiskPreflightIntersectOps` ← `metrics.strictHighRiskPreflightIntersectOps`
+## 5) Improvements Completed
+- Item A
+- Item B
 
+## 6) Next Week Plan
+- Plan 1
+- Plan 2
+- Plan 3
+
+## 7) Notes
+- Data source: `scripts/collect-round-metrics.ps1` + `reports/metrics/latest-round-metrics.json`
+- Strict baseline: Round 03
