@@ -1,0 +1,24 @@
+﻿{
+    "roundId":  "R06-16",
+    "generatedAt":  "2026-02-26T21:54:47+08:00",
+    "basedOnMetricsRound":  "R05-8",
+    "basedOnMetricsFile":  "reports/metrics/latest-round-metrics.json",
+    "assertions":  {
+                       "strictPreflightCoverage":  {
+                                                       "actual":  1,
+                                                       "threshold":  "\u003e= 1",
+                                                       "pass":  true
+                                                   },
+                       "compatFallbackRatio":  {
+                                                   "actual":  0,
+                                                   "threshold":  "\u003c= 0",
+                                                   "pass":  true
+                                               },
+                       "unknownEventTypeCount":  {
+                                                     "actual":  0,
+                                                     "threshold":  "\u003c= 0",
+                                                     "pass":  true
+                                                 }
+                   },
+    "pass":  true
+}

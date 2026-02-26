@@ -1,0 +1,18 @@
+﻿{
+    "policyVersion":  "every-5-rounds-dual-sync",
+    "updatedAt":  "2026-02-26T21:54:47+08:00",
+    "lastSyncedCommit":  "e200985",
+    "roundCounterSinceLastSync":  0,
+    "roundsSinceLastSync":  [
+
+                            ],
+    "lastBatchSyncedRounds":  [
+                                  "R06-12",
+                                  "R06-13",
+                                  "R06-14",
+                                  "R06-15",
+                                  "R06-16"
+                              ],
+    "nextSyncTriggerAt":  5,
+    "nextAction":  "Start next batch counting from next round; run unified git commit+push when counter reaches 5, unless blocker/abnormal requires early sync."
+}

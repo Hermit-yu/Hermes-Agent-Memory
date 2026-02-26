@@ -1,40 +1,41 @@
-# EXECUTION CADENCE£¨Ö´ĞĞ½Ú×à£©
+ï»¿# EXECUTION CADENCEï¼ˆæ‰§è¡ŒèŠ‚å¥ï¼‰
 
-## Daily£¨ÈÕ³££©
-- ¼ÇÂ¼µ±ÈÕ¹Ø¼üÈÎÎñÓëÒì³£
-- ²¹È«Éó¼Æ×Ö¶Î
-- ¼ì²éÊÇ·ñ´æÔÚÎ´ÉóÅú¸ß·çÏÕ¶¯×÷
-- Ö´ĞĞ¡°ÎÈÌ¬ÓÅÏÈ¡±×îĞ¡ÔöÁ¿£ºÃ¿´Î½öÍÆ½ø 1-2 Ïî¿ÉÑéÖ¤¸Ä¶¯
+## Dailyï¼ˆæ—¥å¸¸ï¼‰
+- è®°å½•å½“æ—¥å…³é”®ä»»åŠ¡ä¸å¼‚å¸¸
+- è¡¥å…¨å®¡è®¡å­—æ®µ
+- æ£€æŸ¥æ˜¯å¦å­˜åœ¨æœªå®¡æ‰¹é«˜é£é™©åŠ¨ä½œ
+- æ‰§è¡Œâ€œç¨³æ€ä¼˜å…ˆâ€æœ€å°å¢é‡ï¼šæ¯æ¬¡ä»…æ¨è¿› 1-2 é¡¹å¯éªŒè¯æ”¹åŠ¨
 
-## Ã¿´ÎÔËĞĞ¹æ·¶£¨ÎÈÌ¬ÓÅÏÈ£©
-1. ÏÈ¼ì²éÉÏ´Î½ø¶ÈÓëÎ´Íê³ÉÇåµ¥
-2. Ã¿´ÎÖ»×ö 1-2 ¸ö¿ÉÑéÖ¤ÔöÁ¿
-3. ±ØĞëÂäµØµ½ÏîÄ¿Ä¿Â¼ÎÄ¼ş£¨±¨¸æ/Ä£°å/½Å±¾/Ö¸±ê£©
-4. ÓĞ±ä¸ü¼´Í¬²½µ½ GitHub£¨²»±£Áô±¾µØÎ´Í¬²½×´Ì¬£©
-5. Ä¬ÈÏ¾²Ä¬Ö´ĞĞ£º²»·¢ËÍÀıĞĞ½øÕ¹£»½öÔÚ¡°´óÂÖ´ÎÍê³É/·â°æ/½×¶ÎÇĞ»»£¨Èç R06 ÊÕ¹Ù¡¢½øÈëÏÂÒ»½×¶Î£©¡±Ê±£¬Êä³öÒ»·İ¼ò½à×Ü½áµ½Ö÷»á»°
-6. Óö×èÈû»òÒì³£ĞèÁ¢¼´²¥±¨£¬²¢Ğ´Ã÷¡°×èÈûÔ­Òò + Ó°Ïì·¶Î§ + ½â·¨ + Ô¤¼Æ½â³ıÊ±¼ä¡±
+## æ¯æ¬¡è¿è¡Œè§„èŒƒï¼ˆç¨³æ€ä¼˜å…ˆï¼‰
+1. å…ˆæ£€æŸ¥ä¸Šæ¬¡è¿›åº¦ä¸æœªå®Œæˆæ¸…å•
+2. æ¯æ¬¡åªåš 1-2 ä¸ªå¯éªŒè¯å¢é‡
+3. å¿…é¡»è½åœ°åˆ°é¡¹ç›®ç›®å½•æ–‡ä»¶ï¼ˆæŠ¥å‘Š/æ¨¡æ¿/è„šæœ¬/æŒ‡æ ‡ï¼‰
+4. ç»´æŠ¤â€œè‡ªä¸Šæ¬¡åŒç«¯åŒæ­¥åè½®æ¬¡è®¡æ•°â€ï¼ˆæ¯è½® +1ï¼‰
+5. è½®æ¬¡ç´¯è®¡åˆ° 5 æ—¶ï¼Œç»Ÿä¸€æ‰§è¡Œä¸€æ¬¡ Git æäº¤ + æ¨é€ï¼ˆåŒç«¯åŒæ­¥ï¼‰ï¼Œå¹¶åœ¨é¡¹ç›®æ–‡æ¡£è®°å½•åŒæ­¥ç‚¹
+6. é»˜è®¤é™é»˜æ‰§è¡Œï¼šä¸å‘é€ä¾‹è¡Œè¿›å±•ï¼›ä»…åœ¨â€œå¤§è½®æ¬¡å®Œæˆ/å°ç‰ˆ/é˜¶æ®µåˆ‡æ¢ï¼ˆå¦‚ R06 æ”¶å®˜ã€è¿›å…¥ä¸‹ä¸€é˜¶æ®µï¼‰â€æ—¶ï¼Œè¾“å‡ºä¸€ä»½ç®€æ´æ€»ç»“åˆ°ä¸»ä¼šè¯
+7. é‡é˜»å¡æˆ–å¼‚å¸¸å¯æå‰åŒæ­¥å¹¶ä¸ŠæŠ¥ï¼Œå†™æ˜â€œé˜»å¡åŸå›  + å½±å“èŒƒå›´ + è§£æ³• + é¢„è®¡è§£é™¤æ—¶é—´â€
 
-## Weekly£¨ÖÜ£©
-- ¸´ÅÌÈıÖ¸±ê£ºÉóÅúÊ±ÑÓ¡¢²µ»ØÂÊ¡¢Îó·ÅĞĞÂÊ
-- ÅÜÒ»ÂÖ»Ø¹é£¨L1/L2/L3£©
-- ²ú³öÏÂÖÜÓÅ»¯Çåµ¥£¨>=3Ìõ£©
+## Weeklyï¼ˆå‘¨ï¼‰
+- å¤ç›˜ä¸‰æŒ‡æ ‡ï¼šå®¡æ‰¹æ—¶å»¶ã€é©³å›ç‡ã€è¯¯æ”¾è¡Œç‡
+- è·‘ä¸€è½®å›å½’ï¼ˆL1/L2/L3ï¼‰
+- äº§å‡ºä¸‹å‘¨ä¼˜åŒ–æ¸…å•ï¼ˆ>=3æ¡ï¼‰
 
-## Monthly£¨ÔÂ£©
-- ²ßÂÔãĞÖµµ÷ÓÅ
-- À©Õ¹»Ø¹éºÍ¼ìË÷Êı¾İ¼¯
-- Êä³öÔÂ±¨£¨¸Ä½ø/ÒÅÁô/ÏÂÔÂÖØµã£©
+## Monthlyï¼ˆæœˆï¼‰
+- ç­–ç•¥é˜ˆå€¼è°ƒä¼˜
+- æ‰©å±•å›å½’å’Œæ£€ç´¢æ•°æ®é›†
+- è¾“å‡ºæœˆæŠ¥ï¼ˆæ”¹è¿›/é—ç•™/ä¸‹æœˆé‡ç‚¹ï¼‰
 
-## Quarterly£¨¼¾£©
-- ÆÀ¹ÀÂ·ÏßÍ¼½×¶Î´ï³É¶È
-- ½á¹¹Éı¼¶£¨ÖÎÀí²ßÂÔ¡¢½Å±¾¡¢ÎÄµµÌåÏµ£©
-- ¶ÔÆëÏÂÒ»½×¶ÎÄ¿±ê
+## Quarterlyï¼ˆå­£ï¼‰
+- è¯„ä¼°è·¯çº¿å›¾é˜¶æ®µè¾¾æˆåº¦
+- ç»“æ„å‡çº§ï¼ˆæ²»ç†ç­–ç•¥ã€è„šæœ¬ã€æ–‡æ¡£ä½“ç³»ï¼‰
+- å¯¹é½ä¸‹ä¸€é˜¶æ®µç›®æ ‡
 
-
-## Silent Reporting Policy (2026-02-26 V5)
-- Default: keep routine micro-progress silent (no regular progress chatter).`r`n- Before each run, first check previous progress and unresolved carryover list.
-- Send a concise summary to main session only when: (a) major round completed, (b) release/freeze, (c) stage transition.
-- Daily micro-increments continue in background (1-2 verifiable increments per run, with landed files, GitHub sync, blocked-item log).
-- If blocked/abnormal, report immediately with: cause, impact, mitigation, ETA.
-
+## Silent Reporting Policy (2026-02-26 V9)
+- Default: keep routine micro-progress silent; do not send regular progress broadcasts.
+- Before each run, first check previous progress and unresolved carryover list.
+- Continue background micro-increments (1-2 verifiable increments per run) and land files every run.
+- Maintain a round counter since last dual-end sync; execute one unified Git commit+push only when the counter reaches 5.
+- If blocked/abnormal, allow early sync and immediate report with: cause, impact, mitigation, ETA.
+- Only send one concise summary to main session when a major round is finished/closed, a release is frozen, or a stage transition starts.
 
 
