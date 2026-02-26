@@ -1,7 +1,8 @@
-param(
+﻿param(
     [string]$From,
     [string]$To,
-    [string]$RoundId
+    [string]$RoundId,
+    [switch]$IncludeSynthetic
 )
 
 $ErrorActionPreference = 'Stop'
@@ -133,6 +134,10 @@ foreach ($r in $records) {
     $phase = Get-StringProp -Obj $r -Name 'phase'
     $opKey = Get-StringProp -Obj $r -Name 'op_key'
     $preflightFlag = Get-BoolProp -Obj $r -Name 'preflight_flag'
+    $isSynthetic = Get-BoolProp -Obj $r -Name 'synthetic'
+    if (-not $IncludeSynthetic -and $isSynthetic -eq $true) {
+        continue
+    }
 
     $effectiveOpKey = $opKey
     $usedFallbackOp = $false
@@ -209,7 +214,7 @@ $strictMode = if ($strictFallbackRecords -gt 0) { 'structured_with_fallback' } e
 
 $result = [ordered]@{
     roundId = $RoundId
-    metricsVersion = "v3-round05-structured-first"
+    metricsVersion = "v3.1-round05-structured-first-nosynth-default"
     generatedAt = (Get-Date).ToString('o')
     sourceFile = $inputPath
     window = [ordered]@{
@@ -245,6 +250,7 @@ $result = [ordered]@{
         roughCoverageRule = "estimated: preflightRelatedCount / highRiskCount, clamped to [0,1]"
         strictCoverageRule = "strict(v2): INTERSECT(uniquePreflightOps, uniqueHighRiskOps) / uniqueHighRiskOps; structured fields first(event_type/op_key/preflight_flag), operation fallback enabled"
         strictFallbackRule = "fallback is counted when op_key is missing and operation is used as effectiveOpKey"
+        syntheticRule = "synthetic=true records are excluded by default; use -IncludeSynthetic to include them"
         defaultAcceptanceMetricFrom = "Round 03"
         defaultAcceptanceMetric = "strictPreflightCoverage"
     }
@@ -261,6 +267,7 @@ Set-Content -Path $latestFile -Value $json -Encoding UTF8
 Write-Host "Round Metrics generated"
 Write-Host "- roundId: $RoundId"
 Write-Host "- metricsVersion: $($result.metricsVersion)"
+Write-Host "- includeSynthetic: $IncludeSynthetic"
 Write-Host "- auditTotal: $auditTotal"
 Write-Host "- auditCompleteRate: $auditCompleteRate"
 Write-Host "- highRiskCount: $highRiskCount"
