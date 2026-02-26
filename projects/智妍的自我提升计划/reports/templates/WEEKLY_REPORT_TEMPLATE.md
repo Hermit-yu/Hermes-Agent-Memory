@@ -32,11 +32,11 @@ powershell -ExecutionPolicy Bypass -File scripts/assert-strict-gate.ps1 -Metrics
 # optional: structured sample strict/compat diff evidence
 powershell -ExecutionPolicy Bypass -File scripts/diff-strict-compat-sample.ps1 
   -InputJsonl reports/samples/R05-14-structured-first-regression.jsonl 
-  -OutJson reports/metrics/strict-diff-R05-14-sample.json
+  -OutJson rreports/metrics/strict-diff-R05-14-sample.json
 `
 
 - optional diff evidence artifact: 
-eports/metrics/strict-diff-R05-14-sample.json
+reports/metrics/strict-diff-R05-14-sample.json
 - optional evidence check: strictPreflightCoverage=1.0 and compatFallbackRatio=0.0``
 
 ## 3. 风险事件
@@ -64,3 +64,4 @@ eports/metrics/strict-diff-R05-14-sample.json
   - `compatFallbackRatio` ← `metrics.compatFallbackRatio`
   - `unknownEventTypeCount` ← `metrics.unknownEventTypeCount`
   - `strictHighRiskPreflightIntersectOps` ← `metrics.strictHighRiskPreflightIntersectOps`
+
