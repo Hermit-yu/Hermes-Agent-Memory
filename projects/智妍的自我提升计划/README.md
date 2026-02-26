@@ -23,6 +23,6 @@
 ## 当前状态
 - 状态：Active（长期项目）
 - 启动日期：2026-02-26
-- 最新轮次进度：Round 05 进行中（已完成至 R05-26：R04 收官未完成项持续为 0；已新增 `steady-delta-R05-24-to-R05-25.json` 形成 machine-readable 稳态差分总结，并在 `R05-26-steady-delta-summary-and-crosslink.md` 完成证据链交叉链接）；下一步执行 R05-27（补充一份 R05-26 结构化样本并复跑 strict/compat + weekly allPass 校验）。
+- 最新轮次进度：R05 已封版（`R05-closeout-freeze-2026-02-26.md`），当前已进入 R06 并完成 R06-02（`R06-kickoff-2026-02-26.md`、`R06-01-execution-ledger-template-and-acceptance-gate.md`、`R06-02-silent-mode-policy-and-carryover-check.md`）；执行策略为“默认静默推进，仅在大轮次收官/阶段切换/阻塞异常时汇报”。
 - 负责人：智妍
 - 审核人/最终决策：你（皇上位）
