@@ -40,10 +40,8 @@ powershell -ExecutionPolicy Bypass -File scripts/diff-strict-compat-sample.ps1 \
   -InputJsonl reports/samples/R05-14-structured-first-regression.jsonl \
   -OutJson reports/metrics/strict-diff-R05-14-sample.json
 
-powershell -ExecutionPolicy Bypass -File scripts/assert-weekly-diff-evidence.ps1 \
-  -WeeklyReport reports/weekly/<THIS_WEEK_REPORT>.md \
-  -DiffJson reports/metrics/strict-diff-R05-14-sample.json \
-  -OutJson reports/metrics/weekly-diff-evidence-check-<RUN_ID>.json
+$json = powershell -ExecutionPolicy Bypass -File scripts/assert-weekly-diff-evidence.ps1 \\\n  -WeeklyReport reports/weekly/<THIS_WEEK_REPORT>.md \\\n  -DiffJson reports/metrics/strict-diff-R05-14-sample.json
+$json | Set-Content reports/metrics/weekly-diff-evidence-check-<RUN_ID>.json
 ```
 
 Required evidence fields in weekly report:
@@ -71,3 +69,4 @@ Required evidence fields in weekly report:
 ## 7) Notes
 - Data source: `scripts/collect-round-metrics.ps1` + `reports/metrics/latest-round-metrics.json`
 - Strict baseline: Round 03
+
