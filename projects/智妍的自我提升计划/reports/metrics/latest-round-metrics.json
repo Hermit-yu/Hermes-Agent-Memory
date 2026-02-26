@@ -1,7 +1,7 @@
 ﻿{
-    "roundId":  "R05-6-includeSynthetic",
+    "roundId":  "R05-7-includeSynthetic",
     "metricsVersion":  "v3.1-round05-structured-first-nosynth-default",
-    "generatedAt":  "2026-02-26T10:08:08.8811095+08:00",
+    "generatedAt":  "2026-02-26T10:38:09.1794917+08:00",
     "sourceFile":  "E:\\OpenClawAI_bot\\workspace\\memory-echoDB\\indexes\\edict-audit-log.jsonl",
     "window":  {
                    "from":  null,
