@@ -23,6 +23,6 @@
 ## 当前状态
 - 状态：Active（长期项目）
 - 启动日期：2026-02-26
-- 最新轮次进度：Round 05 进行中（已完成：R05-2 回归样本注入脚本 + 回放验证，strictPreflightCoverage=1.0）；下一步执行 R05-3（上游真实审计写入链路结构化字段实装，去注入条件复跑）
+- 最新轮次进度：Round 05 进行中（已完成：R05-5 synthetic 隔离闸门验证与口径修正；默认口径 auditTotal=16 vs IncludeSynthetic=18，strictPreflightCoverage=1.0）；下一步执行 R05-6（上游真实审计写入链路结构化字段实装后，在无 synthetic 纯生产窗口复跑验收）
 - 负责人：智妍
 - 审核人/最终决策：你（皇上位）

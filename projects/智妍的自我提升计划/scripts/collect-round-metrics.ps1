@@ -102,7 +102,17 @@ Get-Content -Path $inputPath | ForEach-Object {
     $records.Add($obj)
 }
 
-$auditTotal = $records.Count
+$sourceTotal = $records.Count
+$analysisRecords = New-Object System.Collections.Generic.List[object]
+foreach ($r in $records) {
+    $isSynthetic = Get-BoolProp -Obj $r -Name 'synthetic'
+    if (-not $IncludeSynthetic -and $isSynthetic -eq $true) {
+        continue
+    }
+    $analysisRecords.Add($r)
+}
+
+$auditTotal = $analysisRecords.Count
 $completeScoreSum = 0.0
 $highRiskCount = 0
 $preflightRelatedCount = 0
@@ -118,7 +128,7 @@ $compatFallbackHighRiskCount = 0
 $compatFallbackPreflightCount = 0
 $unknownEventTypeCount = 0
 
-foreach ($r in $records) {
+foreach ($r in $analysisRecords) {
     $filled = 0
     foreach ($f in $keyFields) {
         $exists = $r.PSObject.Properties.Name -contains $f
@@ -134,10 +144,6 @@ foreach ($r in $records) {
     $phase = Get-StringProp -Obj $r -Name 'phase'
     $opKey = Get-StringProp -Obj $r -Name 'op_key'
     $preflightFlag = Get-BoolProp -Obj $r -Name 'preflight_flag'
-    $isSynthetic = Get-BoolProp -Obj $r -Name 'synthetic'
-    if (-not $IncludeSynthetic -and $isSynthetic -eq $true) {
-        continue
-    }
 
     $effectiveOpKey = $opKey
     $usedFallbackOp = $false
@@ -222,6 +228,7 @@ $result = [ordered]@{
         to = if ($toDt) { $toDt.ToString('o') } else { $null }
     }
     metrics = [ordered]@{
+        sourceTotal = $sourceTotal
         auditTotal = $auditTotal
         auditCompleteRate = $auditCompleteRate
         highRiskCount = $highRiskCount

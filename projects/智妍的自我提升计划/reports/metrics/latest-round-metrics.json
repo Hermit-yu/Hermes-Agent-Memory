@@ -1,13 +1,14 @@
 ﻿{
-    "roundId":  "R05-4b",
+    "roundId":  "R05-5",
     "metricsVersion":  "v3.1-round05-structured-first-nosynth-default",
-    "generatedAt":  "2026-02-26T08:54:45.0689111+08:00",
+    "generatedAt":  "2026-02-26T09:23:57.4403518+08:00",
     "sourceFile":  "E:\\OpenClawAI_bot\\workspace\\memory-echoDB\\indexes\\edict-audit-log.jsonl",
     "window":  {
                    "from":  null,
                    "to":  null
                },
     "metrics":  {
+                    "sourceTotal":  18,
                     "auditTotal":  16,
                     "auditCompleteRate":  1,
                     "highRiskCount":  14,
