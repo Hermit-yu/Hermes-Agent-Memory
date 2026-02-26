@@ -1,18 +1,22 @@
-﻿{
-    "policyVersion":  "every-5-rounds-dual-sync",
-    "updatedAt":  "2026-02-26T23:10:00+08:00",
-    "lastSyncedCommit":  "d8de923",
-    "roundCounterSinceLastSync":  0,
-    "roundsSinceLastSync":  [
-
-                            ],
-    "lastBatchSyncedRounds":  [
-                                  "R06-17",
-                                  "R06-18",
-                                  "R06-19",
-                                  "R06-20",
-                                  "R06-21"
-                              ],
-    "nextSyncTriggerAt":  5,
-    "nextAction":  "Batch R06-17~R06-21 synced at d8de923. Start next cycle from 0/5 with silent micro-increments; sync again at 5/5 or earlier only if blocker/abnormal."
+{
+  "policyVersion": "every-5-rounds-dual-sync",
+  "updatedAt": "2026-02-27T03:11:00+08:00",
+  "lastSyncedCommit": "d8de923",
+  "roundCounterSinceLastSync": 5,
+  "roundsSinceLastSync": [
+    "R06-22",
+    "R06-23",
+    "R06-24",
+    "R06-25",
+    "R06-26"
+  ],
+  "lastBatchSyncedRounds": [
+    "R06-17",
+    "R06-18",
+    "R06-19",
+    "R06-20",
+    "R06-21"
+  ],
+  "nextSyncTriggerAt": 5,
+  "nextAction": "Threshold reached (5/5). Execute unified dual-end sync now; reset counter after sync confirmation."
 }

@@ -39,3 +39,13 @@
 - Only send one concise summary to main session when a major round is finished/closed, a release is frozen, or a stage transition starts.
 
 
+
+## Executor Alignment Note (2026-02-27)
+- Cron executor confirmed user new rule: keep micro-increments per run, maintain counter since last sync, perform unified Git commit+push only at 5/5 (or earlier only for blocker/abnormal), stay silent for non-major rounds.
+
+## Hard-Constraint Upgrade (2026-02-27)
+- Effective window: next 5 days (D+5 deadline).
+- Objective: complete full project closeout via fusion mode, not fragmented optimization.
+- Round target: each run must attach to at least one closeout package stream (metrics/evidence/rollback-retrospective/handoff).
+- Milestone: hard freeze at R06-30 + immediate next-stage handoff document.
+- Risk rule: if 5-day completion confidence drops below executable threshold, issue immediate risk escalation and compression plan.

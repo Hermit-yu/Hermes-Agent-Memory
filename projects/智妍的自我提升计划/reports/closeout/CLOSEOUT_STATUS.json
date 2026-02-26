@@ -1,0 +1,25 @@
+{
+  "stage": "R06",
+  "mode": "fusion-closeout",
+  "deadline": "2026-03-03",
+  "finalFreezeRound": "R06-30",
+  "workstreams": [
+    "acceptance-metrics",
+    "evidence-chain-index",
+    "rollback-and-operations",
+    "stage-review-and-capability-leap",
+    "cross-stage-handoff"
+  ],
+  "status": {
+    "acceptance-metrics": "in-progress",
+    "evidence-chain-index": "in-progress",
+    "rollback-and-operations": "in-progress",
+    "stage-review-and-capability-leap": "in-progress",
+    "cross-stage-handoff": "in-progress"
+  },
+  "risk": {
+    "level": "low-to-medium",
+    "forecast": "feasible_with_compression",
+    "lastUpdated": "2026-02-27T03:10:00+08:00"
+  }
+}
