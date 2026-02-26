@@ -1,7 +1,7 @@
 ﻿{
-    "roundId":  "R05-7-includeSynthetic",
+    "roundId":  "R05-8",
     "metricsVersion":  "v3.1-round05-structured-first-nosynth-default",
-    "generatedAt":  "2026-02-26T10:38:09.1794917+08:00",
+    "generatedAt":  "2026-02-26T10:53:10.6596021+08:00",
     "sourceFile":  "E:\\OpenClawAI_bot\\workspace\\memory-echoDB\\indexes\\edict-audit-log.jsonl",
     "window":  {
                    "from":  null,
@@ -9,24 +9,24 @@
                },
     "metrics":  {
                     "sourceTotal":  18,
-                    "auditTotal":  18,
+                    "auditTotal":  16,
                     "auditCompleteRate":  1,
-                    "highRiskCount":  16,
-                    "highRiskApprovedCount":  14,
+                    "highRiskCount":  14,
+                    "highRiskApprovedCount":  12,
                     "highRiskDeniedCount":  2,
-                    "preflightRelatedCount":  18,
+                    "preflightRelatedCount":  16,
                     "uniqueHighRiskOps":  5,
                     "uniquePreflightOps":  5,
                     "strictHighRiskPreflightIntersectOps":  5,
                     "strictPreflightCoverage":  1,
                     "strictMode":  "structured_only",
-                    "strictStructuredRecords":  12,
+                    "strictStructuredRecords":  10,
                     "strictFallbackRecords":  0,
                     "compatFallbackRatio":  0,
                     "unknownEventTypeCount":  0,
                     "roughPreflightCoverage":  {
                                                    "value":  1,
-                                                   "raw":  1.125,
+                                                   "raw":  1.1429,
                                                    "label":  "estimated",
                                                    "explanation":  "estimated ratio exceeded 1 due to heuristic numerator (preflightRelatedCount); output is clamped to 1.0000. strictPreflightCoverage is the default acceptance metric from Round 03."
                                                }
