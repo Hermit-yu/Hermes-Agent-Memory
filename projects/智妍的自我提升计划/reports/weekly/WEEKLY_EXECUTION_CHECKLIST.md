@@ -9,6 +9,7 @@
 powershell -ExecutionPolicy Bypass -File scripts/assert-strict-gate.ps1 -MetricsFile reports/metrics/latest-round-metrics.json
 ```
 - Record PASS/FAIL in weekly report.
+- For R06 ledger runs, also attach latest acceptance JSON (e.g., reports/metrics/r06-03-acceptance-gate.json).
 
 3. Run R04 closeout machine gate snapshot (mandatory)
 ```powershell
@@ -32,3 +33,5 @@ $json | Set-Content reports/metrics/weekly-diff-evidence-check-<RUN_ID>.json
 
 6. Blocking handling
 - If blocked, document blocker + workaround plan in current round report.
+
+

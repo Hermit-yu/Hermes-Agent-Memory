@@ -1,0 +1,17 @@
+﻿{
+    "roundId":  "R06-03",
+    "generatedAt":  "2026-02-26T18:23:22.9358201+08:00",
+    "basedOnMetricsRound":  "R05-8",
+    "strictGate":  {
+                       "pass":  true,
+                       "strictPreflightCoverage":  1,
+                       "compatFallbackRatio":  0,
+                       "unknownEventTypeCount":  0
+                   },
+    "thresholds":  {
+                       "minStrictPreflightCoverage":  1,
+                       "maxCompatFallbackRatio":  0,
+                       "maxUnknownEventTypeCount":  0
+                   },
+    "source":  "E:\\OpenClawAI_bot\\workspace\\projects\\智妍的自我提升计划\\reports\\metrics\\latest-round-metrics.json"
+}
