@@ -1,0 +1,60 @@
+﻿{
+    "generatedAt":  "2026-02-26T13:53:12.2966258+08:00",
+    "baseline":  "E:\\OpenClawAI_bot\\workspace\\projects\\智妍的自我提升计划\\reports\\metrics\\strict-diff-R05-14-sample.json",
+    "current":  "E:\\OpenClawAI_bot\\workspace\\projects\\智妍的自我提升计划\\reports\\metrics\\strict-diff-R05-19-sample.json",
+    "comparison":  [
+                       {
+                           "field":  "highRiskCount",
+                           "base":  4,
+                           "current":  6,
+                           "delta":  2
+                       },
+                       {
+                           "field":  "uniqueHighRiskOps",
+                           "base":  2,
+                           "current":  3,
+                           "delta":  1
+                       },
+                       {
+                           "field":  "uniquePreflightOps",
+                           "base":  2,
+                           "current":  3,
+                           "delta":  1
+                       },
+                       {
+                           "field":  "strictIntersectOps",
+                           "base":  2,
+                           "current":  3,
+                           "delta":  1
+                       },
+                       {
+                           "field":  "strictPreflightCoverage",
+                           "base":  1,
+                           "current":  1,
+                           "delta":  0
+                       },
+                       {
+                           "field":  "strictStructuredRecords",
+                           "base":  4,
+                           "current":  6,
+                           "delta":  2
+                       },
+                       {
+                           "field":  "strictFallbackRecords",
+                           "base":  0,
+                           "current":  0,
+                           "delta":  0
+                       },
+                       {
+                           "field":  "compatFallbackRatio",
+                           "base":  0,
+                           "current":  0,
+                           "delta":  0
+                       }
+                   ],
+    "verdict":  {
+                    "strictCoverageStable":  true,
+                    "fallbackStillZero":  true,
+                    "structuredCapacityGrowth":  true
+                }
+}
