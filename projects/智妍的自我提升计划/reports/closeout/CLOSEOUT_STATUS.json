@@ -1,25 +1,27 @@
-{
-  "stage": "R06",
-  "mode": "fusion-closeout",
-  "deadline": "2026-03-03",
-  "finalFreezeRound": "R06-30",
-  "workstreams": [
-    "acceptance-metrics",
-    "evidence-chain-index",
-    "rollback-and-operations",
-    "stage-review-and-capability-leap",
-    "cross-stage-handoff"
-  ],
-  "status": {
-    "acceptance-metrics": "in-progress",
-    "evidence-chain-index": "in-progress",
-    "rollback-and-operations": "in-progress",
-    "stage-review-and-capability-leap": "in-progress",
-    "cross-stage-handoff": "in-progress"
-  },
-  "risk": {
-    "level": "low-to-medium",
-    "forecast": "feasible_with_compression",
-    "lastUpdated": "2026-02-27T03:10:00+08:00"
-  }
+﻿{
+    "stage":  "R06",
+    "mode":  "fusion-closeout",
+    "deadline":  "2026-03-04",
+    "finalFreezeRound":  "R06-30",
+    "frozenAt":  "2026-02-27T05:22:00+08:00",
+    "decision":  "pass-frozen",
+    "workstreams":  [
+                        "acceptance-metrics",
+                        "evidence-chain-index",
+                        "rollback-and-operations",
+                        "stage-review-and-capability-leap",
+                        "cross-stage-handoff"
+                    ],
+    "status":  {
+                   "acceptance-metrics":  "complete",
+                   "evidence-chain-index":  "complete",
+                   "rollback-and-operations":  "complete",
+                   "stage-review-and-capability-leap":  "complete",
+                   "cross-stage-handoff":  "complete"
+               },
+    "risk":  {
+                 "level":  "controlled",
+                 "forecast":  "completed_within_window",
+                 "lastUpdated":  "2026-02-27T19:52:00+08:00"
+             }
 }
