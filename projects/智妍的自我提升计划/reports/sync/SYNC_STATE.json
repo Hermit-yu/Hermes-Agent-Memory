@@ -1,19 +1,18 @@
 ﻿{
     "policyVersion":  "every-5-rounds-dual-sync",
-    "updatedAt":  "2026-02-27T19:52:00+08:00",
-    "lastSyncedCommit":  "r06-47-threshold-sync",
-    "roundCounterSinceLastSync":  2,
+    "updatedAt":  "2026-02-28T05:07:00+08:00",
+    "lastSyncedCommit":  "r06-82-threshold-sync",
+    "roundCounterSinceLastSync":  1,
     "roundsSinceLastSync":  [
-                                "R06-48",
-                                "R06-49"
+                                "R06-83"
                             ],
     "lastBatchSyncedRounds":  [
-                                  "R06-43",
-                                  "R06-44",
-                                  "R06-45",
-                                  "R06-46",
-                                  "R06-47"
+                                  "R06-78",
+                                  "R06-79",
+                                  "R06-80",
+                                  "R06-81",
+                                  "R06-82"
                               ],
     "nextSyncTriggerAt":  5,
-    "nextAction":  "Silent fused closeout execution continues; unified dual-end sync at counter=5 (target batch R06-48~R06-52), or immediately on blocker/exception; immediate risk report+compression if 5-day completion forecast degrades."
+    "nextAction":  "Silent fused closeout execution continues; threshold sync at counter=5 (expected R06-87), with immediate dual-end sync if blocker/exception; instant risk report+compression if 5-day forecast degrades."
 }

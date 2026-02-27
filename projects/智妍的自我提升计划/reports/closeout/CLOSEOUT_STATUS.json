@@ -3,7 +3,7 @@
     "mode":  "fusion-closeout",
     "deadline":  "2026-03-04",
     "finalFreezeRound":  "R06-30",
-    "frozenAt":  "2026-02-27T05:22:00+08:00",
+    "frozenAt":  "2026-02-28T02:37:00+08:00",
     "decision":  "pass-frozen",
     "workstreams":  [
                         "acceptance-metrics",
@@ -22,6 +22,6 @@
     "risk":  {
                  "level":  "controlled",
                  "forecast":  "completed_within_window",
-                 "lastUpdated":  "2026-02-27T19:52:00+08:00"
+                 "lastUpdated":  "2026-02-28T05:07:00+08:00"
              }
 }
