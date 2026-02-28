@@ -61,3 +61,27 @@
 - Synced commit: r06-82-threshold-sync
 - Included rounds: R06-78, R06-79, R06-80, R06-81, R06-82
 - Note: no blocker/abnormal; standard threshold-triggered unified sync under upgraded 5-day hard-constraint fusion-closeout policy.
+
+## 2026-02-28 R06 Threshold Sync (R06-88~R06-92)
+- Trigger: every-5-rounds threshold reached (R06-88~R06-92)
+- Synced commit: r06-92-threshold-sync
+- Included rounds: R06-88, R06-89, R06-90, R06-91, R06-92
+- Note: no blocker/abnormal; threshold-triggered unified sync under upgraded 5-day hard-constraint fusion-closeout policy.
+
+## 2026-02-28 R06 Threshold Sync (R06-93~R06-97)
+- Trigger: every-5-rounds threshold reached (R06-93~R06-97)
+- Synced commit: r06-97-threshold-sync
+- Included rounds: R06-93, R06-94, R06-95, R06-96, R06-97
+- Note: no blocker/abnormal; threshold-triggered unified sync under upgraded 5-day hard-constraint fusion-closeout policy.
+
+## 2026-02-28 R06 Threshold Sync (R06-98~R06-102)
+- Trigger: every-5-rounds threshold reached (R06-98~R06-102)
+- Synced commit: r06-102-threshold-sync
+- Included rounds: R06-98, R06-99, R06-100, R06-101, R06-102
+- Note: no blocker/abnormal; threshold-triggered unified sync under upgraded 5-day hard-constraint fusion-closeout executor strategy.
+
+## 2026-02-28 R06 Threshold Sync (R06-103~R06-107)
+- Trigger: every-5-rounds threshold reached (R06-103~R06-107)
+- Synced commit: r06-107-threshold-sync
+- Included rounds: R06-103, R06-104, R06-105, R06-106, R06-107
+- Note: no blocker/abnormal; threshold-triggered unified sync under upgraded 5-day hard-constraint fusion-closeout executor strategy.

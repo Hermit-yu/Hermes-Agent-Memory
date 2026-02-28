@@ -49,3 +49,11 @@
 - Round target: each run must attach to at least one closeout package stream (metrics/evidence/rollback-retrospective/handoff).
 - Milestone: hard freeze at R06-30 + immediate next-stage handoff document.
 - Risk rule: if 5-day completion confidence drops below executable threshold, issue immediate risk escalation and compression plan.
+
+## Hard-Constraint Upgrade (2026-02-28 Executor Refresh)
+- Window lock: must complete "Ziyan Self-Improvement Plan" full closeout within next 5 days.
+- Delivery strategy: prioritize fused closeout over fragmented micro-iteration; keep micro-steps only as verifiable increments attached to closeout streams.
+- Freeze rule: keep R06-30 as hard freeze baseline and maintain immediate cross-stage handoff continuity docs.
+- Sync rule: one unified dual-end sync per 5 rounds (early sync only when blocker/exception occurs).
+- Acceptance package must stay complete and auditable: key metrics, evidence chain, rollback+operations, stage retrospective, capability leap summary.
+- Risk rule: if completion forecast within 5 days degrades, trigger immediate escalation with compression plan.
