@@ -1,0 +1,55 @@
+﻿# Backup candidates (openclaw.json.bak*)\n
+
+Name                Length LastWriteTime     
+----                ------ -------------     
+openclaw.json.bak     2693 2026/2/28 13:33:51
+openclaw.json.bak.1   6674 2026/2/28 10:02:34
+openclaw.json.bak.2   2893 2026/2/28 5:13:27 
+openclaw.json.bak.3   7170 2026/2/28 4:56:16 
+openclaw.json.bak.4   2123 2026/2/17 22:44:11
+
+
+
+\n# Log candidates (top 30 newest)\n
+
+Name               Length LastWriteTime     
+----               ------ -------------     
+config-audit.jsonl   3370 2026/2/28 13:48:42
+
+
+
+\n# Inbound media candidates (top 30 newest)\n
+
+Name                                               Length LastWriteTime     
+----                                               ------ -------------     
+file_28---eb03df97-2743-4be8-ba7d-6f6a46e049f9.jpg  43340 2026/2/28 14:39:21
+file_27---a623992c-8096-4ff7-9b17-e810a01d4f82.jpg  14535 2026/2/25 16:29:23
+file_26---c069e73a-4d9a-4b07-afe5-3fbb4ede0fa4.jpg  15963 2026/2/25 16:28:04
+file_25---c3b5fb1a-26d1-4fea-a737-720d96bad1aa.jpg  15365 2026/2/25 16:24:40
+file_24---e51a1d3e-0e47-4b55-991a-10765bcd78bf.jpg  10243 2026/2/25 16:23:49
+file_23---c9b61899-09a4-43ef-b974-bec569b25380.jpg  10069 2026/2/25 16:20:48
+file_22---9dcfcef0-14ef-45c7-a762-8fc429e06f5b.jpg   7040 2026/2/25 16:19:54
+file_21---d8a7edac-b5e5-46d4-a027-1f2ec5424719.jpg  10904 2026/2/25 16:18:42
+file_20---49cf6870-71ba-4309-92e3-088911b8f94d.jpg  11233 2026/2/25 16:18:17
+file_19---2a615293-5db6-426a-b411-7ee7c8f13bb2.jpg  10032 2026/2/25 16:17:08
+file_18---5f2b0092-70a1-423a-af7b-a8fdcfecb0ad.jpg   6690 2026/2/25 16:16:23
+file_17---a2fc0893-0557-4f0b-86d6-745af88dcc59.jpg 155038 2026/2/25 13:42:37
+file_17---fc4834a5-4eb9-4c21-b2a7-45e3bedf9bbb.jpg 155038 2026/2/25 13:33:34
+file_14---806ec178-fba1-4167-8375-75bf38adafde.jpg 256725 2026/2/13 4:41:14 
+file_13---aef5788f-9df2-477d-bb8d-c8f2426c93c1.jpg 286685 2026/2/13 4:41:12 
+file_12---3d366938-2efe-411a-9396-82fcc406cd95.jpg  80774 2026/2/13 4:41:09 
+file_11---75c255dd-b46a-456a-96a1-f999d0ce8250.jpg  74385 2026/2/13 4:41:07 
+file_10---8147bcbf-8d68-41b6-8282-bfbb8adf8058.jpg 185675 2026/2/13 4:40:54 
+file_9---5c9254fb-6baa-4741-936c-8948d8f253f2.jpg  350420 2026/2/13 4:40:52 
+file_8---5f4de716-a949-49b1-b0ec-da71bfedda09.jpg  262725 2026/2/13 4:40:50 
+file_7---8af1a1a5-604e-4c69-b385-f2bfe65075f4.jpg  294612 2026/2/13 4:40:48 
+file_6---4e061738-a16a-47bf-a9b7-1600522dbdad.jpg  110975 2026/2/13 4:40:45 
+file_5---45f73e4a-a457-4ce4-a0f8-3252bd53dee3.jpg  276557 2026/2/13 4:40:34 
+file_4---8314bcd5-c890-4282-a038-5f451fbc1226.jpg  230347 2026/2/13 4:40:20 
+file_3---272cd165-eb47-4b4e-a452-fcbdadfa78cf.jpg  186008 2026/2/13 4:40:18 
+file_2---7e901fbb-c809-4b34-9ebd-a348242e9241.jpg  249997 2026/2/13 4:40:16 
+file_1---d85fd02c-12a3-4cb8-afb2-f6fe9d5f80ae.jpg  127074 2026/2/13 4:40:14 
+file_0---005b7039-b021-4cc5-b50a-03d94e72baec.jpg   59410 2026/2/13 2:50:50 
+
+
+

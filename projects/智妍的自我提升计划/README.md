@@ -1,28 +1,23 @@
-﻿# 《智妍的自我提升计划》项目目录
+# 智妍的自我提升计划
 
-## 项目目标
-通过“自学习 + 三省六部治理 + 工程化闭环”，持续提升执行稳定性、效率与体验质量，形成可长期落地的完整体系。
+> 用来专门管理“我自己”的成长：SOUL、记忆、技能、行为习惯。
 
-## 目录说明
-- `README.md`：项目入口与执行约定
-- `ROADMAP.md`：阶段路线图与里程碑
-- `EXECUTION_CADENCE.md`：日/周/月执行节奏
-- `METRICS.md`：验收指标与统计口径
-- `templates/ROUND_SUMMARY_TEMPLATE.md`：每轮优化总结模板
-- `reports/rounds/`：每轮优化总结文档
-- `reports/PROJECT_OVERALL_SUMMARY.md`：项目最终轮总体归纳总结
+## 目录结构说明
 
-## 执行约定
-1. 所有高风险动作先过 preflight，再执行。
-2. 任务必须有审计痕迹（可回溯）。
-3. 每周至少一次复盘，月度必须有策略优化。
-4. 保持“小事快通道，大事强治理”。
-5. 每轮优化结束后，必须在 `reports/rounds/` 产出当轮总结。
-6. 项目最终轮必须将所有轮次结果合并至 `reports/PROJECT_OVERALL_SUMMARY.md`。
+- `checklist/`
+  - 我（智妍）在这里写 **待复盘/待优化的清单**。
+  - 内容包括：最近容易出错的场景、你给的负反馈、行为与 SOUL 不一致的地方等。
+- `reviews/`
+  - **OpenCode/IDE 侧的分析结果** 放这里。
+  - 每次评审（例如每周一次），在这里生成一份报告：包括统计、问题归类、改进建议。
+- `patches/`
+  - 根据 `reviews/` 里的建议，生成的 **具体修改方案/代码补丁** 放这里。
+  - 可以是对 `SOUL.md` / `USER.md` / `MEMORY` / 脚本的 diff、草稿或实验版。
 
-## 当前状态
-- 状态：Active（长期项目）
-- 启动日期：2026-02-26
-- 最新轮次进度：R05 已封版（`R05-closeout-freeze-2026-02-26.md`），当前已进入 R06 并完成 R06-02（`R06-kickoff-2026-02-26.md`、`R06-01-execution-ledger-template-and-acceptance-gate.md`、`R06-02-silent-mode-policy-and-carryover-check.md`）；执行策略为“默认静默推进，仅在大轮次收官/阶段切换/阻塞异常时汇报”。
-- 负责人：智妍
-- 审核人/最终决策：你（皇上位）
+## 使用方式（第一版）
+
+1. **我写清单**：在 `checklist/` 里新建 `复盘-YYYY-MM-DD.md`，列出本轮想复盘的点和相关文件。
+2. **OpenCode 分析**：你在 IDE 里，让 OpenCode/脚本根据 checklist 读取对应文件/日志，生成 `reviews/复盘-YYYY-MM-DD.md` 报告。
+3. **我来行动**：我阅读 `reviews/` 报告，把决定采纳的部分落实到 SOUL/USER/MEMORY/技能脚本里，并在下一轮 checklist 里记录“已改项/效果”。
+
+后面我们可以根据使用情况，继续细化流程（比如增加 `metrics/` 指标、`logs/` 自我审计记录等）。

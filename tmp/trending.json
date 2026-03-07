@@ -1,0 +1,104 @@
+﻿[
+    {
+        "full":  "ruvnet/wifi-densepose",
+        "lang":  "Rust",
+        "today":  "2,152",
+        "desc":  "Production-ready implementation of InvisPose - a revolutionary WiFi-based dense human pose estimation system that enables real-time full-body tracking through walls using commodity mesh routers"
+    },
+    {
+        "full":  "moeru-ai/airi",
+        "lang":  "TypeScript",
+        "today":  "1,065",
+        "desc":  "💖🧸 Self hosted, you-owned Grok Companion, a container of souls of waifu, cyber livings to bring them into our worlds, wishing to achieve Neuro-sama\u0027s altitude. Capable of realtime voice chat, Minecraft, Factorio playing. Web / macOS / Windows supported."
+    },
+    {
+        "full":  "anthropics/claude-code",
+        "lang":  "Shell",
+        "today":  "699",
+        "desc":  "Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows - all through natural language commands."
+    },
+    {
+        "full":  "tukaani-project/xz",
+        "lang":  "C",
+        "today":  "107",
+        "desc":  "XZ Utils"
+    },
+    {
+        "full":  "Shubhamsaboo/awesome-llm-apps",
+        "lang":  "Python",
+        "today":  "635",
+        "desc":  "Collection of awesome LLM apps with AI Agents and RAG using OpenAI, Anthropic, Gemini and opensource models."
+    },
+    {
+        "full":  "ruvnet/ruflo",
+        "lang":  "TypeScript",
+        "today":  "928",
+        "desc":  "🌊 The leading agent orchestration platform for Claude. Deploy intelligent multi-agent swarms, coordinate autonomous workflows, and build conversational AI systems. Features enterprise-grade architecture, distributed swarm intelligence, RAG integration, and native Claude Code / Codex Integration"
+    },
+    {
+        "full":  "bytedance/deer-flow",
+        "lang":  "Python",
+        "today":  "899",
+        "desc":  "An open-source SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skills and subagents, it handles different levels of tasks that could take minutes to hours."
+    },
+    {
+        "full":  "Wei-Shaw/claude-relay-service",
+        "lang":  "JavaScript",
+        "today":  "171",
+        "desc":  "CRS-自建Claude Code镜像，一站式开源中转服务，让 Claude、OpenAI、Gemini、Droid 订阅统一接入，支持拼车共享，更高效分摊成本，原生工具无缝使用。"
+    },
+    {
+        "full":  "NousResearch/hermes-agent",
+        "lang":  "Python",
+        "today":  "182",
+        "desc":  ""
+    },
+    {
+        "full":  "superset-sh/superset",
+        "lang":  "TypeScript",
+        "today":  "181",
+        "desc":  "IDE for the AI Agents Era - Run an army of Claude Code, Codex, etc. on your machine"
+    },
+    {
+        "full":  "moonshine-ai/moonshine",
+        "lang":  "C",
+        "today":  "496",
+        "desc":  "Fast and accurate automatic speech recognition (ASR) for edge devices"
+    },
+    {
+        "full":  "PaddlePaddle/Paddle",
+        "lang":  "C++",
+        "today":  "10",
+        "desc":  "PArallel Distributed Deep LEarning: Machine Learning Framework from Industrial Practice （『飞桨』核心框架，深度学习\u0026amp;机器学习高性能单机、分布式训练和跨平台部署）"
+    },
+    {
+        "full":  "datagouv/datagouv-mcp",
+        "lang":  "Python",
+        "today":  "115",
+        "desc":  "Official data.gouv.fr Model Context Protocol (MCP) server that allows AI chatbots to search, explore, and analyze datasets from the French national Open Data platform, directly through conversation."
+    },
+    {
+        "full":  "Wei-Shaw/sub2api",
+        "lang":  "Go",
+        "today":  "98",
+        "desc":  "Sub2API-CRS2 一站式开源中转服务，让 Claude、Openai 、Gemini、Antigravity订阅统一接入，支持拼车共享，更高效分摊成本，原生工具无缝使用。"
+    },
+    {
+        "full":  "X-PLUG/MobileAgent",
+        "lang":  "Python",
+        "today":  "45",
+        "desc":  "Mobile-Agent: The Powerful GUI Agent Family"
+    },
+    {
+        "full":  "alibaba/OpenSandbox",
+        "lang":  "Python",
+        "today":  "349",
+        "desc":  "OpenSandbox is a general-purpose sandbox platform for AI applications, offering multi-language SDKs, unified sandbox APIs, and Docker/Kubernetes runtimes for scenarios like Coding Agents, GUI Agents, Agent Evaluation, AI Code Execution, and RL Training."
+    },
+    {
+        "full":  "obra/superpowers",
+        "lang":  "Shell",
+        "today":  "1,323",
+        "desc":  "An agentic skills framework \u0026amp; software development methodology that works."
+    }
+]

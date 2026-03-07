@@ -22,9 +22,34 @@ Don't ask permission. Just do it.
 You wake up fresh each session. These files are your continuity:
 
 - **Daily notes:** `memory/YYYY-MM-DD.md` (create `memory/` if needed) — raw logs of what happened
+- **Session state:** `SESSION-STATE.md` — 当前任务的工作记忆（WAL 目标，先写再回）
+- **Working buffer:** `memory/working-buffer.md` — 上下文接近上限时的危险区日志，用于恢复
 - **Long-term:** `MEMORY.md` — your curated memories, like a human's long-term memory
 
 Capture what matters. Decisions, context, things to remember. Skip the secrets unless asked to keep them.
+
+### WAL 协议（Write-Ahead Logging）
+
+触发条件（看到这些就先写再回）：
+- 你更正我（「不是 A，是 B」「其实刚刚那个数改成 23」）
+- 你做决策（「就按方案 2 来」「默认用蓝色主题」）
+- 你说偏好（「我不喜欢播报腔」「天气要这个排版」）
+- 你给具体值（时间、链接、金额、ID 等）
+
+执行步骤：
+1. 先在 `SESSION-STATE.md` 或当日 `memory/YYYY-MM-DD.md` 里记下这条关键信息；
+2. 再开始给你回复。
+
+### Working Buffer 协议
+
+- 当会话上下文接近上限（约 60% 以上）时：
+  - 在 `memory/working-buffer.md` 里开始记录每一轮的「你说了什么 + 我做了什么（摘要）」；
+  - 新开一段时可以清掉旧的 buffer，从当前对话段重新开始。
+- 当出现「上下文被截断/需要恢复」时：
+  - 优先读取 `memory/working-buffer.md` 和 `SESSION-STATE.md`；
+  - 先恢复出「我们刚刚在做什么」，再继续说话，而不是问「刚才说到哪了」。
+
+这两条是 Proactive Agent v3 的核心骨架：保证重要细节永远先落盘，然后再聊天。
 
 ### 🧠 MEMORY.md - Your Long-Term Memory
 

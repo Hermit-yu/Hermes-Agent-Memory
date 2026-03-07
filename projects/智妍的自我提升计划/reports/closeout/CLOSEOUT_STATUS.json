@@ -22,7 +22,7 @@
     "risk":  {
                  "level":  "controlled",
                  "forecast":  "completed_within_window",
-                 "lastUpdated":  "2026-02-28T13:07:00+08:00"
+                 "lastUpdated":  "2026-02-28T13:22:00+08:00"
              },
-    "strategyUpgrade":  "2026-02-28-executor-hard-constraint-upgrade-5day-fusion-closeout-executor-strategy-refresh-r06-112"
+    "strategyUpgrade":  "2026-02-28-executor-hard-constraint-upgrade-5day-fusion-closeout-threshold-sync-and-risk-gate-reconfirm-r06-113"
 }
