@@ -72,48 +72,107 @@ parse_weather() {
         weather=$(cat "$tmpfile" | grep -oE '(晴转多云|多云转晴|晴|多云|阴|小雨|大雨|雪|雷阵雨)' | head -1)
     fi
 
-    # 尝试提取生活指数 - 通过简单模式匹配
-    local cold_index="较适宜"
-    local sport_index="较适宜"
-    local dress_index="较冷"
-    local wash_index="适宜"
-    local uv_index="强"
+    # 尝试提取生活指数 - 通过更宽松的关键词/兜底规则
+    local cold_index=""
+    local sport_index=""
+    local dress_index=""
+    local wash_index=""
+    local uv_index=""
 
-    # 简单的指数关键词匹配
-    if echo "$html" | grep -q "极易发感冒"; then
+    # 1) 官方关键词（页面结构变动时也尽量能命中）
+    if echo "$html" | grep -Eq "(极易发感冒|极易发)"; then
         cold_index="极易发"
-    elif echo "$html" | grep -q "易发感冒"; then
-        cold_index="易发"
-    elif echo "$html" | grep -q "较易发感冒"; then
+    elif echo "$html" | grep -Eq "(较易发感冒|较易发)"; then
         cold_index="较易发"
-    elif echo "$html" | grep -q "少发感冒"; then
+    elif echo "$html" | grep -Eq "(易发感冒|易发)"; then
+        cold_index="易发"
+    elif echo "$html" | grep -Eq "(少发感冒|不易发|较不易发)"; then
         cold_index="少发"
     fi
 
-    if echo "$html" | grep -q "适宜运动"; then
-        sport_index="适宜"
-    elif echo "$html" | grep -q "较适宜运动"; then
-        sport_index="较适宜"
-    elif echo "$html" | grep -q "较不宜运动"; then
-        sport_index="较不宜"
-    elif echo "$html" | grep -q "不宜运动"; then
+    if echo "$html" | grep -Eq "(不宜运动)"; then
         sport_index="不宜"
+    elif echo "$html" | grep -Eq "(较不宜运动)"; then
+        sport_index="较不宜"
+    elif echo "$html" | grep -Eq "(适宜运动)"; then
+        sport_index="适宜"
+    elif echo "$html" | grep -Eq "(较适宜运动)"; then
+        sport_index="较适宜"
     fi
 
-    if echo "$html" | grep -q "强紫外线"; then
+    if echo "$html" | grep -Eq "(强紫外线|紫外线强)"; then
         uv_index="强"
-    elif echo "$html" | grep -q "中等紫外线"; then
+    elif echo "$html" | grep -Eq "(中等紫外线|紫外线中等)"; then
         uv_index="中等"
-    elif echo "$html" | grep -q "弱紫外线"; then
+    elif echo "$html" | grep -Eq "(弱紫外线|紫外线弱)"; then
         uv_index="弱"
     fi
 
-    if echo "$html" | grep -q "适宜洗车"; then
-        wash_index="适宜"
-    elif echo "$html" | grep -q "较适宜洗车"; then
-        wash_index="较适宜"
-    elif echo "$html" | grep -q "不宜洗车"; then
+    if echo "$html" | grep -Eq "(不宜洗车)"; then
         wash_index="不宜"
+    elif echo "$html" | grep -Eq "(较适宜洗车)"; then
+        wash_index="较适宜"
+    elif echo "$html" | grep -Eq "(适宜洗车)"; then
+        wash_index="适宜"
+    fi
+
+    # 2) 如果抓不到，按温度/天气做兜底（保证不断供）
+    # 解析温度数值，用于穿衣/感冒的粗略兜底
+    local hi="" lo=""
+    if echo "$temp" | grep -Eq '^[0-9]+/-?[0-9]+℃$'; then
+        hi=$(echo "$temp" | cut -d'/' -f1)
+        lo=$(echo "$temp" | cut -d'/' -f2 | tr -d '℃')
+    fi
+
+    # 穿衣兜底：只要没抓到就按最低温估
+    if [ -z "$dress_index" ]; then
+        if [ -n "$lo" ] && [ "$lo" -le 8 ]; then
+            dress_index="寒冷"
+        elif [ -n "$lo" ] && [ "$lo" -le 15 ]; then
+            dress_index="较冷"
+        elif [ -n "$lo" ] && [ "$lo" -le 22 ]; then
+            dress_index="舒适"
+        else
+            dress_index="偏热"
+        fi
+    fi
+
+    # 感冒兜底：低温/昼夜温差大 -> 更容易
+    if [ -z "$cold_index" ]; then
+        if [ -n "$hi" ] && [ -n "$lo" ] && [ $((hi-lo)) -ge 10 ]; then
+            cold_index="较易发"
+        elif [ -n "$lo" ] && [ "$lo" -le 12 ]; then
+            cold_index="较易发"
+        else
+            cold_index="较适宜"
+        fi
+    fi
+
+    # 运动兜底：有雨/雷则不宜，否则较适宜
+    if [ -z "$sport_index" ]; then
+        if echo "$WEATHER" | grep -Eq '(雨|雷|雪)'; then
+            sport_index="较不宜"
+        else
+            sport_index="较适宜"
+        fi
+    fi
+
+    # 洗车兜底：有雨/雪 -> 不宜
+    if [ -z "$wash_index" ]; then
+        if echo "$WEATHER" | grep -Eq '(雨|雪)'; then
+            wash_index="不宜"
+        else
+            wash_index="适宜"
+        fi
+    fi
+
+    # 紫外线兜底：晴/多云偏强，阴雨偏弱
+    if [ -z "$uv_index" ]; then
+        if echo "$WEATHER" | grep -Eq '(雨|雪|阴)'; then
+            uv_index="弱"
+        else
+            uv_index="中等"
+        fi
     fi
 
     # 清理临时文件
