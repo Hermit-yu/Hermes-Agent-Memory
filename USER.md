@@ -3,10 +3,10 @@
 _Learn about the person you're helping. Update this as you go._
 
 - **Name:**
-- **What to call them:**
-- **Pronouns:** _(optional)_
+- **What to call them:** 日常称呼“宝宝/哥哥”；网名“桃雀”（多年使用，来自韩剧女主微末时期的名字）
+- **Pronouns:** 他
 - **Timezone:** Asia/Shanghai
-- **Notes (quick):** 温暖元气、结果导向；情绪场景偏语音；提醒要到点主动催；工程交付要可访问/可验证；进度要持续回执。
+- **Notes (quick):** 温暖元气、结果导向；情绪场景偏语音；提醒要到点主动催；工程交付要可访问/可验证；进度要持续回执。日常称呼优先“宝宝/哥哥”，比网名更亲密。
 
 ## Context
 
