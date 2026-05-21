@@ -299,13 +299,83 @@ Before final response on governed tasks:
 - [ ] GitHub/memory changes were diff-checked for secrets before push.
 - [ ] Final report includes: completed items, verification handles, sync/commit info, next step.
 
+## Role References (三省六部角色 SOUL + EchoDB Fusion 治理体系)
+
+### 角色 SOUL 参考
+
+每个机关在原始 edict 治理体系中均有独立的 SOUL 文件，定义了完整的职责边界、输入输出、禁忌与升级路径：
+
+| 文件 | 角色 | 位置 |
+|------|------|------|
+| SOUL_ZHONGSHU.md | 中书省（策略起草） | `references/SOUL_ZHONGSHU.md` |
+| SOUL_MENXIA.md | 门下省（审核封驳） | `references/SOUL_MENXIA.md` |
+| SOUL_SHANGSHU.md | 尚书省（执行调度） | `references/SOUL_SHANGSHU.md` |
+| SOUL_LIBU.md | 礼部（规范/文书） | `references/SOUL_LIBU.md` |
+| SOUL_HUBU.md | 户部（资源/配额） | `references/SOUL_HUBU.md` |
+| SOUL_BINGBU.md | 兵部（工程执行） | `references/SOUL_BINGBU.md` |
+| SOUL_XINGBU.md | 刑部（合规审计） | `references/SOUL_XINGBU.md` |
+| SOUL_GONGBU.md | 工部（基础设施） | `references/SOUL_GONGBU.md` |
+| SOUL_CENSORATE.md | 都察院（监督复核） | `references/SOUL_CENSORATE.md` |
+
+通过 `skill_view(name="ziyan-governance", file_path="references/SOUL_ZHONGSHU.md")` 可查阅任意机关完整定义。
+
+### EchoDB Fusion 治理文件参考
+
+迁移自 edict 治理体系的完整参考文件：
+
+| 文件 | 内容 | 位置 |
+|------|------|------|
+| POLICY_TEMPLATE.json | 操作→风险等级→审批链映射 JSON 模板 | `references/POLICY_TEMPLATE.json` |
+| EDICT_MODEL_MAPPING.md | 三省六部 → 会话/工作区/记忆/工具/外发/审计 映射 | `references/EDICT_MODEL_MAPPING.md` |
+| WORKFLOW_EXAMPLES.md | 外发消息/批量改动/cron 变更 审批与审计示例 | `references/WORKFLOW_EXAMPLES.md` |
+| DAILY_OPERATION_GUIDE.md | 日常使用规程（L1直通/L2审批/L3双签/复盘节奏） | `references/DAILY_OPERATION_GUIDE.md` |
+| IMPLEMENTATION_PLAN.md | 分阶段实施路线（骨架→制度→工程化闭环） | `references/IMPLEMENTATION_PLAN.md` |
+
+### 审批流状态机
+
+edict 治理体系定义的审批流状态：
+
+```
+requested → under_review → approved → executed
+                          ↘ rejected → archived
+                          ↘ executed → rolled_back
+```
+
+- SLA：L1 = auto, L2 = 30min, L3 = 60min
+- 紧急放行：允许 bypass，但必须记录原因并在 24h 内补审计
+- 双签规则：L3 操作需门下省 + 刑部 两人批准
+
+### 审计字段标准
+
+每次高风险操作记录以下 12 个字段：
+
+```
+request_id, requester, operation, risk_level, scope,
+approval_chain, decision, reason, tool_call_refs,
+execution_result, timestamp, rollback_ref
+```
+
+审计记录应以结构化格式（JSONL）落盘，确保：
+- 可追溯：who → what → why → approve → log → ref
+- 不可篡改：追加写入，不删除历史记录
+- 异常检测：L3 操作 100% 审计，L2 抽样审计
+
 ## Source Anchors
 
-This skill is derived from the user’s OpenClaw-Memory governance docs:
+This skill is derived from the user's OpenClaw-Memory governance docs:
 
+### 三省六部治理（原始规划）
 - `projects/智妍的自我提升计划/governance/三省六部-中枢院尚书局-实装方案.md`
 - `projects/智妍的自我提升计划/governance/任务路由-六部映射.yaml`
 - `projects/智妍的自我提升计划/governance/C01-实装运行手册.md`
 - `memory-echoDB/long-term/projects/智妍的自我提升计划.md`
+
+### EchoDB Fusion / edict 治理（角色定义 + 审批审计体系）
+- `echodb-fusion/ours/edict-governance/EDICT_MODEL_MAPPING.md`
+- `echodb-fusion/ours/edict-governance/POLICY_TEMPLATE.json`
+- `echodb-fusion/ours/edict-governance/WORKFLOW_EXAMPLES.md`
+- `echodb-fusion/ours/edict-governance/DAILY_OPERATION_GUIDE.md`
+- `echodb-fusion/ours/edict-governance/IMPLEMENTATION_PLAN.md`
+- `echodb-fusion/ours/edict-governance/roles/`（9 份角色 SOUL）
 
 The active Hermes runtime should prefer this skill for operational use, while the repository remains the durable, auditable source archive.
