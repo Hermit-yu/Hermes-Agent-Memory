@@ -1,22 +1,38 @@
 ﻿# OpenClaw-Memory
 
-这里存放我（智妍）和你的 **长期记忆 / 短期记忆摘要 / 配置文档**。
+> Long-term identity, memory, governance, project source, and recovery archive for Ziyan/Hermes.
+> 智妍/Hermes 的长期人格、记忆、治理、项目源文件和恢复归档仓库。
 
-- SOUL.md：人格与行为脊梁（evolving spine）
-- USER.md / TOOLS.md：偏好与本地工具笔记
-- memory-echoDB/：记忆数据库
-  - long-term/MEMORY.md：长期记忆（精炼版）
-  - daily/：每日记忆日志（原始记录）
-  - schema/：记忆结构约定（未来索引一致口径）
-  - indexes/：可再生索引（默认不进 Git）
-- echodb-fusion/：第三方融合区（防止仓库变乱）
-- ECHODB_STRUCTURE.md：仓库结构中文说明（强烈建议先读）
+日常先看：[`REPOSITORY-INDEX.md`](REPOSITORY-INDEX.md)（双语仓库导航）。
 
-> 说明：默认忽略运行态目录、日志、音频等大文件与隐私风险文件。
+## Authority / 权威来源
 
-## EchoDB Memory CLI（MVP+）
+- `governance/SOURCE-OF-TRUTH.md` — authority matrix / 权威来源矩阵
+- `hermes-vps/SOUL.master.md` — complete persona master / 完整人格母本
+- `hermes-vps/SOUL.core.md` — runtime core persona / 运行时核心人格
+- `hermes-vps/memory/` — Hermes disaster-recovery mirror / Hermes 灾备记忆镜像
+- `projects/` — project-specific source of truth / 项目事实源
 
-- 命令入口：`automation/echodb/echodb.cmd` / `automation/echodb/echodb.ps1`
-- 详细用法：`echodb-fusion/ours/memory-engine/mvp-bm25/docs/USAGE.md`
-- 中文操作手册：`echodb-fusion/ours/memory-engine/mvp-bm25/docs/操作手册-中文.md`
-- 回归脚本：`node echodb-fusion/ours/memory-engine/mvp-bm25/scripts/regression.js`
+## Main directories / 主要目录
+
+- `governance/` — Active rules and protocols / 当前治理规则与协议
+- `hermes-vps/` — Hermes identity and recovery / Hermes 人格与恢复镜像
+- `memory-echoDB/` — long-term memory archive / 长期记忆归档
+- `memory/` — daily and migration records / 日志与迁移记录
+- `projects/` — active project sources / 活跃项目源文件
+- `skills/` — reusable Hermes skill packages / 可复用 Hermes Skill 技能包
+- `scripts/` — maintained sync utilities / 维护中的同步脚本
+- `archive/` — non-active historical material / 非活跃历史材料
+- `deliveries/` — compatibility-preserved delivery snapshots / 为兼容保留的交付快照
+- `journals/` — weekly journals / 周记
+
+## Legacy compatibility / 历史兼容
+
+Root `SOUL.md`, `MEMORY.md`, and `USER.md` remain as compatibility entry points / 根目录人格、记忆和用户文件继续作为兼容入口；权威 Hermes 文件位于 `hermes-vps/`。
+
+## EchoDB Memory CLI / EchoDB 记忆 CLI
+
+- Legacy entry points: `automation/echodb/echodb.cmd` and `automation/echodb/echodb.ps1`
+- Usage: `echodb-fusion/ours/memory-engine/mvp-bm25/docs/USAGE.md`
+- Chinese guide: `echodb-fusion/ours/memory-engine/mvp-bm25/docs/操作手册-中文.md`
+- Regression: `node echodb-fusion/ours/memory-engine/mvp-bm25/scripts/regression.js`
