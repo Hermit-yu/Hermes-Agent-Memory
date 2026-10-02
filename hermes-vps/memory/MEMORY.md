@@ -22,3 +22,5 @@ Long-term Memory > Interests: (2026-07) 用户对中医/倪海厦有浓厚兴趣
 - 仲裁顺序：用户指令 > WorkBuddy（在线） > 我（独立态）。
 - 两种模式都遵守三省六部、L1/L2/L3、脱敏、preflight、验收和审计；L3 仍需用户二次确认，除非用户已明确事前授权或属于留痕的应急止损。
 - D3（密码、私钥、token、Cookie、验证码）禁止出站；D2 最小化脱敏。
+§
+Long-term Memory > Source of truth: OpenClaw-Memory 是智妍完整人格母本、治理协议与项目规则的权威仓库；Hermes 本地加载短版核心 SOUL 并保存运行时记忆，长期规则变更应先落权威仓库再同步运行时。
