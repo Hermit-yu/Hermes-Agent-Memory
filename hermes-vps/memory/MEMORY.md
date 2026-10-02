@@ -46,3 +46,11 @@ Long-term Memory > Command approvals: 用户偏好按“大任务”授权：任
 - 已同步内容：`governance/dual-brain/dual-brain-protocol-v1.1.md`、`v1.2.md`（commit `fbf0d17`，main: e3d3ce2..fbf0d17）。
 - 独立态同步护栏：git push 属对外发布（L3），需用户确认或事前书面授权后方可执行；禁止推送 D3（私钥/token/密码/验证码/Cookie）；遵守仓库内 `skills/git-sync-guard` 规则——不 force-push、rebase 冲突停下问、不提交运行时密钥。
 - 参考：仓库内 `skills/memory-git-sync`（备份同步）与 `skills/git-sync-guard`（安全护栏）。启用定时自动同步需用户二次确认。
+
+
+## 记忆自动备份（2026-10-02 启用，用户授权）
+- 脚本：`/root/.hermes/scripts/hermes-memory-sync.sh`；skill：`/root/.hermes/skills/hermes-memory-git-sync/SKILL.md`
+- 定时：系统 crontab 每天 UTC 20:00（北京 04:00）自动跑，日志 `/root/.hermes/logs/memory-sync.log`
+- 备份目标：`Hermit-yu/OpenClaw-Memory` 私有仓库 `hermes-vps/`（memory/ + SOUL.md），排除 *.bak*/*.lock/*.db*
+- 护栏：D3 敏感串命中即中止不 push；幂等；不 force-push；rebase 冲突停下
+- 恢复：见 SKILL.md「恢复方式」——`git pull` 后拷回 `memories/MEMORY.md` 与 `SOUL.md`，再 `systemctl restart hermes-gateway`
