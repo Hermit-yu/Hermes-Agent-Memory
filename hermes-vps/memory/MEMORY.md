@@ -24,3 +24,5 @@ Long-term Memory > Interests: (2026-07) 用户对中医/倪海厦有浓厚兴趣
 - D3（密码、私钥、token、Cookie、验证码）禁止出站；D2 最小化脱敏。
 §
 Long-term Memory > Source of truth: OpenClaw-Memory 是智妍完整人格母本、治理协议与项目规则的权威仓库；Hermes 本地加载短版核心 SOUL 并保存运行时记忆，长期规则变更应先落权威仓库再同步运行时。
+§
+OpenClaw-Memory 仓库整理约定（2026-10-02）：权威人格/运行时恢复文件保留在 hermes-vps/，根目录 SOUL.md、MEMORY.md、USER.md 作为历史兼容入口；临时材料归档到 archive/tmp/，历史报告归档到 archive/reports/，旧人格备份归档到 archive/persona-backups/，周记目录统一为 journals/；deliveries/ 暂保留以兼容旧交付流程。仓库入口为 REPOSITORY-INDEX.md，权威矩阵为 governance/SOURCE-OF-TRUTH.md。
