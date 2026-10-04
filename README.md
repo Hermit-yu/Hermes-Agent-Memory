@@ -24,7 +24,7 @@
 - `scripts/` — maintained sync utilities / 维护中的同步脚本
 - `archive/` — non-active historical material / 非活跃历史材料
 - `deliveries/` — compatibility-preserved delivery snapshots / 为兼容保留的交付快照
-- `周记/` — weekly journals / 周记
+
 
 ## Legacy compatibility / 历史兼容
 
