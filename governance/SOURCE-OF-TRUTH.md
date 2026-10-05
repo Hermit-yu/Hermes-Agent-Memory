@@ -28,6 +28,7 @@
 | 用户稳定资料与交互偏好 | `hermes-vps/memory/USER.md` | `/root/.hermes/memories/USER.md` | 用户纠正后由当前主脑更新 | 用户最新纠正优先；同步后两处哈希应一致 |
 | 跨任务稳定记忆 | `hermes-vps/memory/MEMORY.md` 的灾备副本；活跃运行时由 Hermes Memory 工具原子维护 | `/root/.hermes/memories/MEMORY.md` | 当前主脑按记忆规范更新 | 运行时新记忆先落盘，再由授权同步脚本提交仓库 |
 | 三省六部、风险等级、审批、审计规则 | `governance/` 与 `echodb-fusion/ours/edict-governance/` 中标记为 Active 的文档 | `ziyan-governance` Skill 是执行映射，不独立发明新规则 | 用户批准后由主脑维护；副脑可提审议意见 | 治理仓库正文优先；Skill 发现落后必须同步修订 |
+| 风险等级（L0–L3）与数据分级（D0–D3） | `governance/RISK-AND-DATA-CLASSIFICATION.md` | `ziyan-governance`、`personal-agent-collaboration` 只引用，不复制表格 | 用户批准后由主脑维护 | 本文件是唯一权威；任何位置出现重复的完整定义，必须收敛到本文件 |
 | WorkBuddy / Hermes 双脑角色、仲裁和权限 | `governance/dual-brain/` 当前最高版本协议 | MEMORY 只保留短摘要；`personal-agent-collaboration` 负责运行方法 | 用户批准；主脑维护版本；副脑审议 | 最高 Active 版本优先；在线状态必须实时验证 |
 | 大任务一次授权和项目合作方式 | `personal-agent-collaboration` Skill 的运行规则；长期偏好在 MEMORY 保留一句摘要 | Hermes 当前会话授权状态 | 用户定义；Skill 可按用户反馈更新 | 用户当前授权范围优先；任务结束不得继承 |
 | 软件开发方法 | `software-development-lifecycle` Skill | 项目 `AGENTS.md` 可引用 | Skill 维护者；具体项目可加局部约束 | 项目约束可更严格，不得削弱安全底线 |

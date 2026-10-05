@@ -1,4 +1,3 @@
---- File: SKILL.md ---
 ---
 name: personal-agent-harness
 description: "Use when evolving a long-running personal agent framework."
