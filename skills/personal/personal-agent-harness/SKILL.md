@@ -1,7 +1,7 @@
 ---
 name: personal-agent-harness
 description: "Use when evolving a long-running personal agent framework."
-version: 1.1.0
+version: 1.2.0
 author: Hermes Agent
 license: MIT
 metadata:
@@ -253,5 +253,17 @@ Periodic audit: re-run the five-dimensional diagnosis on a fixed cadence — not
 ## Auxiliary Files
 
 - `templates/harness-gap-matrix.md` — reusable template for the assessment report the user reviews (used before integration).
+
+## Revision Log
+
+| Version | Scope | Change type | Item summary | Rationale |
+| --- | --- | --- | --- | --- |
+| 1.2.0 | Global | Modified | version 1.1.0 → 1.2.0 | Semantic bump for the 2026-10-05 capability revision |
+| 1.2.0 | Frontmatter | Fixed | Removed a stray `--- File: SKILL.md ---` first line that blocked YAML frontmatter parsing, leaving `description` empty and the 10 tags / 3 related skills unregistered | A skill with no registered description cannot be reliably triggered by relevance matching |
+| 1.2.0 | Diagnostic core | Modified | Hidden-assumption requirement (what does this rule assume / when does it fail), five diagnostic dimensions (time / concurrency / adversarial / meta / degradation), gap-matrix columns, explicit deferral discipline | Turns architecture review into decidable questions instead of an unordered idea list |
+| 1.2.0 | Gates and staging | Modified | Mechanized gates for critical text rules, two independent verification layers, staged integration with independent rollback handles, "no half-migrated state" verification, rollback rehearsed rather than documented | Single-checkpoint defence and monolithic rewrites were the main structural risks |
+| 1.2.0 | Meta-governance | Modified | Versioning rules, conflict handling without silent overwrite, periodic five-dimension audit, "validate with real work" pilot rule | The framework needed a safe way to modify itself |
+
+> **Reconstruction note:** the exact 1.1.0 → 1.2.0 line-level diff could not be produced — no prior snapshot of this file existed on disk, in the repository, or in session history at the time of the bump. The rows above describe the capabilities this version carries, not a verified line-by-line delta. Because the file is now versioned in `OpenClaw-Memory/skills/personal/personal-agent-harness/`, every future change is diffable.
 
 --- End of SKILL.md ---
