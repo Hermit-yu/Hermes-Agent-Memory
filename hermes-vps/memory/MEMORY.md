@@ -28,3 +28,5 @@ Long-term Memory > Source of truth: OpenClaw-Memory 是智妍完整人格母本�
 OpenClaw-Memory 仓库整理约定（2026-10-02）：权威人格/运行时恢复文件保留在 hermes-vps/，根目录 SOUL.md、MEMORY.md、USER.md 作为历史兼容入口；临时材料归档到 archive/tmp/，历史报告归档到 archive/reports/，旧人格备份归档到 archive/persona-backups/，周记目录统一为 journals/；deliveries/ 暂保留以兼容旧交付流程。仓库入口为 REPOSITORY-INDEX.md，权威矩阵为 governance/SOURCE-OF-TRUTH.md。
 §
 用户偏好任务级授权：明确批准任务范围后，同一任务内常规读取、诊断、测试和可回滚操作不逐条再问；范围扩大、重要删除、凭据/安全、对外发送、付款或不可逆高风险操作仍需单独确认。
+§
+本机环境（taoque / 38.14.254.100，root，无图形显示）：2026-10-06 已把原生桌面版（Electron）彻底卸载并删掉全部依赖产物（release/build/dist/node_modules、~/.cache/electron，约 2.1G）；不要运行 hermes desktop（会重新 npm ci 下载约 2G 并构建）。GUI 走 hermes dashboard(9119)+SSH 隧道；终端界面靠 /root/.bash_aliases 的 hermes() 包装：裸 hermes=经典 REPL（display.interface=cli）、hermes tui=TUI、裸 hermes desktop=提示+落 TUI。
