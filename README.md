@@ -1,4 +1,4 @@
-﻿# OpenClaw-Memory
+﻿# Hermes-Agent-Memory
 
 > Long-term identity, memory, governance, project source, and recovery archive for Ziyan/Hermes.
 > 智妍/Hermes 的长期人格、记忆、治理、项目源文件和恢复归档仓库。
