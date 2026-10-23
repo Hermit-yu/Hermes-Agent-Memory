@@ -1,0 +1,183 @@
+[
+  {
+    "id": "memories",
+    "local": "/root/.hermes/memories",
+    "repo": "hermes-vps/memory",
+    "mode": "MIRROR",
+    "n_local_persist": 2,
+    "n_repo": 2,
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "gaps_local_missing_in_repo": [],
+    "gaps_orphan_in_repo": []
+  },
+  {
+    "id": "soul.core",
+    "local": "/root/.hermes/SOUL.md",
+    "repo": "hermes-vps/SOUL.core.md",
+    "mode": "FILE",
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true
+  },
+  {
+    "id": "soul.compat",
+    "local": "/root/.hermes/SOUL.md",
+    "repo": "hermes-vps/SOUL.md",
+    "mode": "FILE",
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true
+  },
+  {
+    "id": "skills",
+    "local": "/root/.hermes/skills",
+    "repo": "skills",
+    "mode": "MIRROR",
+    "n_local_persist": 480,
+    "n_repo": 480,
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "gaps_local_missing_in_repo": [],
+    "gaps_orphan_in_repo": []
+  },
+  {
+    "id": "plugins",
+    "local": "/root/.hermes/plugins",
+    "repo": "hermes-vps/plugins",
+    "mode": "MIRROR",
+    "n_local_persist": 25,
+    "n_repo": 25,
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "gaps_local_missing_in_repo": [],
+    "gaps_orphan_in_repo": []
+  },
+  {
+    "id": "cron",
+    "local": "/root/.hermes/cron",
+    "repo": "hermes-vps/cron",
+    "mode": "MIRROR",
+    "n_local_persist": 5,
+    "n_repo": 5,
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "gaps_local_missing_in_repo": [],
+    "gaps_orphan_in_repo": []
+  },
+  {
+    "id": "pending",
+    "local": "/root/.hermes/pending",
+    "repo": "hermes-vps/pending",
+    "mode": "MIRROR",
+    "n_local_persist": 17,
+    "n_repo": 17,
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "gaps_local_missing_in_repo": [],
+    "gaps_orphan_in_repo": []
+  },
+  {
+    "id": "state",
+    "local": "/root/.hermes/state",
+    "repo": "hermes-vps/state",
+    "mode": "MIRROR",
+    "n_local_persist": 1,
+    "n_repo": 1,
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "gaps_local_missing_in_repo": [],
+    "gaps_orphan_in_repo": []
+  },
+  {
+    "id": "curator",
+    "local": "/root/.hermes/.curator_backups",
+    "repo": "hermes-vps/curator-backups",
+    "mode": "DERIVED",
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "note": "可再生派生缓存(不入 git): 由 skills 派生, 换机重建; 历史曾内嵌活凭据, 已从仓清除"
+  },
+  {
+    "id": "backups",
+    "local": "/root/.hermes/backups",
+    "repo": "hermes-vps/backups",
+    "mode": "MIRROR",
+    "n_local_persist": 9,
+    "n_repo": 9,
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "gaps_local_missing_in_repo": [],
+    "gaps_orphan_in_repo": []
+  },
+  {
+    "id": "runtime.cfg",
+    "local": "/root/.hermes/config.yaml",
+    "repo": "hermes-vps/runtime/config.yaml",
+    "mode": "FILE",
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true
+  },
+  {
+    "id": "workspace",
+    "local": "/root/.hermes/Hermes-Agent-Memory",
+    "repo": "hermes-vps/workspace",
+    "mode": "MIRROR",
+    "n_local_persist": 639,
+    "n_repo": 639,
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "gaps_local_missing_in_repo": [],
+    "gaps_orphan_in_repo": []
+  },
+  {
+    "id": "agent.bin",
+    "local": "/root/.hermes/hermes-agent",
+    "repo": "hermes-vps/runtime/tools-manifest.txt",
+    "mode": "MANIFEST",
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "note": "可重装: 仓库登记精确版本, 本地可重装 => 对称"
+  },
+  {
+    "id": "tools",
+    "local": "/root/.hermes/tools",
+    "repo": "hermes-vps/runtime/tools-manifest.txt",
+    "mode": "MANIFEST",
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "note": "可重装: 仓库登记精确版本, 本地可重装 => 对称"
+  },
+  {
+    "id": "honcho.db",
+    "local": "/var/lib/docker/volumes/honcho-local_honcho_pgdata",
+    "repo": "services/honcho/snapshots/honcho-pg-20261023.dump",
+    "mode": "SNAPSHOT",
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "note": "点时转储(pg_dump/gzip), 非逐字节, 恢复时灌回即可"
+  },
+  {
+    "id": "secrets",
+    "local": "/root/.hermes/.env",
+    "repo": "services/vault/hermes-secrets-20261023.tar.gz.enc",
+    "mode": "ENCRYPTED",
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "note": "密钥仅存 .enc, 值不回显"
+  }
+]
