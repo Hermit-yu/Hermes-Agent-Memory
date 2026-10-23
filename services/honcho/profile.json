@@ -1,0 +1,6 @@
+{
+  "apiPort": 8000,
+  "dbPort": 5432,
+  "redisPort": 6379,
+  "image": "ghcr.io/plastic-labs/honcho@sha256:22ef9951be7868b1af455bd2b7d35ba0dbdae75f48f1c0d2ca9d00fbd3f43559"
+}

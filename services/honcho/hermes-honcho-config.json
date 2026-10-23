@@ -1,0 +1,30 @@
+{
+  "hosts": {
+    "localhost": {
+      "base_url": "http://localhost:8000",
+      "api_key": "***REDACTED***",
+      "description": "Self-hosted Honcho instance"
+    },
+    "hermes": {
+      "writeFrequency": "async",
+      "recallMode": "hybrid",
+      "dialecticReasoningLevel": "low",
+      "recallSync": true,
+      "contextTokens": 10000,
+      "aiPeer": "hermes",
+      "workspace": "hermes",
+      "dialecticCadence": 10,
+      "enabled": true,
+      "saveMessages": true,
+      "sessionStrategy": "per-directory",
+      "observationMode": "directional",
+      "peerName": "root"
+    }
+  },
+  "default_host": "localhost",
+  "recallSync": true,
+  "contextTokens": 10000,
+  "contextCadence": 5,
+  "dialecticCadence": 10,
+  "baseUrl": "http://localhost:8000"
+}
