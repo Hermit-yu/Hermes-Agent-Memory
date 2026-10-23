@@ -65,6 +65,31 @@ systemctl restart hermes-gateway
 - **README 写恢复步骤**：重建顺序 + 回填密钥 + 验证查询（如 `SELECT count(*)`），引用相关技能名。
 - 入库前对改动目录跑 D3 敏感串扫描（pat 同护栏），命中即 abort 不推。
 
+## 对称校验（verify 双轴，换机可复原的证明）
+
+灾备是否"双边对称"不靠口头，靠 `hermes-vps/symmetry/verify.py` 实跑；全 ✓ 才提交，证据落 `symmetry/MANIFEST.json`（随仓库提交）。轴不是逐字节相等：
+- **L→R 可复原**：本地每个持久文件（排除运行态噪声/可重建项）在仓库有同路径同内容副本。
+- **R→L 无孤儿**：仓库里每个文件都能映射回本地一个真实路径（restore 时知道落哪）。
+
+条目按"恢复语义"分模式，别全当逐字节镜像：
+- `MIRROR` 持久目录（memory/cron/state/skills…）；`FILE` 单文件；`MANIFEST` 大体积可重装件（agent 本体/tools，登记精确版本即对称，不入 git）；`SNAPSHOT` 点时转储（pg_dump，只要求"仓库有转储+本地有源"）；`ENCRYPTED` 密钥包（只断言 `.enc` 在仓 + 能解密回读，值不回显；**别**再跨查一份可能过期的内部 manifest，重建密钥包后旧 manifest 会让这条假报 mismatch）。重排密钥包顺序应为 manifest→tar→encrypt。
+- **`DERIVED`（关键）**：可再生派生缓存，如 curator 内容寻址缓存 `/root/.hermes/.curator_backups`（由 skills 派生、换机可重建、非恢复源）。**必须 DERIVED 而非 MIRROR**：只要求"本地有、新机可重建"，绝不逐字节拷进 git。WHY：这类缓存会把已拆除项目的配方连同其中烤进去的**活凭据**一起前向复制，MIRROR 就把明文密钥送进 git；restore 侧只 `mkdir -p .../blobs` 占位即可。
+
+D3 命中甄别（提交前逐条定性再决定清/留，别一刀切）：
+- **真凭据**（高熵/base64 口令、`BEGIN ... PRIVATE KEY` 实体）→ 清除或降 DERIVED/.gitignore 挡出，绝不提交。
+- **扫描器自身正则**（sync 脚本里 `PAT='...ghp_...BEGIN PRIVATE KEY...'` 那行）与**占位符**（文档里 `ghp_xx...xxxx`、`sk-***`）→ 假阳性，可提交。
+- 拿不准一条 base64 是不是活口令：拿它探真实服务（如 `docker exec <mysql容器> mysql -uroot -p'<它>' -e 'SELECT 1'`），能连上=活凭据，必须挡出 git 并建议用户轮换。
+- 挡出后确认它从没进历史：`git log -S '<片段>' --all` 应返回空；非空需重写历史。
+
+## 仓库改名 / URL 迁移（GitHub 改 repo 名时）
+
+远端改名后，恢复链路里所有硬编码引用会集体指向旧名而断掉，缺一个换机复原就失败。重对齐清单：
+1. `git remote set-url origin <新地址>`，再 `git push` 验证（远端会回显 "This repository moved"）。
+2. 本地 clone 目录 `mv` 改名，并同步 `verify.py` 的 `REPO=`、`restore.sh` 的 `REPO=` 默认路径、sync 脚本的 `REPO=`。
+3. runbook/RECOVERY 的 `git clone ... && cd ...` 两行改成新名。
+4. 全树文本替换旧名→新名（仓内文件 + `/root/.hermes` 活侧镜像目录 + SOUL），**别动**运行态 log/cache/sessions/curator。
+5. 改完跑 verify：若某 `MIRROR` 条 GAP，多半是"仓侧正文已改、活侧没改"（或反之）→ 把活侧对应镜像目录做同样的文本替换，再跑，直到全 ✓。
+
 ## 失败处理
 
 - exit 2：D3 命中，清除敏感内容后再运行。
