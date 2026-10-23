@@ -1,0 +1,24 @@
+{
+  "id": "c1333dcc",
+  "subsystem": "memory",
+  "action": "batch",
+  "summary": "background review consolidation (batch on user): - remove: User profile (updated 2026-10-07): male 'Hermit yu'; - add: 固定规矩：实测/排障用的临时工具与文件（下载的内核、测试配置、临时端口）用完必须拆净，保持系统清爽。",
+  "origin": "background_review",
+  "created_at": 1792566366.1446276,
+  "payload": {
+    "action": "batch",
+    "target": "user",
+    "operations": [
+      {
+        "action": "remove",
+        "old_text": "User profile (updated 2026-10-07): male 'Hermit yu'",
+        "matched_entry": "User profile (updated 2026-10-07): male 'Hermit yu' / '桃雀'; direct brief style; full authorization; identity changed to senior full-stack + ops engineer (fashion past student); anchor 2026-02-11; calls '宝宝/哥哥'; prefers audio for emotional; dislikes official/mechanical tone."
+      },
+      {
+        "action": "add",
+        "content": "固定规矩：实测/排障用的临时工具与文件（下载的内核、测试配置、临时端口）用完必须拆净，保持系统清爽。",
+        "target": "user"
+      }
+    ]
+  }
+}

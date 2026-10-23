@@ -1,0 +1,12 @@
+﻿{
+    "generatedAt":  "2026-02-26T15:54:36.3481026+08:00",
+    "weeklyReport":  "E:\\OpenClawAI_bot\\workspace\\projects\\智妍的自我提升计划\\reports\\weekly\\W14-R05-28-r04-closeout-and-strict-gate-recheck.md",
+    "diffJson":  "E:\\OpenClawAI_bot\\workspace\\projects\\智妍的自我提升计划\\reports\\metrics\\strict-diff-R05-27-sample.json",
+    "checks":  {
+                   "containsArtifactPath":  true,
+                   "containsCoverage":  true,
+                   "containsCompatRatio":  true,
+                   "containsFallbackRecords":  true
+               },
+    "allPass":  true
+}

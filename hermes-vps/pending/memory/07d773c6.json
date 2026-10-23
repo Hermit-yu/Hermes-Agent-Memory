@@ -1,0 +1,29 @@
+{
+  "id": "07d773c6",
+  "subsystem": "memory",
+  "action": "batch",
+  "summary": "background review consolidation (batch on memory): - remove: Import SOUL/AGENTS/IDENTITY/USER/HEARTBEAT; - replace entry matching 'Memory Import: 2026-02-26.md' -> whole entry becomes: OpenClaw Memory",
+  "origin": "background_review",
+  "created_at": 1792565989.7405403,
+  "payload": {
+    "action": "batch",
+    "target": "memory",
+    "operations": [
+      {
+        "action": "remove",
+        "old_text": "Import SOUL/AGENTS/IDENTITY/USER/HEARTBEAT",
+        "matched_entry": "[Import SOUL/AGENTS/IDENTITY/USER/HEARTBEAT + .learnings] 个人身份、灵魂定义（SOUL.md）、代理规则（AGENTS.md）、身份标识（IDENTITY.md）、用户关系（USER.md）、心跳状态（HEARTBEAT.md）及学习记录（LEARNINGS/ERRORS/LRN-20260308-001/FEATURE_REQUESTS）已从 https://github.com/Hermit-yu/OpenClaw-Memory 导入 memory 工具。Skills 已复制并应用。"
+      },
+      {
+        "action": "replace",
+        "old_text": "Memory Import: 2026-02-26.md",
+        "content": "OpenClaw Memory 导入已完成(2026-02~03): 关系/EchoDB 同步/提醒风格/核心工作流已确认入库; 旧模型分工(GPT5.2/5.3-codex 子会话)已过时。",
+        "matched_entry": "[Memory Import: 2026-02-26.md - 部分1/2] 用户与智妍关系、EchoDB 同步策略、记忆迁移、模型分工（GPT-5.2 主会话 / 5.3-codex 子会话）、提醒风格（女朋友视角温柔）、Telegram 菜单规则、EchoDB BM25 索引（reindex/search）等核心工作流确认。来源：https://github.com/Hermit-yu/OpenClaw-Memory/memory/2026-02-26.md"
+      },
+      {
+        "action": "add",
+        "content": "PHP RCE(CVE-2026-109618/19,CVSS9.2): 官方 10-21 22:00(UTC+8) 出补丁。盘点: 本机=8.3.31(kjlion/php:fpm-alpine 容器, nginx 公网服务 yuntong/www vhost), 139=8.4.26(ldnmp-php 容器), 均受支持分支→TODO 10-21 拉新镜像重建两容器; 闲置 php74(7.4 EOL, 零 vhost 引用)已 stop+update --restart=no。167.148.203.72:22 三把 key 全拒, 无可用 SSH 接入, 待用户给 key。"
+      }
+    ]
+  }
+}

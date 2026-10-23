@@ -1,0 +1,44 @@
+﻿{
+    "roundId":  "R04",
+    "metricsVersion":  "v2-round03-strict",
+    "generatedAt":  "2026-02-26T06:41:54.6704332+08:00",
+    "sourceFile":  "E:\\OpenClawAI_bot\\workspace\\memory-echoDB\\indexes\\edict-audit-log.jsonl",
+    "window":  {
+                   "from":  null,
+                   "to":  null
+               },
+    "metrics":  {
+                    "auditTotal":  6,
+                    "auditCompleteRate":  1,
+                    "highRiskCount":  4,
+                    "highRiskApprovedCount":  2,
+                    "highRiskDeniedCount":  2,
+                    "preflightRelatedCount":  6,
+                    "uniqueHighRiskOps":  2,
+                    "uniquePreflightOps":  0,
+                    "strictHighRiskPreflightIntersectOps":  0,
+                    "strictPreflightCoverage":  0,
+                    "roughPreflightCoverage":  {
+                                                   "value":  1,
+                                                   "raw":  1.5,
+                                                   "label":  "estimated",
+                                                   "explanation":  "estimated ratio exceeded 1 due to heuristic numerator (preflightRelatedCount); output is clamped to 1.0000. strictPreflightCoverage is the default acceptance metric from Round 03."
+                                               }
+                },
+    "assumptions":  {
+                        "completenessKeyFields":  [
+                                                      "request_id",
+                                                      "timestamp",
+                                                      "operation",
+                                                      "risk_level",
+                                                      "decision",
+                                                      "status",
+                                                      "actor"
+                                                  ],
+                        "preflightRelatedRule":  "operation contains preflight OR decision is allow/deny",
+                        "roughCoverageRule":  "estimated: preflightRelatedCount / highRiskCount, clamped to [0,1]",
+                        "strictCoverageRule":  "strict: INTERSECT(uniquePreflightOps, uniqueHighRiskOps) / uniqueHighRiskOps, N/A if uniqueHighRiskOps=0",
+                        "defaultAcceptanceMetricFrom":  "Round 03",
+                        "defaultAcceptanceMetric":  "strictPreflightCoverage"
+                    }
+}

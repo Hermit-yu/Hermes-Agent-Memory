@@ -1,0 +1,14 @@
+{
+  "honcho": {
+    "catalog": {
+      "name": "honcho",
+      "pin": "e2d2aba182862deeb846e5cd4a30a41bce0ed82a",
+      "repo": "https://github.com/plastic-labs/honcho",
+      "sha": "e2d2aba182862deeb846e5cd4a30a41bce0ed82a",
+      "tier": "community"
+    },
+    "pinned": true,
+    "revision": "e2d2aba182862deeb846e5cd4a30a41bce0ed82a",
+    "source": "https://github.com/plastic-labs/honcho#hermes-plugin-honcho"
+  }
+}

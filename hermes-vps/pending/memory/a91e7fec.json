@@ -1,0 +1,76 @@
+{
+  "id": "a91e7fec",
+  "subsystem": "memory",
+  "action": "batch",
+  "summary": "background review consolidation (batch on memory): - remove: OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/OpenClaw-Memory; - remove: OpenClaw Memory Import (CONT): .le",
+  "origin": "background_review",
+  "created_at": 1791431840.3305743,
+  "payload": {
+    "action": "batch",
+    "target": "memory",
+    "operations": [
+      {
+        "action": "remove",
+        "old_text": "OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/OpenClaw-Memory",
+        "target": "memory",
+        "matched_entry": "OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/OpenClaw-Memory"
+      },
+      {
+        "action": "remove",
+        "old_text": "OpenClaw Memory Import (CONT): .learnings/LEARNINGS.md + SOUL.md 核心身份与学到的教训已导入 memory 工具；skills 已复制至 ~/.hermes/skills/（新增 11 目录，覆盖 hermes-memory-git-sync 等）。动态扩容：memory 工具每条上限 2200 字符，已用 4%，可持续追加；skills 目录已合并应用。",
+        "target": "memory",
+        "matched_entry": "OpenClaw Memory Import (CONT): .learnings/LEARNINGS.md + SOUL.md 核心身份与学到的教训已导入 memory 工具；skills 已复制至 ~/.hermes/skills/（新增 11 目录，覆盖 hermes-memory-git-sync 等）。动态扩容：memory 工具每条上限 2200 字符，已用 4%，可持续追加；skills 目录已合并应用。"
+      },
+      {
+        "action": "remove",
+        "old_text": "[Memory Import: 2026-02-26.md - 部分1/2] 用户与智妍关系、EchoDB 同步策略、记忆迁移、模型分工（GPT-5.2 主会话 / 5.3-codex 子会话）、提醒风格（女朋友视角温柔）、Telegram 菜单规则、EchoDB BM25 索引（reindex/search）等核心工作流确认。来源：https://github.com/Hermit-yu/OpenClaw-Memory/memory/2026-02-26.md",
+        "target": "memory",
+        "matched_entry": "[Memory Import: 2026-02-26.md - 部分1/2] 用户与智妍关系、EchoDB 同步策略、记忆迁移、模型分工（GPT-5.2 主会话 / 5.3-codex 子会话）、提醒风格（女朋友视角温柔）、Telegram 菜单规则、EchoDB BM25 索引（reindex/search）等核心工作流确认。来源：https://github.com/Hermit-yu/OpenClaw-Memory/memory/2026-02-26.md"
+      },
+      {
+        "action": "remove",
+        "old_text": "[Memory Import: 2026-02-26.md - 部分2/2] EchoDB CLI 默认 topK=20，自动重建索引；Telegram BotFather 整表覆盖规则；原命令+EchoDB 合并菜单已恢复核对；Kimi-K2-Thinking 深度分析子会话已建立待命。来源同上。",
+        "target": "memory",
+        "matched_entry": "[Memory Import: 2026-02-26.md - 部分2/2] EchoDB CLI 默认 topK=20，自动重建索引；Telegram BotFather 整表覆盖规则；原命令+EchoDB 合并菜单已恢复核对；Kimi-K2-Thinking 深度分析子会话已建立待命。来源同上。"
+      },
+      {
+        "action": "remove",
+        "old_text": "[Memory Import batch] 2026-02-27/28/03-07/03-08/03-09/03-10/03-11/05-21 + working-buffer + README 完成写入。Skills 已复制至 ~/.hermes/skills/ 并应用。非标准记忆（SOUL/AGENTS/IDENTITY/.learnings）已合并导入。动态扩容：memory 工具当前 31%，每条上限 2200 字符，可持续追加。",
+        "target": "memory",
+        "matched_entry": "[Memory Import batch] 2026-02-27/28/03-07/03-08/03-09/03-10/03-11/05-21 + working-buffer + README 完成写入。Skills 已复制至 ~/.hermes/skills/ 并应用。非标准记忆（SOUL/AGENTS/IDENTITY/.learnings）已合并导入。动态扩容：memory 工具当前 31%，每条上限 2200 字符，可持续追加。"
+      },
+      {
+        "action": "remove",
+        "old_text": "[Import SOUL/AGENTS/IDENTITY/USER/HEARTBEAT + .learnings] 个人身份、灵魂定义（SOUL.md）、代理规则（AGENTS.md）、身份标识（IDENTITY.md）、用户关系（USER.md）、心跳状态（HEARTBEAT.md）及学习记录（LEARNINGS/ERRORS/LRN-20260308-001/FEATURE_REQUESTS）已从 https://github.com/Hermit-yu/OpenClaw-Memory 导入 memory 工具。Skills 已复制并应用。",
+        "target": "memory",
+        "matched_entry": "[Import SOUL/AGENTS/IDENTITY/USER/HEARTBEAT + .learnings] 个人身份、灵魂定义（SOUL.md）、代理规则（AGENTS.md）、身份标识（IDENTITY.md）、用户关系（USER.md）、心跳状态（HEARTBEAT.md）及学习记录（LEARNINGS/ERRORS/LRN-20260308-001/FEATURE_REQUESTS）已从 https://github.com/Hermit-yu/OpenClaw-Memory 导入 memory 工具。Skills 已复制并应用。"
+      },
+      {
+        "action": "remove",
+        "old_text": "Tavily backend integration: key file /etc/tavily/api_key (verified 59B, written 2026-10-07); check script /root/scripts/check_tavily_credits.sh; cron Sat 09:00; repo commit 60793de pushed to OpenClaw-Memory; 69 skills registered + 15 local sync.",
+        "target": "memory",
+        "matched_entry": "Tavily backend integration: key file /etc/tavily/api_key (verified 59B, written 2026-10-07); check script /root/scripts/check_tavily_credits.sh; cron Sat 09:00; repo commit 60793de pushed to OpenClaw-Memory; 69 skills registered + 15 local sync."
+      },
+      {
+        "action": "add",
+        "content": "墨白主题已放弃：用户明确'不是暂停，是放弃'；源码保留在 /root/.hermes/Hermes-Agent-Memory/Workspace/ 不再构建（Tavily 核验框架已同步取消，脚本已删除）",
+        "target": "memory"
+      },
+      {
+        "action": "add",
+        "content": "工作区组织约定：架构文件固定存放 /root/.hermes/Hermes-Agent-Memory/；所有操作/主题开发在 Workspace/ /root/.hermes/Hermes-Agent-Memory/Workspace/；禁止在 /root/ 主目录散落架构文件",
+        "target": "memory"
+      },
+      {
+        "action": "add",
+        "content": "记忆系统（2026-10-07）：已按 hermesatlas.com/guide/memory/ 完整构建 Layer 1 原生记忆；MEMORY.md + USER.md 已写入（始终粘贴提示词顶部）；state.db 运行中（FTS5 全文检索，90 天保留）；memories/ + memory-echoDB 长期归档就绪；Layer 2 MemoryProvider / Layer 3 社区插件未激活；升级建议：语义检索→Mem0/Hindsight，团队共享→Honcho/OpenViking，知识图谱→GBrain（可叠加）",
+        "target": "memory"
+      },
+      {
+        "action": "add",
+        "content": "本次会话：基于 Atlas Memory Guidebook 构建完整 Layer 1 记忆系统；核验系统架构对照 Masterclass 报告（10 模块逐项评估）；生成 Masterclass 使用报告（269 行，12,968 字节）；YouTube 播放列表 PLmpUb_PWAkDx-VWjh00tVCji794xAa_IX 重点内容整理完成",
+        "target": "memory"
+      }
+    ]
+  }
+}

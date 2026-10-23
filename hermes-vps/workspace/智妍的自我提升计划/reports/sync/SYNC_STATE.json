@@ -1,0 +1,18 @@
+﻿{
+    "policyVersion":  "every-5-rounds-dual-sync",
+    "updatedAt":  "2026-02-28T13:22:00+08:00",
+    "lastSyncedCommit":  "r06-113-threshold-sync",
+    "roundCounterSinceLastSync":  0,
+    "roundsSinceLastSync":  [
+
+                            ],
+    "lastBatchSyncedRounds":  [
+                                  "R06-109",
+                                  "R06-110",
+                                  "R06-111",
+                                  "R06-112",
+                                  "R06-113"
+                              ],
+    "nextSyncTriggerAt":  5,
+    "nextAction":  "Continue silent fused closeout lockstep under upgraded hard constraints; keep acceptance package sealed and execute next dual-sync at 5-round threshold (or earlier on blocker/exception); immediately escalate risk+compression if 5-day forecast degrades."
+}

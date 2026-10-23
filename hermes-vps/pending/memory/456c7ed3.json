@@ -1,0 +1,39 @@
+{
+  "id": "456c7ed3",
+  "subsystem": "memory",
+  "action": "batch",
+  "summary": "background review consolidation (batch on memory): - replace entry matching '云瞳面板访问/凭据 (2026-10-12): 面板 https://yuntong.taoque.top' -> whole entry becomes: 云瞳 PHP 版上线现状 (2026-10): 代码源 /opt/yuntong (gi",
+  "origin": "background_review",
+  "created_at": 1792248946.9971867,
+  "payload": {
+    "action": "batch",
+    "target": "memory",
+    "operations": [
+      {
+        "action": "replace",
+        "old_text": "云瞳面板访问/凭据 (2026-10-12): 面板 https://yuntong.taoque.top",
+        "content": "云瞳 PHP 版上线现状 (2026-10): 代码源 /opt/yuntong (git, 前端 Vue3+Vite web-vue/, 定时值守 api/cron/cron.php + 宿主 crontab */30); 线上 = 宿主 LDNMP /home/web/html/yuntong.taoque.top; 同步走 deploy/sync-site.sh (Vue dist + api 全量 + php-fpm opcache USR2 重载必需, fpm validate_timestamps=0); 登录 admin/yuntong-admin-1, 密码漂出 seed 时重跑 migrations/07_m6.sql 幂等恢复; AI 已接 OpenRouter: key 在 /root/.hermes/.env (OPENROUTER_API_KEY), 账号无 credits, 默认 google/gemma-4-31b-it:free 每日 50 次配额, 429/402 如实透传不造假。宿主 crontab 已有 acme.sh 行, 加任务先备份再追加。",
+        "target": "memory",
+        "matched_entry": "云瞳面板访问/凭据 (2026-10-12): 面板 https://yuntong.taoque.top (本机内网 http://172.20.0.1:3000)。登录账号 yuntong / 密码 Yt-e6b64501cd0a，存于 /root/.hermes/cache/scratch/yuntong-panel-creds.txt。部署: 本机 /root/yuntong (systemd yuntong-api/web) + 139 /opt/yuntong (Debian13, SSH 走 23528 端口, key /root/.ssh/yuntong-mgr_ed25519)。本机 API 绑 172.20.0.1:8891 (docker 网关, 非 127.0.0.1)。"
+      },
+      {
+        "action": "remove",
+        "old_text": "云瞳终局载体上线(2026-10-13): FastAPI=/root/yuntong/api",
+        "target": "memory",
+        "matched_entry": "云瞳终局载体上线(2026-10-13): FastAPI=/root/yuntong/api(systemd yuntong-api, venv基于系统py3.12, pip --target装入), Next.js=/root/yuntong/web(standalone, systemd yuntong-web), 均绑宿主docker网关172.20.0.1(非公网), ufw规则 'from 172.20.0.0/16 to any 8891,3000'; nginx conf指向172.20.0.1; PHP面板(172.18.0.3:8890, yuntong-php服务)保留做回滚兜底, 配置备份/home/web/conf.d/yuntong.taoque.top.conf.php-backup-20261012; node真实路径/root/.hermes/tools/node-26.7.0-linux-x64/bin/node。"
+      },
+      {
+        "action": "remove",
+        "old_text": "Next.js standalone 部署坑 (云瞳 web)",
+        "target": "memory",
+        "matched_entry": "Next.js standalone 部署坑 (云瞳 web): `next build` 的 .next/standalone 产物不含 .next/static 和 public，必须手动 cp -a .next/static → .next/standalone/.next/ (public 同理)，否则所有客户端 JS chunk 404 → AuthGate 卡死在服务端渲染态\"正在验证会话…\"。rewrite API 目标走 env YUNTONG_API_HOST/PORT (本机 172.20.0.1, 默认 127.0.0.1)。install.sh 已含此步。"
+      },
+      {
+        "action": "remove",
+        "old_text": "云瞳面板伺服拓扑：yuntongd 用 http.FileServer",
+        "target": "memory",
+        "matched_entry": "云瞳面板伺服拓扑：yuntongd 用 http.FileServer 直接伺服 web/dist/（无构建链，改源码即时生效、不用重启）；但可交付的 dist-bundle/*.tar.gz 是拷贝，改前端后必须 deploy/build-bundle.sh 重建否则 tarball 脱节。bundle 进 git（M5 先例）。"
+      }
+    ]
+  }
+}

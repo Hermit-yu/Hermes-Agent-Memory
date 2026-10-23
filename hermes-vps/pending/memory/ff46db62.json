@@ -1,0 +1,22 @@
+{
+  "id": "ff46db62",
+  "subsystem": "memory",
+  "action": "batch",
+  "summary": "background review consolidation (batch on memory): - replace entry matching '[Memory Import batch] 2026-02-27/28/03-07/03-08/03-09/03-10/03-11/05-21 + working-buffer + README 完成写入。Skills 已复制至 ~/.herme",
+  "origin": "background_review",
+  "created_at": 1791458330.8967943,
+  "payload": {
+    "action": "batch",
+    "target": "memory",
+    "operations": [
+      {
+        "action": "replace",
+        "content": "底层文件同步规则（2026-10-08）：3文件（harness.md / collaboration.md / SOUL.md）只在重大变更改；DB同步立即执行（public_id <=25）；技能已注册（harness/collaboration/underlying-soul-file）；DB记录：v01/v001/file1；记忆限制4000；DB约束<=25；不清DB旧记录。",
+        "new_text": "底层同步规则（2026-10-08）：3文件仅重大变更改；DB同步立即（public_id<=25，DB约束<=25）；技能已注册（harness/collaboration/underlying-soul-file）；记忆限4000；记录：v01/v001/file1；不清DB。",
+        "old_text": "[Memory Import batch] 2026-02-27/28/03-07/03-08/03-09/03-10/03-11/05-21 + working-buffer + README 完成写入。Skills 已复制至 ~/.hermes/skills/ 并应用。非标准记忆（SOUL/AGENTS/IDENTITY/.learnings）已合并导入。动态扩容：memory 工具当前 31%，每条上限 2200 字符，可持续追加。",
+        "target": "memory",
+        "matched_entry": "[Memory Import batch] 2026-02-27/28/03-07/03-08/03-09/03-10/03-11/05-21 + working-buffer + README 完成写入。Skills 已复制至 ~/.hermes/skills/ 并应用。非标准记忆（SOUL/AGENTS/IDENTITY/.learnings）已合并导入。动态扩容：memory 工具当前 31%，每条上限 2200 字符，可持续追加。"
+      }
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "67069ff2",
+  "subsystem": "memory",
+  "action": "batch",
+  "summary": "background review consolidation (batch on user): - replace entry matching 'User prefers to communicate in Chinese (中文).' -> whole entry becomes: 用户偏好中文；收尾表情用开心系（🥰）不用🥺；要温度不要高冷，少AI腔。; - add: 用户专业为计算机网络+",
+  "origin": "background_review",
+  "created_at": 1791808316.9839923,
+  "payload": {
+    "action": "batch",
+    "target": "user",
+    "operations": [
+      {
+        "action": "replace",
+        "old_text": "User prefers to communicate in Chinese (中文).",
+        "content": "用户偏好中文；收尾表情用开心系（🥰）不用🥺；要温度不要高冷，少AI腔。",
+        "matched_entry": "User prefers to communicate in Chinese (中文)."
+      },
+      {
+        "action": "add",
+        "content": "用户专业为计算机网络+信息安全，自认产品化/变现纯新手；提产品方案要给新手可执行路径。"
+      }
+    ]
+  }
+}

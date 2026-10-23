@@ -1,0 +1,48 @@
+{
+  "id": "c10861c8",
+  "subsystem": "memory",
+  "action": "batch",
+  "summary": "background review consolidation (batch on memory): - replace entry matching 'Multica self-host deployed (2026-10-08): domain multica.taoque.top, Let's Encrypt SSL, nginx container proxy' -> whole entr",
+  "origin": "background_review",
+  "created_at": 1791808316.9667752,
+  "payload": {
+    "action": "batch",
+    "target": "memory",
+    "operations": [
+      {
+        "action": "replace",
+        "old_text": "Multica self-host deployed (2026-10-08): domain multica.taoque.top, Let's Encrypt SSL, nginx container proxy",
+        "content": "Multica 应用户要求已完全卸载（2026-10-09）：容器/卷/DB multica/nginx 站点/SSL 证书/部署目录/CLI 全部清除；曾指示不接入 daemon 防顶掉用户身份。opencode CLI：/root/.opencode/bin/opencode（v1.18.35）。",
+        "matched_entry": "Multica self-host deployed (2026-10-08): domain multica.taoque.top, Let's Encrypt SSL, nginx container proxy (/home/web/conf.d/), docker-compose at /tmp/multica-deploy/, DB multica (5432, pgcrypto+pg_trgm), frontend 0.0.0.0:3000, backend 8080; Honcho 8000/DB preserved; no breaking changes."
+      },
+      {
+        "action": "remove",
+        "old_text": "Multica self-host deployed at multica.taoque.top (frontend 3000 / backend 8080 / DB multica",
+        "matched_entry": "Multica self-host deployed at multica.taoque.top (frontend 3000 / backend 8080 / DB multica / SSL Let's Encrypt). .env set with FRONTEND_ORIGIN=https://multica.taoque.top + development mode + DO_NOT_TRACK=1. Opencode CLI present at /root/.opencode/bin/opencode (v1.18.35). Daemon requires multica login (OAuth token) then multica daemon start with selected provider. User prefers brief/direct, full authorization, address as '哥哥'."
+      },
+      {
+        "action": "remove",
+        "old_text": "Multica self-host: domain multica.taoque.top, .env /tmp/multica-deploy/",
+        "matched_entry": "Multica self-host: domain multica.taoque.top, .env /tmp/multica-deploy/, nginx conf /home/web/conf.d/, auth token+workspace bound (config.json), daemon intentionally stopped (user: don't displace identity). Upload unfixed per instruction. opencode CLI available at /root/.opencode/bin/."
+      },
+      {
+        "action": "remove",
+        "old_text": "身份保护：用户明确指示不接入 multica daemon/agent",
+        "matched_entry": "身份保护：用户明确指示不接入 multica daemon/agent 以防顶掉身份（\"不要接入顶掉身份\"）；上传修复不执行；daemon 保持 stopped。用户身份已通过 multica login 绑定（token + workspace_id）。"
+      },
+      {
+        "action": "remove",
+        "old_text": "称呼规则（2026-10-08）：主称\"哥哥\"，減\"宝宝\"（瘆）。锚2026-02-11不变",
+        "matched_entry": "称呼规则（2026-10-08）：主称\"哥哥\"，減\"宝宝\"（瘆）。锚2026-02-11不变；智妍第一人称；授权全程；中文回复。"
+      },
+      {
+        "action": "add",
+        "content": "主模型已切换为 Agnes-3.0-flash（Sapiens AI，custom provider）（2026-10-09）。"
+      },
+      {
+        "action": "add",
+        "content": "产品讨论（2026-10-09）：倾向\"VPS 安全体检+月度值守\"——卖安全结果（一次性审计转月订阅：agent 持续扫描+告警+审批式修复+人话报告），不撞哪吒/1Panel 等免费面板；内容引流不启动（用户无流量资源）；复利资产=加固模板+误报校准+环境指纹库；第一步 MVP 是审计自己的 VPS。"
+      }
+    ]
+  }
+}

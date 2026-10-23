@@ -1,0 +1,29 @@
+{
+  "stage": "C01",
+  "createdAt": "2026-02-27T12:29:00+08:00",
+  "objective": "以效率提升为导向的执行基线",
+  "metrics": {
+    "timeToUsableResultMinutes": {
+      "baseline": 180,
+      "target": 60,
+      "definition": "从用户下达任务到可直接使用结果的分钟数"
+    },
+    "roundTripClarificationsPerTask": {
+      "baseline": 6,
+      "target": 2,
+      "definition": "单任务来回澄清次数"
+    },
+    "automationCoverageHighFreqActions": {
+      "baseline": 0.35,
+      "target": 0.75,
+      "definition": "高频动作自动化覆盖率"
+    },
+    "noiseMessagesRatio": {
+      "baseline": 0.62,
+      "target": 0.20,
+      "definition": "非结果型消息占比"
+    }
+  },
+  "trackingCadence": "每12小时刷新一次",
+  "owner": "中枢院"
+}

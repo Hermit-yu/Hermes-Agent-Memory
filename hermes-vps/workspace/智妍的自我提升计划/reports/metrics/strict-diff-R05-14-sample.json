@@ -1,0 +1,14 @@
+﻿{
+    "generatedAt":  "2026-02-26T12:23:25.9024724+08:00",
+    "input":  "E:\\OpenClawAI_bot\\workspace\\projects\\智妍的自我提升计划\\reports\\samples\\R05-14-structured-first-regression.jsonl",
+    "metrics":  {
+                    "highRiskCount":  4,
+                    "uniqueHighRiskOps":  2,
+                    "uniquePreflightOps":  2,
+                    "strictIntersectOps":  2,
+                    "strictPreflightCoverage":  1,
+                    "strictStructuredRecords":  4,
+                    "strictFallbackRecords":  0,
+                    "compatFallbackRatio":  0
+                }
+}

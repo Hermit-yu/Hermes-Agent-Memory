@@ -1,0 +1,24 @@
+﻿{
+    "generatedAt":  "2026-02-26T15:23:20.9266465+08:00",
+    "fromRun":  "R05-24",
+    "toRun":  "R05-25",
+    "source":  {
+                   "weeklyEvidenceFrom":  "reports/metrics/weekly-diff-evidence-check-R05-24.json",
+                   "weeklyEvidenceTo":  "reports/metrics/weekly-diff-evidence-check-R05-25.json",
+                   "strictDiffTo":  "reports/metrics/strict-diff-R05-25-sample.json"
+               },
+    "delta":  {
+                  "weeklyAllPass":  {
+                                        "from":  true,
+                                        "to":  true,
+                                        "changed":  false
+                                    },
+                  "strictPreflightCoverageTo":  1,
+                  "compatFallbackRatioTo":  0,
+                  "strictFallbackRecordsTo":  0
+              },
+    "verdict":  {
+                    "pass":  true,
+                    "note":  "R05-24 -\u003e R05-25 steady delta is stable and non-regressive"
+                }
+}

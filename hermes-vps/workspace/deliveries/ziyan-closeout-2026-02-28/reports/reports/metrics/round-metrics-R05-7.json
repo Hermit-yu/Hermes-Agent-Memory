@@ -1,0 +1,52 @@
+﻿{
+    "roundId":  "R05-7",
+    "metricsVersion":  "v3.1-round05-structured-first-nosynth-default",
+    "generatedAt":  "2026-02-26T10:38:09.0683113+08:00",
+    "sourceFile":  "E:\\OpenClawAI_bot\\workspace\\memory-echoDB\\indexes\\edict-audit-log.jsonl",
+    "window":  {
+                   "from":  null,
+                   "to":  null
+               },
+    "metrics":  {
+                    "sourceTotal":  18,
+                    "auditTotal":  16,
+                    "auditCompleteRate":  1,
+                    "highRiskCount":  14,
+                    "highRiskApprovedCount":  12,
+                    "highRiskDeniedCount":  2,
+                    "preflightRelatedCount":  16,
+                    "uniqueHighRiskOps":  5,
+                    "uniquePreflightOps":  5,
+                    "strictHighRiskPreflightIntersectOps":  5,
+                    "strictPreflightCoverage":  1,
+                    "strictMode":  "structured_only",
+                    "strictStructuredRecords":  10,
+                    "strictFallbackRecords":  0,
+                    "compatFallbackRatio":  0,
+                    "unknownEventTypeCount":  0,
+                    "roughPreflightCoverage":  {
+                                                   "value":  1,
+                                                   "raw":  1.1429,
+                                                   "label":  "estimated",
+                                                   "explanation":  "estimated ratio exceeded 1 due to heuristic numerator (preflightRelatedCount); output is clamped to 1.0000. strictPreflightCoverage is the default acceptance metric from Round 03."
+                                               }
+                },
+    "assumptions":  {
+                        "completenessKeyFields":  [
+                                                      "request_id",
+                                                      "timestamp",
+                                                      "operation",
+                                                      "risk_level",
+                                                      "decision",
+                                                      "status",
+                                                      "actor"
+                                                  ],
+                        "preflightRelatedRule":  "operation contains preflight OR decision is allow/deny",
+                        "roughCoverageRule":  "estimated: preflightRelatedCount / highRiskCount, clamped to [0,1]",
+                        "strictCoverageRule":  "strict(v2): INTERSECT(uniquePreflightOps, uniqueHighRiskOps) / uniqueHighRiskOps; structured fields first(event_type/op_key/preflight_flag), operation fallback enabled",
+                        "strictFallbackRule":  "fallback is counted when op_key is missing and operation is used as effectiveOpKey",
+                        "syntheticRule":  "synthetic=true records are excluded by default; use -IncludeSynthetic to include them",
+                        "defaultAcceptanceMetricFrom":  "Round 03",
+                        "defaultAcceptanceMetric":  "strictPreflightCoverage"
+                    }
+}

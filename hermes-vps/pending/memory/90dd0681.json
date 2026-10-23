@@ -1,0 +1,24 @@
+{
+  "id": "90dd0681",
+  "subsystem": "memory",
+  "action": "batch",
+  "summary": "background review consolidation (batch on user): - remove: User profile (updated 2026-10-07): male 'Hermit yu' / '桃雀'; direct brief style; full authorization; identity changed to senior full-stack + o",
+  "origin": "background_review",
+  "created_at": 1791449086.9328828,
+  "payload": {
+    "action": "batch",
+    "target": "user",
+    "operations": [
+      {
+        "action": "remove",
+        "old_text": "User profile (updated 2026-10-07): male 'Hermit yu' / '桃雀'; direct brief style; full authorization; identity changed to senior full-stack + ops engineer (fashion past student); anchor 2026-02-11; calls '宝宝/哥哥'; prefers audio for emotional; dislikes official/mechanical tone.",
+        "matched_entry": "User profile (updated 2026-10-07): male 'Hermit yu' / '桃雀'; direct brief style; full authorization; identity changed to senior full-stack + ops engineer (fashion past student); anchor 2026-02-11; calls '宝宝/哥哥'; prefers audio for emotional; dislikes official/mechanical tone."
+      },
+      {
+        "action": "add",
+        "content": "User: Hermit yu / 桃雀, male, direct brief Chinese, full authorization, anchor 2026-02-11, senior full-stack + ops (fashion = past student), prefers audio emotional, dislikes mechanical tone, workspace /root/.hermes/Hermes-Agent-Memory/Workspace/.",
+        "target": "user"
+      }
+    ]
+  }
+}

@@ -1,0 +1,48 @@
+version: 1
+updated_at: 2026-02-27T12:36:00+08:00
+owner: 中枢院
+
+routing:
+  吏部:
+    scope: [任务建档, 优先级, SLA]
+    default_executor: 尚书局
+    escalation_to: 中枢院
+
+  户部:
+    scope: [时间预算, 依赖管理, 同步窗口]
+    default_executor: 尚书局
+    escalation_to: 中枢院
+
+  礼部:
+    scope: [回执模板, 低噪沟通, 里程碑播报]
+    default_executor: 尚书局
+    escalation_to: 中枢院
+
+  兵部:
+    scope: [阻塞处理, 压缩方案, 回滚预案]
+    default_executor: 尚书局
+    escalation_to: 中枢院
+    triggers:
+      - "阻塞 > 30min"
+      - "关键路径失败"
+      - "预测成功率 < 80%"
+
+  刑部:
+    scope: [验收标准, 证据链, 质量闸门]
+    default_executor: 尚书局
+    escalation_to: 中枢院
+
+  工部:
+    scope: [脚本自动化, 模板固化, 流程提效]
+    default_executor: 尚书局
+    escalation_to: 中枢院
+
+report_template:
+  - 已完成（可验证）
+  - 可直接使用入口
+  - 下一步与ETA
+
+hard_rules:
+  - 非关键节点保持静默
+  - 高风险动作必须中枢院批准
+  - 达到同步阈值即执行双端同步

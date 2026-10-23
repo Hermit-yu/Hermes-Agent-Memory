@@ -1,0 +1,32 @@
+﻿{
+    "checkedAt":  "2026-02-26T15:53:49",
+    "profile":  "r04-closeout-stability-v1",
+    "checks":  {
+                   "requiredFiles":  [
+                                         {
+                                             "file":  "reports/rounds/R04-closeout-stability-checklist-2026-02-26.md",
+                                             "exists":  true
+                                         },
+                                         {
+                                             "file":  "templates/STRICT_REGRESSION_SAMPLE_TEMPLATE.jsonl",
+                                             "exists":  true
+                                         },
+                                         {
+                                             "file":  "reports/templates/WEEKLY_REPORT_TEMPLATE.md",
+                                             "exists":  true
+                                         }
+                                     ],
+                   "regressionTemplateJsonlValid":  true,
+                   "regressionTemplateRecordCount":  4,
+                   "weeklyStrictFields":  {
+                                              "strictPreflightCoverage":  true,
+                                              "unknownEventTypeCount":  true,
+                                              "compatFallbackRatio":  true,
+                                              "strictMode":  true
+                                          }
+               },
+    "verdict":  {
+                    "r04UnfinishedItems":  0,
+                    "pass":  true
+                }
+}

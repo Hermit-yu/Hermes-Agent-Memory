@@ -1,0 +1,24 @@
+{
+  "id": "75d29d7a",
+  "subsystem": "memory",
+  "action": "batch",
+  "summary": "background review consolidation (batch on memory): - remove: [Memory Import batch] 2026-02-27/28/03-07/03-08/03-09/03-10/03-11/05-21 + working-buffer + README 完成写入。Skills 已复制至 ~/.hermes/skills/ 并应用。非标",
+  "origin": "background_review",
+  "created_at": 1791449090.0522394,
+  "payload": {
+    "action": "batch",
+    "target": "memory",
+    "operations": [
+      {
+        "action": "remove",
+        "old_text": "[Memory Import batch] 2026-02-27/28/03-07/03-08/03-09/03-10/03-11/05-21 + working-buffer + README 完成写入。Skills 已复制至 ~/.hermes/skills/ 并应用。非标准记忆（SOUL/AGENTS/IDENTITY/.learnings）已合并导入。动态扩容：memory 工具当前 31%，每条上限 2200 字符，可持续追加。",
+        "matched_entry": "[Memory Import batch] 2026-02-27/28/03-07/03-08/03-09/03-10/03-11/05-21 + working-buffer + README 完成写入。Skills 已复制至 ~/.hermes/skills/ 并应用。非标准记忆（SOUL/AGENTS/IDENTITY/.learnings）已合并导入。动态扩容：memory 工具当前 31%，每条上限 2200 字符，可持续追加。"
+      },
+      {
+        "action": "add",
+        "content": "Env: Honcho self-host at /root/.hermes/honcho.json (localhost:8000); needs LLM_OPENAI_API_KEY, TTY for --setup basic, recallSync:false; rebuild via uv tool install honcho-cli + init --base-url + start --setup basic.",
+        "target": "memory"
+      }
+    ]
+  }
+}

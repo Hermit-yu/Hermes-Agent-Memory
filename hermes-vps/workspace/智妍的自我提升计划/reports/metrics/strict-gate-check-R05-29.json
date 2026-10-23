@@ -1,0 +1,15 @@
+﻿{
+    "generatedAt":  "2026-02-26T16:23:16.1377286+08:00",
+    "metricsFile":  "reports/metrics/latest-round-metrics.json",
+    "thresholds":  {
+                       "minStrictPreflightCoverage":  1,
+                       "maxCompatFallbackRatio":  0,
+                       "maxUnknownEventTypeCount":  0
+                   },
+    "observed":  {
+                     "strictPreflightCoverage":  1,
+                     "compatFallbackRatio":  0,
+                     "unknownEventTypeCount":  0
+                 },
+    "pass":  true
+}

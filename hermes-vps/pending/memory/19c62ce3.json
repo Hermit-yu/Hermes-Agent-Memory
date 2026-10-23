@@ -1,0 +1,40 @@
+{
+  "id": "19c62ce3",
+  "subsystem": "memory",
+  "action": "batch",
+  "summary": "background review consolidation (batch on memory): - replace entry matching 'Multica self-host deployed (2026-10-08)' -> whole entry becomes: 云瞳(Yuntong)安全值守平台 项目: /root/yuntong/ (scanner/fixer/watche",
+  "origin": "background_review",
+  "created_at": 1791822352.631467,
+  "payload": {
+    "action": "batch",
+    "target": "memory",
+    "operations": [
+      {
+        "action": "replace",
+        "content": "云瞳(Yuntong)安全值守平台 项目: /root/yuntong/ (scanner/fixer/watcher/data/docs)。watcher 已实装: 纯stdlib单文件, cron */30(/etc/cron.d/yuntong-watcher), 告警推 Telegram(复用 /root/.hermes/.env 的 bot, chat 8253910147, 正式告警已开)。三台机器用统一管理凭证 /root/.ssh/yuntong-mgr_ed25519(指纹 0DCZoMja...) 可登入全部3台。三台均已加固(fail2ban+禁密码登录+ufw收口): 38.14.254.100:22 / 139.28.232.33:23528 / 167.148.203.72:22。架构基线: docs/竞品架构吸收-云瞳架构基线v0.2.md。",
+        "old_text": "Multica self-host deployed (2026-10-08)",
+        "matched_entry": "Multica self-host deployed (2026-10-08): domain multica.taoque.top, Let's Encrypt SSL, nginx container proxy (/home/web/conf.d/), docker-compose at /tmp/multica-deploy/, DB multica (5432, pgcrypto+pg_trgm), frontend 0.0.0.0:3000, backend 8080; Honcho 8000/DB preserved; no breaking changes."
+      },
+      {
+        "action": "replace",
+        "content": "Multica 已完全卸载(2026-10-12): DB multica 已删, 容器/数据卷/CLI(/usr/local/bin/multica)/.env/nginx站点/SSL证书全清。opencode CLI 仍在 /root/.opencode/bin/ (v1.18.35, 可用)。",
+        "old_text": "Multica self-host deployed at multica.taoque.top",
+        "matched_entry": "Multica self-host deployed at multica.taoque.top (frontend 3000 / backend 8080 / DB multica / SSL Let's Encrypt). .env set with FRONTEND_ORIGIN=https://multica.taoque.top + development mode + DO_NOT_TRACK=1. Opencode CLI present at /root/.opencode/bin/opencode (v1.18.35). Daemon requires multica login (OAuth token) then multica daemon start with selected provider. User prefers brief/direct, full authorization, address as '哥哥'."
+      },
+      {
+        "action": "remove",
+        "old_text": "Multica self-host: domain multica.taoque.top, .env /tmp/multica-deploy",
+        "matched_entry": "Multica self-host: domain multica.taoque.top, .env /tmp/multica-deploy/, nginx conf /home/web/conf.d/, auth token+workspace bound (config.json), daemon intentionally stopped (user: don't displace identity). Upload unfixed per instruction. opencode CLI available at /root/.opencode/bin/."
+      },
+      {
+        "action": "remove",
+        "old_text": "身份保护：用户明确指示不接入 multica",
+        "matched_entry": "身份保护：用户明确指示不接入 multica daemon/agent 以防顶掉身份（\"不要接入顶掉身份\"）；上传修复不执行；daemon 保持 stopped。用户身份已通过 multica login 绑定（token + workspace_id）。"
+      },
+      {
+        "action": "add",
+        "content": "139.28.232.33 的 hysteria2 走 UDP 57689(QUIC); ufw 已放行 57689/udp。教训: ufw 改防火墙规则后必须当场 canary 验证(本次两次翻车: 139 误全拒/167 的 enable 被管道吞掉未生效), 未验证=未生效。watcher 端口事件需同时扫 TCP+UDP(ss -tlnp 与 -ulnp)。"
+      }
+    ]
+  }
+}

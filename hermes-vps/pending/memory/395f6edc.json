@@ -1,0 +1,42 @@
+{
+  "id": "395f6edc",
+  "subsystem": "memory",
+  "action": "batch",
+  "summary": "background review consolidation (batch on memory): - remove: Multica self-host deployed (2026-10-08): domain multica.taoque.top; - remove: Multica self-host deployed at multica.taoque.top; - remove: M",
+  "origin": "background_review",
+  "created_at": 1791813000.1033716,
+  "payload": {
+    "action": "batch",
+    "target": "memory",
+    "operations": [
+      {
+        "action": "remove",
+        "old_text": "Multica self-host deployed (2026-10-08): domain multica.taoque.top",
+        "matched_entry": "Multica self-host deployed (2026-10-08): domain multica.taoque.top, Let's Encrypt SSL, nginx container proxy (/home/web/conf.d/), docker-compose at /tmp/multica-deploy/, DB multica (5432, pgcrypto+pg_trgm), frontend 0.0.0.0:3000, backend 8080; Honcho 8000/DB preserved; no breaking changes."
+      },
+      {
+        "action": "remove",
+        "old_text": "Multica self-host deployed at multica.taoque.top",
+        "matched_entry": "Multica self-host deployed at multica.taoque.top (frontend 3000 / backend 8080 / DB multica / SSL Let's Encrypt). .env set with FRONTEND_ORIGIN=https://multica.taoque.top + development mode + DO_NOT_TRACK=1. Opencode CLI present at /root/.opencode/bin/opencode (v1.18.35). Daemon requires multica login (OAuth token) then multica daemon start with selected provider. User prefers brief/direct, full authorization, address as '哥哥'."
+      },
+      {
+        "action": "remove",
+        "old_text": "Multica self-host: domain multica.taoque.top, .env /tmp/multica-deploy/",
+        "matched_entry": "Multica self-host: domain multica.taoque.top, .env /tmp/multica-deploy/, nginx conf /home/web/conf.d/, auth token+workspace bound (config.json), daemon intentionally stopped (user: don't displace identity). Upload unfixed per instruction. opencode CLI available at /root/.opencode/bin/."
+      },
+      {
+        "action": "remove",
+        "old_text": "身份保护：用户明确指示不接入 multica daemon",
+        "matched_entry": "身份保护：用户明确指示不接入 multica daemon/agent 以防顶掉身份（\"不要接入顶掉身份\"）；上传修复不执行；daemon 保持 stopped。用户身份已通过 multica login 绑定（token + workspace_id）。"
+      },
+      {
+        "action": "add",
+        "content": "Multica 多Agent平台：2026-10-08 部署(multica.taoque.top)，2026-10-12 用户下令彻底卸载（容器/卷/DB/nginx站点/SSL/CLI 全清），无残留；上传未修复(S3 缺失，用户说不上传)。"
+      },
+      {
+        "action": "add",
+        "content": "云瞳(Yuntong)安全值守平台：暂名，全称未定，产品未开发（勿自行开工）。企划书 /root/yuntong/docs/云瞳安全平台-产品企划书.md；scanner v2 在 /root/yuntong/scanner/collect.sh，基线 JSON 存 data/。VPS 安全基线(2026-10-12起)：SSH 仅密钥登录(配置 yuntong-hardening.conf，回滚备份 .bak-*)；fail2ban sshd jail(白名单 223.73.45.117/139.28.232.33)；ufw 只放行 22/80/443。用户本地已导入服务器私钥可登录。"
+      }
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+[
+  {"type":"fact_recall","query":"EchoDB 是什么","expects":["echodb","memory-engine"]},
+  {"type":"fact_recall","query":"OpenClaw 工作目录在哪","expects":["workspace","OpenClawAI_bot"]},
+  {"type":"fact_recall","query":"长期记忆放在哪里","expects":["long-term","memory-echoDB"]},
+  {"type":"fact_recall","query":"日记文件目录是什么","expects":["memory-echoDB/daily","daily"]},
+  {"type":"fact_recall","query":"怎么重建索引","expects":["reindex","索引"]},
+
+  {"type":"recent_event","query":"2月25日做了什么 memory-engine 改动","expects":["phase","mvp"]},
+  {"type":"recent_event","query":"最近一次 EchoDB 统计增强","expects":["stats","scope"]},
+  {"type":"recent_event","query":"今天有没有回归脚本更新","expects":["regression","脚本"]},
+  {"type":"recent_event","query":"最近关于混合检索做了哪些事","expects":["hybrid","fusion"]},
+
+  {"type":"scope_filter","query":"只看全局记忆的长期记录","scope":"global","expects":["long-term","global"]},
+  {"type":"scope_filter","query":"agent main 的日记内容","scope":"agent:main","expects":["daily","agent:main"]},
+  {"type":"scope_filter","query":"global 里的 EchoDB 文档","scope":"global","expects":["echodb","global"]},
+  {"type":"scope_filter","query":"主会话当天记录","scope":"agent:main","expects":["2026","daily"]},
+
+  {"type":"smalltalk_skip","query":"你好","expects":[],"shouldSkip":true},
+  {"type":"smalltalk_skip","query":"收到","expects":[],"shouldSkip":true},
+  {"type":"smalltalk_skip","query":"ok","expects":[],"shouldSkip":true},
+  {"type":"smalltalk_skip","query":"谢谢","expects":[],"shouldSkip":true},
+
+  {"type":"fuzzy_semantic","query":"怎么把记忆库重新整理并可搜索","expects":["reindex","search"]},
+  {"type":"fuzzy_semantic","query":"忘掉一条记忆但不删源文件","expects":["forget","tombstone"]},
+  {"type":"fuzzy_semantic","query":"导出记忆到文件","expects":["export","--out"]},
+  {"type":"fuzzy_semantic","query":"看看记忆库有多少条文档","expects":["stats","docs"]},
+
+  {"type":"synonym","query":"混合召回排序","expects":["hybrid","fusion"]},
+  {"type":"synonym","query":"向量 + 关键词 检索","expects":["vector","bm25"]},
+  {"type":"synonym","query":"语义检索权重怎么调","expects":["bm25Weight","vectorWeight"]},
+  {"type":"synonym","query":"近因衰减半衰期","expects":["halfLife","recency"]},
+  {"type":"synonym","query":"去重重排","expects":["mmr","去冗余"]}
+]

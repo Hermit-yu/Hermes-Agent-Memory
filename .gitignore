@@ -32,3 +32,6 @@ memory-echoDB/indexes/**
 # OS
 .DS_Store
 Thumbs.db
+
+# Curator 派生缓存 (内容寻址, 由 skills 派生可再生; 历史版本内嵌过共享 DB 活口令) -> 不入 git
+hermes-vps/curator-backups/

@@ -1,0 +1,28 @@
+{
+  "id": "bb502a19",
+  "subsystem": "memory",
+  "action": "batch",
+  "summary": "background review consolidation (batch on memory): - remove: 云瞳终局载体上线; - remove: 云瞳面板访问/凭据; - add: [云瞳 2026-10-17 重大转向] 旧 v2 纯Go(watcher/fixer/静态面板/部署三件套)已全删：systemd unit、/opt/yuntong、/root/yuntong、ng",
+  "origin": "background_review",
+  "created_at": 1792212960.434489,
+  "payload": {
+    "action": "batch",
+    "target": "memory",
+    "operations": [
+      {
+        "action": "remove",
+        "old_text": "云瞳终局载体上线",
+        "matched_entry": "云瞳终局载体上线(2026-10-13): FastAPI=/root/yuntong/api(systemd yuntong-api, venv基于系统py3.12, pip --target装入), Next.js=/root/yuntong/web(standalone, systemd yuntong-web), 均绑宿主docker网关172.20.0.1(非公网), ufw规则 'from 172.20.0.0/16 to any 8891,3000'; nginx conf指向172.20.0.1; PHP面板(172.18.0.3:8890, yuntong-php服务)保留做回滚兜底, 配置备份/home/web/conf.d/yuntong.taoque.top.conf.php-backup-20261012; node真实路径/root/.hermes/tools/node-26.7.0-linux-x64/bin/node。"
+      },
+      {
+        "action": "remove",
+        "old_text": "云瞳面板访问/凭据",
+        "matched_entry": "云瞳面板访问/凭据 (2026-10-12): 面板 https://yuntong.taoque.top (本机内网 http://172.20.0.1:3000)。登录账号 yuntong / 密码 Yt-e6b64501cd0a，存于 /root/.hermes/cache/scratch/yuntong-panel-creds.txt。部署: 本机 /root/yuntong (systemd yuntong-api/web) + 139 /opt/yuntong (Debian13, SSH 走 23528 端口, key /root/.ssh/yuntong-mgr_ed25519)。本机 API 绑 172.20.0.1:8891 (docker 网关, 非 127.0.0.1)。"
+      },
+      {
+        "action": "add",
+        "content": "[云瞳 2026-10-17 重大转向] 旧 v2 纯Go(watcher/fixer/静态面板/部署三件套)已全删：systemd unit、/opt/yuntong、/root/yuntong、nginx vhost、acme 证书、ufw 8901 规则全部清除，无远端备份（用户明确不备份）。新项目按 /opt/yuntong/《云瞳安全平台整体构建计划 V0.1.docx》重建：面向个人自管 Linux 的自托管 AI 安全平台，原生 LDNMP + 多发行版适配（非纯 Go 单二进制）。不变量：默认只读、危险操作不静默自动执行、AI 输出视为不可信、独立策略/审批层(默认拒绝)、失败关闭、不虚构数据/演示数据须醒目标注。里程碑 M0-M6，M0=只读审计先出实施+风险清单再动码。旧 v2 相关记忆条目作废。"
+      }
+    ]
+  }
+}
