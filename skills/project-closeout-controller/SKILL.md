@@ -1,6 +1,6 @@
 ﻿---
 name: project-closeout-controller
-description: Control closeout state after freeze: monitor-only mode, no new rounds after final freeze unless explicitly re-opened; escalate only on blocker/risk degradation.
+description: "Control closeout state after freeze: monitor-only mode, no new rounds after final freeze unless explicitly re-opened; escalate only on blocker/risk degradation."
 ---
 
 # Project Closeout Controller

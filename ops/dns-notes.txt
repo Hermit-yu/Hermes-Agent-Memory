@@ -1,0 +1,9 @@
+# 域名解析登记 (2026-10-23) — 换机后在 DNS 服务商把这些指到新 IP
+# 当前全部指向本机 38.14.254.100
+dig +short A www.taoque.top || true
+www.taoque.top -> 38.14.254.100 # active
+pass.taoque.top -> 38.14.254.100 # active
+sub.taoque.top -> 38.14.254.100 # active
+subs.taoque.top -> 38.14.254.100 # active
+komari.taoque.top -> 38.14.254.100 # active
+yuntong.taoque.top -> 38.14.254.100 # 平台已拆除(2026-10-23), 待删记录

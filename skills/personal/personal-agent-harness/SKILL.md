@@ -208,6 +208,14 @@ Before declaring integration complete, verify each of the following:
 - This change left no half-migrated reference state;
 - Rollback has been **actually rehearsed**, not merely described in documentation.
 
+### 10. Bottom-layer source import (memory/skill sync procedure)
+When user asks to import a bottom-layer source file into the framework:
+- Read the full source first (no direct edit / new-file creation before verification); verify version / line count / master vs copy; label live/mirror/archive.
+- Store by path + purpose in DB (Honcho workspace `hermes`, `recallSync=true`); use exactly 21-character `public_id` (`ck_messages_public_id_length` requires `length = 21` — arbitrary length fails; construct ID explicitly and verify with `python3 -c "len('...')"` before INSERT).
+- Convert to a class-level umbrella skill (`skill_manage` create / patch): `SKILL.md` with procedure + always-on rules + `references/` topical depth; name must be class-level (never session/article/error-strained); reference source file path in body.
+- Confirm new sessions load by default (profile/toolset reference, not only file existence); do NOT clear DB unless user explicitly asks for pre-transfer cleanup.
+- Pitfall: `honcho_search` / `honcho_profile` require running service (`localhost:8000`; `honcho status` verify); `recallSync` false means writes delay; `honcho.json` `base_url` mismatch breaks retrieval.
+
 ## Meta-Governance: How the Framework Safely Modifies Itself
 
 A change to the rules carries a risk level **no lower than** that of any task the rules govern. Every rule change must therefore go through its own approval chain and include:
@@ -253,6 +261,7 @@ Periodic audit: re-run the five-dimensional diagnosis on a fixed cadence — not
 ## Auxiliary Files
 
 - `templates/harness-gap-matrix.md` — reusable template for the assessment report the user reviews (used before integration).
+- `references/honcho-db-sync.md` — DB sync procedure: 21-char public_id constraint, insert pattern, recallSync/per-directory settings, service verification (`honcho status`, `/docs`, auth/filter endpoints), troubleshooting (`initializing` -> restart with LLM key).
 
 ## Revision Log
 

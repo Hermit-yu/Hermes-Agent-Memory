@@ -1,0 +1,105 @@
+services:
+  nginx:
+    image: kjlion/nginx:alpine
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./conf.d:/etc/nginx/conf.d
+      - ./stream.d:/etc/nginx/stream.d
+      - ./certs:/etc/nginx/certs
+      - ./html:/var/www/html
+      - ./letsencrypt:/var/www/letsencrypt
+      - ./log/nginx:/var/log/nginx
+      - php-socket-php:/run/php
+      - php-socket-php74:/run/php74
+    tmpfs:
+      - /var/cache/nginx:rw,noexec,nosuid,size=2048m
+    depends_on:
+      vaultwarden:
+        condition: service_started
+
+  php:
+    image: kjlion/php:fpm-alpine
+    container_name: php
+    restart: always
+    volumes:
+      - ./html:/var/www/html
+      -  php-socket-php:/run/php
+      - ./php-fpm.d/zz-socket.conf:/usr/local/etc/php-fpm.d/zz-socket.conf
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+
+  php74:
+    image: kjlion/php:7.4-fpm-alpine
+    container_name: php74
+    restart: always
+    volumes:
+      - ./html:/var/www/html
+      -  php-socket-php74:/run/php74
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    restart: always
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${WEB_MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: c23f4f59
+      MYSQL_PASSWORD: ${WEB_MYSQL_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${WEB_MYSQL_ROOT_PASSWORD}"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    volumes:
+      - ./redis:/data
+
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: always
+    volumes:
+      - ./html/pass.taoque.top/bitwarden/data:/data
+
+volumes:
+  php-socket-php:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: size=64m
+
+  php-socket-php74:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: size=64m
+
+
+# networks:
+#   default:
+#     enable_ipv6: true
+
+
+
+
+
+

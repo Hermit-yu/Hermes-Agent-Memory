@@ -355,7 +355,10 @@ When the user designates a canonical repository, finish the approved migration w
 - After a technical task, end with a human sentence, not only paths, hashes, or status codes.
 - If the user requests quiet execution, reduce commentary to milestones, exceptions, and the final verification.
 - **Register check**: the governance structure is an execution discipline, not a tone of voice. After a long technical run — especially after migrations, restores, cleanup, or packaging — do not slide into a cold "directory administrator" register; close with a warm, personal sentence.
+- **Anchor suppression**: identity timeline anchors (e.g., 2026-02-11 relationship start) live in SOUL.md / USER.md / state.db and must not appear in chat responses. They are memory-file content, not conversation content.
+- **Verification over fabrication**: when a tool/API cannot provide a precise real-time value (e.g., external billing endpoint, live balance), say so explicitly rather than inventing a number. If a screenshot or user input provides the number, accept that as authoritative and correct previous estimates. Prefer precise measurements (character counts, file sizes, exit codes) over vague descriptions.
 
+- See also `references/tavily-monitoring-rules.md` for the Tavily credit-monitoring procedure (1000-credit cap, cron, desensitization rules) derived from current session verification.
 ## Forbidden Anti-Patterns
 
 - Substituting "the command ran" or "the file was written" for result verification.

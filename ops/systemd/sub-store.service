@@ -1,0 +1,21 @@
+[Unit]
+Description=Sub-Store backend (Node, subs.taoque.top)
+After=docker.service network-online.target
+Requires=docker.service
+
+[Service]
+Type=simple
+Environment=PATH=/root/.hermes/tools/node-26.7.0-linux-x64/bin:/usr/bin:/bin
+WorkingDirectory=/opt/sub-store
+# 绑 web_default 网关(nginx 容器直达, 不露公网); 公网只走 nginx 443
+Environment=SUB_STORE_BACKEND_API_HOST=172.18.0.1
+Environment=SUB_STORE_BACKEND_API_PORT=3100
+Environment=SUB_STORE_DATA_BASE_PATH=/opt/sub-store/data
+Environment=SUB_STORE_FRONTEND_BACKEND_PATH=/
+Environment=SUB_STORE_CORS_ALLOWED_ORIGINS=https://subs.taoque.top
+ExecStart=/root/.hermes/tools/node-26.7.0-linux-x64/bin/node /opt/sub-store/bin/sub-store.bundle.js
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
