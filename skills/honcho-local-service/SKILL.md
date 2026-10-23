@@ -33,4 +33,4 @@ Pitfalls:
 
 数据在 docker 卷（`honcho-local_*_pgdata`）里，容器删了数据也删了。要留后路时：
 - 快照命令：`docker exec honcho-local-database-1 sh -c 'pg_dump -U postgres -d postgres -Fc -f /tmp/honcho.dump'`，再 `docker cp` 到宿主机；`pg_restore --list` 校验可读。注意 `-f` 写的是**容器内**路径，宿主机直接拼 `-f` 会写错地方。
-- 灾备镜像在 OpenClaw-Memory 仓库 `services/honcho/`（脱敏配置 + `snapshots/*.dump` + 恢复 README）：整机/容器重建时先 `git pull` 该目录拿快照与配置模板，再按 README 重建并回填密钥。
+- 灾备镜像在 Hermes-Agent-Memory 仓库 `services/honcho/`（脱敏配置 + `snapshots/*.dump` + 恢复 README）：整机/容器重建时先 `git pull` 该目录拿快照与配置模板，再按 README 重建并回填密钥。

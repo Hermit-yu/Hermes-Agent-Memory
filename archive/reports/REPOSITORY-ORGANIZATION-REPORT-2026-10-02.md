@@ -1,4 +1,4 @@
-# OpenClaw-Memory Repository Organization Report / 仓库整理报告
+# Hermes-Agent-Memory Repository Organization Report / 仓库整理报告
 
 - Generated: 2026-10-02
 - Scope: all 638 Git-tracked files, including every nested child item
@@ -17,7 +17,7 @@
 ## 2. Recommended target tree / 建议目标目录树
 
 ```text
-OpenClaw-Memory/
+Hermes-Agent-Memory/
 ├── README.md                         # Repository guide / 仓库总览
 ├── AGENTS.md                         # Working rules / 协作规则
 ├── LICENSE                           # License / 许可证
@@ -602,7 +602,7 @@ edict-governance/POLICY_TEMPLATE.json` — **Historical delivery copy; compare w
 - `projects/智妍的自我提升计划/管理结构总览-中枢院枢密院-含现有会话-v3.md` — **Project source document or project artifact / 项目源文档或项目产物** — `KEEP / 保留；按项目状态复核` — 1.9 KiB. Content marker / 内容标记：《智妍的自我提升计划》管理结果总览（v3）
 ### `README.md/` — Repository overview / 仓库总览
 
-- `README.md` — **Repository overview / 仓库总览** — `KEEP / 保留` — 1.1 KiB. Content marker / 内容标记：﻿# OpenClaw-Memory
+- `README.md` — **Repository overview / 仓库总览** — `KEEP / 保留` — 1.1 KiB. Content marker / 内容标记：﻿# Hermes-Agent-Memory
 ### `reports/` — Standalone reports / 独立报告
 
 - `reports/openclaw_cleanup_candidates_20260301_111116.txt` — **Standalone report or cleanup candidate / 独立报告或清理候选** — `REVIEW / 待确认` — 2.9 KiB. Content marker / 内容标记：﻿# Backup candidates (openclaw.json.bak*)\n

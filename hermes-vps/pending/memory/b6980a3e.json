@@ -2,14 +2,14 @@
   "id": "b6980a3e",
   "subsystem": "memory",
   "action": "replace",
-  "summary": "background review consolidation (replace on memory): - replace entry matching 'OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/OpenClaw-Memory' -> whole entry becomes: Ho",
+  "summary": "background review consolidation (replace on memory): - replace entry matching 'OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/Hermes-Agent-Memory' -> whole entry becomes: Ho",
   "origin": "background_review",
   "created_at": 1791454293.5119135,
   "payload": {
     "action": "replace",
     "target": "memory",
     "content": "Honcho self-hosted at localhost:8000 (docker); /root/.hermes/honcho.json (per-directory, recallSync=true); DB localhost:5432/postgres (PGPASSWORD=postgres); LLM key /root/.hermes/.env; messages sync verified.",
-    "old_text": "OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/OpenClaw-Memory",
-    "matched_entry": "OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/OpenClaw-Memory"
+    "old_text": "OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/Hermes-Agent-Memory",
+    "matched_entry": "OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/Hermes-Agent-Memory"
   }
 }

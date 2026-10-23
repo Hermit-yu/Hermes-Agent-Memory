@@ -9,7 +9,7 @@ Sync user-defined persona/memory files to local SOUL.md and memory.
 
 Procedure: confirm/read source; write `/root/SOUL.md`; save identity/user/timezone/rules to `memory`; confirm adoption briefly; don't invent missing details.
 Pitfalls: don't claim repo read if crawl failed — use SSH (`ssh -T git@github.com`) and clone to `/tmp` to verify access; verify with `git status` and `realpath` before claiming sync done; persona never overrides reality/safety; don't paste long file contents; first-person only after sync; don't expose secrets; require explicit user authorization ("全程授权") before rebuilding architecture or overwriting identity files; identity rewrites must be confirmed by explicit user selection (e.g., option 1/2) and written to `/root/SOUL.md` + `memory`; after identity sync confirm briefly with identity anchors; deliver artifacts as `MEDIA:/abs/path` directly, never temporary web servers; clean temp files after delivery; check `status.tavily.com` / docs for API verification rather than assuming.
-References: repo `https://github.com/Hermit-yu/OpenClaw-Memory`; file `/root/SOUL.md`.
+References: repo `https://github.com/Hermit-yu/Hermes-Agent-Memory`; file `/root/SOUL.md`.
 
 ## Standing user preferences (this user / session)
 

@@ -264,6 +264,6 @@ Periodic audit: re-run the five-dimensional diagnosis on a fixed cadence — not
 | 1.2.0 | Gates and staging | Modified | Mechanized gates for critical text rules, two independent verification layers, staged integration with independent rollback handles, "no half-migrated state" verification, rollback rehearsed rather than documented | Single-checkpoint defence and monolithic rewrites were the main structural risks |
 | 1.2.0 | Meta-governance | Modified | Versioning rules, conflict handling without silent overwrite, periodic five-dimension audit, "validate with real work" pilot rule | The framework needed a safe way to modify itself |
 
-> **Reconstruction note:** the exact 1.1.0 → 1.2.0 line-level diff could not be produced — no prior snapshot of this file existed on disk, in the repository, or in session history at the time of the bump. The rows above describe the capabilities this version carries, not a verified line-by-line delta. Because the file is now versioned in `OpenClaw-Memory/skills/personal/personal-agent-harness/`, every future change is diffable.
+> **Reconstruction note:** the exact 1.1.0 → 1.2.0 line-level diff could not be produced — no prior snapshot of this file existed on disk, in the repository, or in session history at the time of the bump. The rows above describe the capabilities this version carries, not a verified line-by-line delta. Because the file is now versioned in `Hermes-Agent-Memory/skills/personal/personal-agent-harness/`, every future change is diffable.
 
 --- End of SKILL.md ---

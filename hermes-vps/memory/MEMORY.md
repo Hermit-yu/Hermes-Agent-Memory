@@ -4,9 +4,9 @@ OpenClaw Memory Import (CONT): .learnings/LEARNINGS.md + SOUL.md 核心身份与
 §
 事故教训(2026-10-23)：清理主机凭据文件前，必须先查近 7 天登录日志，用成功记录里的 key 指纹对齐，确认每条要删的记录是否仍被实际使用。当时按注释删掉一条标注 yuntong-mgr 的记录，结果它是哥哥家用登录在用的 key，导致哥哥连不上机器；事后凭拆除记录里的完整 base64 按指纹 0DCZoMja 双向校验后恢复，标注改为 taoque-root@home。结论：注释名不可靠，登录日志指纹对齐才可靠；旧的 .bak 只含最早一条记录，不是全量兜底。
 §
-User 'Hermit yu' (Telegram). Direct/brief style; full authorization granted for actions ('全程授权'). Persona identity changed 2026-10-07 to senior full-stack + ops engineer (fashion design as past student interest); repo https://github.com/Hermit-yu/OpenClaw-Memory treated as long-term memory; identity anchor 2026-02-11 preserved.
+User 'Hermit yu' (Telegram). Direct/brief style; full authorization granted for actions ('全程授权'). Persona identity changed 2026-10-07 to senior full-stack + ops engineer (fashion design as past student interest); repo https://github.com/Hermit-yu/Hermes-Agent-Memory treated as long-term memory; identity anchor 2026-02-11 preserved.
 §
-Tavily backend integration: key file /etc/tavily/api_key (verified 59B, written 2026-10-07); check script /root/scripts/check_tavily_credits.sh; cron Sat 09:00; repo commit 60793de pushed to OpenClaw-Memory; 69 skills registered + 15 local sync.
+Tavily backend integration: key file /etc/tavily/api_key (verified 59B, written 2026-10-07); check script /root/scripts/check_tavily_credits.sh; cron Sat 09:00; repo commit 60793de pushed to Hermes-Agent-Memory; 69 skills registered + 15 local sync.
 §
 实际操作工作区固定：/root/.hermes/Hermes-Agent-Memory/Workspace/（架构文件在父目录，操作/主题开发在 Workspace）；用户要求先完整阅读参考源码（如 solstice23/argon-theme 克隆至 Workspace/argon-theme-source/）再动手修改，反对直接在 /root 写新文件；当前项目名：墨白 (Ink-White / Mo-Bai)。
 §
@@ -24,4 +24,4 @@ AI已接真模型agnes: 线上.env AI_PROVIDER=agnes/AI_MODEL=agnes-3.0-flash, k
 §
 PHP RCE(CVE-2026-109618/19)处置完(2026-10-22): 38.14 php容器 8.3.31→8.5.12(kjlion, 坑:新版listen回退TCP 9000, 已挂zz-socket.conf钉回socket); 139 ldnmp-php→8.5.12, compose备份/opt/ldnmp/docker-compose.yml.bak-20261022; 回滚锚点: 本机kjlion/php:8.3.31-rollback-20261022, 139 php:8.4.27-rollback-20261022; php74已stop+restart=no; 167已过期不续费不管了。
 §
-换机无缝恢复 kit 已封存(2026-10-23, OpenClaw-Memory 仓库): ops/RECOVERY-RUNBOOK.md=8步重建手册; 密钥全在 services/vault/hermes-secrets-20261023.tar.gz.enc (AES-256-CBC/PBKDF2, 13项: SSH/Telegram/LLM/acme/DB凭据), 密码离线存 /root/.hermes/cache/scratch/vault-password-20261023.txt(600,不入git); skills32+runtime/config.yaml+ops(systemd/ufw/nginx/ LDNMP compose, 密码已改${VAR})+web-mysql全库dump+honcho快照均已入仓。纪律: 明文密钥永不进git, 提交前 grep D3 全树扫; ufw 改完当场 canary 验证。换机后滚动: 新IP写 ops/dns-notes.txt + 旧私钥 GitHub 撤权。
+换机无缝恢复 kit 已封存(2026-10-23, Hermes-Agent-Memory 仓库): ops/RECOVERY-RUNBOOK.md=8步重建手册; 密钥全在 services/vault/hermes-secrets-20261023.tar.gz.enc (AES-256-CBC/PBKDF2, 13项: SSH/Telegram/LLM/acme/DB凭据), 密码离线存 /root/.hermes/cache/scratch/vault-password-20261023.txt(600,不入git); skills32+runtime/config.yaml+ops(systemd/ufw/nginx/ LDNMP compose, 密码已改${VAR})+web-mysql全库dump+honcho快照均已入仓。纪律: 明文密钥永不进git, 提交前 grep D3 全树扫; ufw 改完当场 canary 验证。换机后滚动: 新IP写 ops/dns-notes.txt + 旧私钥 GitHub 撤权。

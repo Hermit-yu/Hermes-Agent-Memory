@@ -2,7 +2,7 @@
 
 > 状态：Active
 > 生效：2026-10-05
-> 权威仓库：`Hermit-yu/OpenClaw-Memory`
+> 权威仓库：`Hermit-yu/Hermes-Agent-Memory`
 > 单一权威声明：**风险等级（L0–L3）与数据分级（D0–D3）的完整定义只在本文件维护。** `ziyan-governance`、`personal-agent-collaboration`、MEMORY 摘要、项目文档等位置只允许**引用**本文件或保留一句话摘要，**不得复制完整表格**。
 
 ---

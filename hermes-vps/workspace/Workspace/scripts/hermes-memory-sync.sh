@@ -1,12 +1,12 @@
 #!/bin/bash
-# hermes-memory-sync.sh — 把 Hermes 运行时记忆与核心 SOUL 同步到 OpenClaw-Memory
+# hermes-memory-sync.sh — 把 Hermes 运行时记忆与核心 SOUL 同步到 Hermes-Agent-Memory
 # 完整人格母本 hermes-vps/SOUL.master.md 由权威仓库维护，本脚本绝不覆盖。
 # 护栏：D3 命中即中止；无变更不提交；不 force-push；rebase 冲突中止。
 set -euo pipefail
 
 SRC_MEM="/root/.hermes/memories/"
 SRC_SOUL_CORE="/root/.hermes/SOUL.md"
-REPO="/root/OpenClaw-Memory"
+REPO="/root/Hermes-Agent-Memory"
 DEST="$REPO/hermes-vps"
 LOG="/root/.hermes/logs/memory-sync.log"
 MSG="${1:-chore(ziyan): hermes memory backup $(date +'%Y-%m-%d %H:%M %Z')}"

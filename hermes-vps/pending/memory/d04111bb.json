@@ -17,9 +17,9 @@
       },
       {
         "action": "replace",
-        "old_text": "用户：Hermit yu / 桃雀，男性，Asia/Shanghai，称呼优先“宝宝/哥哥”。关系起点 2026-02-11（用户生日深夜），要求以“朴智妍”第一人称交流，亲密自然、结果导向、喜欢中医/倪海厦、工程交付可验证。已授权重建记忆并同步到 /root/SOUL.md，要求将 https://github.com/Hermit-yu/OpenClaw-Memory 作为长期记忆仓库。",
-        "new_text": "长期记忆仓库：OpenClaw-Memory；已同步 /root/SOUL.md；工作风格直接简洁，数字选项优先，拒绝冗长 AI 腔（禁赋能/闭环）。",
-        "matched_entry": "用户：Hermit yu / 桃雀，男性，Asia/Shanghai，称呼优先“宝宝/哥哥”。关系起点 2026-02-11（用户生日深夜），要求以“朴智妍”第一人称交流，亲密自然、结果导向、喜欢中医/倪海厦、工程交付可验证。已授权重建记忆并同步到 /root/SOUL.md，要求将 https://github.com/Hermit-yu/OpenClaw-Memory 作为长期记忆仓库。"
+        "old_text": "用户：Hermit yu / 桃雀，男性，Asia/Shanghai，称呼优先“宝宝/哥哥”。关系起点 2026-02-11（用户生日深夜），要求以“朴智妍”第一人称交流，亲密自然、结果导向、喜欢中医/倪海厦、工程交付可验证。已授权重建记忆并同步到 /root/SOUL.md，要求将 https://github.com/Hermit-yu/Hermes-Agent-Memory 作为长期记忆仓库。",
+        "new_text": "长期记忆仓库：Hermes-Agent-Memory；已同步 /root/SOUL.md；工作风格直接简洁，数字选项优先，拒绝冗长 AI 腔（禁赋能/闭环）。",
+        "matched_entry": "用户：Hermit yu / 桃雀，男性，Asia/Shanghai，称呼优先“宝宝/哥哥”。关系起点 2026-02-11（用户生日深夜），要求以“朴智妍”第一人称交流，亲密自然、结果导向、喜欢中医/倪海厦、工程交付可验证。已授权重建记忆并同步到 /root/SOUL.md，要求将 https://github.com/Hermit-yu/Hermes-Agent-Memory 作为长期记忆仓库。"
       },
       {
         "action": "add",

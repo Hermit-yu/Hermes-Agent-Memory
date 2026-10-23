@@ -10,7 +10,7 @@
 NOISE = 运行态/可重建, 从本地侧排除 (它们不该进仓, 也随环境变, 不影响可复原性)。"""
 import os, sys, hashlib, json, re
 
-REPO = "/root/OpenClaw-Memory"
+REPO = "/root/Hermes-Agent-Memory"
 L = "/root/.hermes"
 
 # 从本地侧排除的噪声/可重建 (目录名 / 文件名)

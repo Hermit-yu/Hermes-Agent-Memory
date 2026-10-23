@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # 换机复原 — 在一台干净 Debian/Ubuntu VPS (root) 上跑本脚本, 从本仓库重建 Hermes-Agent 全量。
 # 用法:  hermes-restore.sh <VAULT_PASSWORD> [TARGET=/root]
-# 前置:  已 git clone OpenClaw-Memory 到 REPO_DIR (默认 /root/OpenClaw-Memory), 已装 docker
+# 前置:  已 git clone Hermes-Agent-Memory 到 REPO_DIR (默认 /root/Hermes-Agent-Memory), 已装 docker
 set -euo pipefail
-REPO="${REPO:-/root/OpenClaw-Memory}"
+REPO="${REPO:-/root/Hermes-Agent-Memory}"
 TGT="${2:-/root}"
 PASS="${1:-}"
 [ -n "$PASS" ] || { echo "用法: $0 <VAULT_PASSWORD> [TARGET]"; exit 1; }

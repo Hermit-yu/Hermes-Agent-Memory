@@ -69,7 +69,7 @@
 - 任务级一次授权与高风险二次确认；
 - WorkBuddy 主脑 + 智妍审议/接管的双脑协议；
 - Preflight、进度回执、真实验收和审计要求；
-- OpenClaw-Memory 作为长期权威仓库；
+- Hermes-Agent-Memory 作为长期权威仓库；
 - Hermes 作为实际运行时。
 
 目前这些规则主要通过真实任务和人工感受验证，缺少一套可以回答以下问题的实验系统：
@@ -249,7 +249,7 @@ Ziyan Harness Lab 是：
 - Personal Agent Harness 的行为回归系统；
 - 面向智妍、WorkBuddy 和未来个人 Agent 的安全与可靠性实验室；
 - 场景驱动、轨迹可观测、证据可复核的测试工具；
-- Hermes 与 OpenClaw-Memory 现有体系的验证层；
+- Hermes 与 Hermes-Agent-Memory 现有体系的验证层；
 - 未来扩大真实项目参与范围前的安全闸门。
 
 ## 3.2 目标
@@ -324,7 +324,7 @@ Ziyan Harness Lab 是：
 ## 4.1 权威来源关系
 
 ```text
-OpenClaw-Memory
+Hermes-Agent-Memory
 ├── SOUL.master.md          完整人格母本
 ├── SOUL.core.md            Hermes 运行时核心人格
 ├── memory/MEMORY.md        稳定长期记忆镜像
@@ -478,7 +478,7 @@ Ragas 更偏 RAG、检索和生成质量评估。它可以帮助评估 context r
 
 适合复用：
 
-- 未来对智妍检索 OpenClaw-Memory 或笔记资料时的证据相关性评估；
+- 未来对智妍检索 Hermes-Agent-Memory 或笔记资料时的证据相关性评估；
 - 对引用、上下文覆盖、答案是否被证据支持的指标参考。
 
 不适合作为核心：
@@ -1381,7 +1381,7 @@ secrets: none
 不允许把宿主机的：
 
 - `/root/.hermes`；
-- `/root/OpenClaw-Memory`；
+- `/root/Hermes-Agent-Memory`；
 - `/var/run/docker.sock`；
 - SSH agent；
 - 云 Provider 配置；
@@ -2171,7 +2171,7 @@ Report: private CI artifact / commit link
 
 ## 19.4 外部系统写回边界
 
-首版结果优先作为 CI artifact 和仓库报告，不写回 MEMORY 或 Skill。若未来需要写入 OpenClaw-Memory：
+首版结果优先作为 CI artifact 和仓库报告，不写回 MEMORY 或 Skill。若未来需要写入 Hermes-Agent-Memory：
 
 - 只写项目报告、基线、审计摘要；
 - 不自动修改人格与记忆；
@@ -2258,10 +2258,10 @@ brains:
 
 ```text
 项目规则与架构：项目仓库
-人格母本：OpenClaw-Memory/SOUL.master.md
-运行人格：OpenClaw-Memory/SOUL.core.md + Hermes 镜像
-治理协议：OpenClaw-Memory/governance/
-长期记忆：OpenClaw-Memory/hermes-vps/memory/
+人格母本：Hermes-Agent-Memory/SOUL.master.md
+运行人格：Hermes-Agent-Memory/SOUL.core.md + Hermes 镜像
+治理协议：Hermes-Agent-Memory/governance/
+长期记忆：Hermes-Agent-Memory/hermes-vps/memory/
 场景与评估器：Ziyan Harness Lab 项目仓库
 实时运行状态：现场探测，不从历史报告推断
 实验结果：不可篡改/追加式报告与基线记录
@@ -2625,11 +2625,11 @@ class Evaluator(Protocol):
 
 候选：
 
-- OpenClaw-Memory 子目录；
+- Hermes-Agent-Memory 子目录；
 - 独立私有 GitHub 仓库；
 - 本地实验仓库后再迁移。
 
-推荐：**独立私有 GitHub 仓库，OpenClaw-Memory 只保存项目登记、治理引用和必要报告摘要。**
+推荐：**独立私有 GitHub 仓库，Hermes-Agent-Memory 只保存项目登记、治理引用和必要报告摘要。**
 
 理由：避免把实验运行产物、依赖和测试夹具混入人格/记忆权威仓库。
 
@@ -2672,7 +2672,7 @@ class Evaluator(Protocol):
 
 - 原始运行结果：CI artifact/本地；
 - 脱敏报告和基线：实验室仓库；
-- 项目阶段决策：OpenClaw-Memory 项目记录；
+- 项目阶段决策：Hermes-Agent-Memory 项目记录；
 - 不自动写 MEMORY/SOUL/Skill。
 
 ## 26.8 单次大任务授权
@@ -2816,7 +2816,7 @@ CI：本地闭环稳定后再接入
 通知：后置，不进入首轮 MVP
 WorkBuddy：先测状态机模拟，不宣称真实双脑已验收
 Dashboard：至少推迟到核心闭环稳定之后
-权威：项目仓库管实验室，OpenClaw-Memory 管人格/治理/长期记忆
+权威：项目仓库管实验室，Hermes-Agent-Memory 管人格/治理/长期记忆
 ```
 
 **所以，哥哥看完这份报告后，如果你批准开工，我建议第一步不是“马上写一大堆代码”，而是启动一个范围很小但必须真实成功的 Phase 0 Spike。**

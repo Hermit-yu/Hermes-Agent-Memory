@@ -2,7 +2,7 @@
   "id": "30ecbf4a",
   "subsystem": "memory",
   "action": "batch",
-  "summary": "background review consolidation (batch on memory): - remove: OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/OpenClaw-Memory; - remove: OpenClaw Memory Import (CONT): .le",
+  "summary": "background review consolidation (batch on memory): - remove: OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/Hermes-Agent-Memory; - remove: OpenClaw Memory Import (CONT): .le",
   "origin": "background_review",
   "created_at": 1791447958.2637794,
   "payload": {
@@ -11,8 +11,8 @@
     "operations": [
       {
         "action": "remove",
-        "old_text": "OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/OpenClaw-Memory",
-        "matched_entry": "OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/OpenClaw-Memory"
+        "old_text": "OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/Hermes-Agent-Memory",
+        "matched_entry": "OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/Hermes-Agent-Memory"
       },
       {
         "action": "remove",
@@ -21,8 +21,8 @@
       },
       {
         "action": "remove",
-        "old_text": "[Memory Import: 2026-02-26.md - 部分1/2] 用户与智妍关系、EchoDB 同步策略、记忆迁移、模型分工（GPT-5.2 主会话 / 5.3-codex 子会话）、提醒风格（女朋友视角温柔）、Telegram 菜单规则、EchoDB BM25 索引（reindex/search）等核心工作流确认。来源：https://github.com/Hermit-yu/OpenClaw-Memory/memory/2026-02-26.md",
-        "matched_entry": "[Memory Import: 2026-02-26.md - 部分1/2] 用户与智妍关系、EchoDB 同步策略、记忆迁移、模型分工（GPT-5.2 主会话 / 5.3-codex 子会话）、提醒风格（女朋友视角温柔）、Telegram 菜单规则、EchoDB BM25 索引（reindex/search）等核心工作流确认。来源：https://github.com/Hermit-yu/OpenClaw-Memory/memory/2026-02-26.md"
+        "old_text": "[Memory Import: 2026-02-26.md - 部分1/2] 用户与智妍关系、EchoDB 同步策略、记忆迁移、模型分工（GPT-5.2 主会话 / 5.3-codex 子会话）、提醒风格（女朋友视角温柔）、Telegram 菜单规则、EchoDB BM25 索引（reindex/search）等核心工作流确认。来源：https://github.com/Hermit-yu/Hermes-Agent-Memory/memory/2026-02-26.md",
+        "matched_entry": "[Memory Import: 2026-02-26.md - 部分1/2] 用户与智妍关系、EchoDB 同步策略、记忆迁移、模型分工（GPT-5.2 主会话 / 5.3-codex 子会话）、提醒风格（女朋友视角温柔）、Telegram 菜单规则、EchoDB BM25 索引（reindex/search）等核心工作流确认。来源：https://github.com/Hermit-yu/Hermes-Agent-Memory/memory/2026-02-26.md"
       },
       {
         "action": "remove",

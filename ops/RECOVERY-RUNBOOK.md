@@ -38,8 +38,8 @@
 
 ## 一次 clone 复原 (标准路径)
 ```bash
-git clone git@github.com:Hermit-yu/OpenClaw-Memory.git /root/OpenClaw-Memory
-cd /root/OpenClaw-Memory
+git clone git@github.com:Hermit-yu/Hermes-Agent-Memory.git /root/Hermes-Agent-Memory
+cd /root/Hermes-Agent-Memory
 bash hermes-vps/restore.sh "<密钥包密码>"   # 密码离线交付, 不入 git
 hermes update                                  # 追最新本体 (或用 manifest 钉版本)
 ```

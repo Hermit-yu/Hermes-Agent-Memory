@@ -172,7 +172,7 @@ Do not over-explain this to the user unless useful. Internally routing is enough
 
 ### Step 2 — Define Risk Level
 
-The authoritative L0–L3 definitions live in `governance/RISK-AND-DATA-CLASSIFICATION.md` (OpenClaw-Memory). **Reference that file; do not restate the table here.**
+The authoritative L0–L3 definitions live in `governance/RISK-AND-DATA-CLASSIFICATION.md` (Hermes-Agent-Memory). **Reference that file; do not restate the table here.**
 
 - **L0** — chat / explanation only; no tool side effects.
 - **L1** — safe local reads and low-risk generation.
@@ -288,7 +288,7 @@ Cron prompts must be self-contained and should include this governance style if 
 When the task updates long-term governance, identity, memory, or reusable procedures:
 
 1. Update the live Hermes skill or memory.
-2. Update the OpenClaw-Memory repository copy or notes.
+2. Update the Hermes-Agent-Memory repository copy or notes.
 3. Run a diff/security check.
 4. Commit with a clear message.
 5. Push and report commit hash.
@@ -472,7 +472,7 @@ execution_result, timestamp, rollback_ref
 
 ## Source Anchors
 
-This skill is derived from the user's OpenClaw-Memory governance docs:
+This skill is derived from the user's Hermes-Agent-Memory governance docs:
 
 ### 三省六部治理（原始规划）
 - `projects/智妍的自我提升计划/governance/三省六部-中枢院尚书局-实装方案.md`

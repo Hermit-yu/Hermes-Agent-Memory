@@ -123,7 +123,7 @@ Even when the platform offers only per-command, session-level, or permanent appr
 
 ### Risk levels and authorization requirements
 
-The authoritative L0–L3 definitions live in `governance/RISK-AND-DATA-CLASSIFICATION.md` (OpenClaw-Memory). **Reference it; do not restate the table here.**
+The authoritative L0–L3 definitions live in `governance/RISK-AND-DATA-CLASSIFICATION.md` (Hermes-Agent-Memory). **Reference it; do not restate the table here.**
 
 Operational rules specific to this skill:
 
@@ -143,7 +143,7 @@ Operational rules specific to this skill:
 
 ### Data classification and redaction baseline
 
-The authoritative D0–D3 table lives in `governance/RISK-AND-DATA-CLASSIFICATION.md` (OpenClaw-Memory). **Reference it; do not copy it here.**
+The authoritative D0–D3 table lives in `governance/RISK-AND-DATA-CLASSIFICATION.md` (Hermes-Agent-Memory). **Reference it; do not copy it here.**
 
 Operational rules specific to this skill:
 
@@ -341,7 +341,7 @@ Apply this migration in small commits with a pre-change backup. Do not simultane
 - **Governance repository**: versioned protocols, project rules, templates, and recovery instructions.
 - **Runtime state**: live service status, task status, and peer-agent availability; never infer these from stale memory.
 
-The authoritative matrix for this system is `OpenClaw-Memory/governance/SOURCE-OF-TRUTH.md`. Read it rather than restating it; when a category is missing there, propose a matrix update instead of inventing a local rule.
+The authoritative matrix for this system is `Hermes-Agent-Memory/governance/SOURCE-OF-TRUTH.md`. Read it rather than restating it; when a category is missing there, propose a matrix update instead of inventing a local rule.
 
 When the user designates a canonical repository, finish the approved migration with a reviewed commit and verify the remote branch points to the same commit. Treat that explicit designation as authorization for the requested final sync, but do not expand it to unrelated publication.
 

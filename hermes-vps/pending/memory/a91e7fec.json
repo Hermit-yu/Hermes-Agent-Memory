@@ -2,7 +2,7 @@
   "id": "a91e7fec",
   "subsystem": "memory",
   "action": "batch",
-  "summary": "background review consolidation (batch on memory): - remove: OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/OpenClaw-Memory; - remove: OpenClaw Memory Import (CONT): .le",
+  "summary": "background review consolidation (batch on memory): - remove: OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/Hermes-Agent-Memory; - remove: OpenClaw Memory Import (CONT): .le",
   "origin": "background_review",
   "created_at": 1791431840.3305743,
   "payload": {
@@ -11,9 +11,9 @@
     "operations": [
       {
         "action": "remove",
-        "old_text": "OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/OpenClaw-Memory",
+        "old_text": "OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/Hermes-Agent-Memory",
         "target": "memory",
-        "matched_entry": "OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/OpenClaw-Memory"
+        "matched_entry": "OpenClaw Memory Import: 2026-02-25 - 初始记忆数据导入，来源 https://github.com/Hermit-yu/Hermes-Agent-Memory"
       },
       {
         "action": "remove",
@@ -23,9 +23,9 @@
       },
       {
         "action": "remove",
-        "old_text": "[Memory Import: 2026-02-26.md - 部分1/2] 用户与智妍关系、EchoDB 同步策略、记忆迁移、模型分工（GPT-5.2 主会话 / 5.3-codex 子会话）、提醒风格（女朋友视角温柔）、Telegram 菜单规则、EchoDB BM25 索引（reindex/search）等核心工作流确认。来源：https://github.com/Hermit-yu/OpenClaw-Memory/memory/2026-02-26.md",
+        "old_text": "[Memory Import: 2026-02-26.md - 部分1/2] 用户与智妍关系、EchoDB 同步策略、记忆迁移、模型分工（GPT-5.2 主会话 / 5.3-codex 子会话）、提醒风格（女朋友视角温柔）、Telegram 菜单规则、EchoDB BM25 索引（reindex/search）等核心工作流确认。来源：https://github.com/Hermit-yu/Hermes-Agent-Memory/memory/2026-02-26.md",
         "target": "memory",
-        "matched_entry": "[Memory Import: 2026-02-26.md - 部分1/2] 用户与智妍关系、EchoDB 同步策略、记忆迁移、模型分工（GPT-5.2 主会话 / 5.3-codex 子会话）、提醒风格（女朋友视角温柔）、Telegram 菜单规则、EchoDB BM25 索引（reindex/search）等核心工作流确认。来源：https://github.com/Hermit-yu/OpenClaw-Memory/memory/2026-02-26.md"
+        "matched_entry": "[Memory Import: 2026-02-26.md - 部分1/2] 用户与智妍关系、EchoDB 同步策略、记忆迁移、模型分工（GPT-5.2 主会话 / 5.3-codex 子会话）、提醒风格（女朋友视角温柔）、Telegram 菜单规则、EchoDB BM25 索引（reindex/search）等核心工作流确认。来源：https://github.com/Hermit-yu/Hermes-Agent-Memory/memory/2026-02-26.md"
       },
       {
         "action": "remove",
@@ -41,15 +41,15 @@
       },
       {
         "action": "remove",
-        "old_text": "[Import SOUL/AGENTS/IDENTITY/USER/HEARTBEAT + .learnings] 个人身份、灵魂定义（SOUL.md）、代理规则（AGENTS.md）、身份标识（IDENTITY.md）、用户关系（USER.md）、心跳状态（HEARTBEAT.md）及学习记录（LEARNINGS/ERRORS/LRN-20260308-001/FEATURE_REQUESTS）已从 https://github.com/Hermit-yu/OpenClaw-Memory 导入 memory 工具。Skills 已复制并应用。",
+        "old_text": "[Import SOUL/AGENTS/IDENTITY/USER/HEARTBEAT + .learnings] 个人身份、灵魂定义（SOUL.md）、代理规则（AGENTS.md）、身份标识（IDENTITY.md）、用户关系（USER.md）、心跳状态（HEARTBEAT.md）及学习记录（LEARNINGS/ERRORS/LRN-20260308-001/FEATURE_REQUESTS）已从 https://github.com/Hermit-yu/Hermes-Agent-Memory 导入 memory 工具。Skills 已复制并应用。",
         "target": "memory",
-        "matched_entry": "[Import SOUL/AGENTS/IDENTITY/USER/HEARTBEAT + .learnings] 个人身份、灵魂定义（SOUL.md）、代理规则（AGENTS.md）、身份标识（IDENTITY.md）、用户关系（USER.md）、心跳状态（HEARTBEAT.md）及学习记录（LEARNINGS/ERRORS/LRN-20260308-001/FEATURE_REQUESTS）已从 https://github.com/Hermit-yu/OpenClaw-Memory 导入 memory 工具。Skills 已复制并应用。"
+        "matched_entry": "[Import SOUL/AGENTS/IDENTITY/USER/HEARTBEAT + .learnings] 个人身份、灵魂定义（SOUL.md）、代理规则（AGENTS.md）、身份标识（IDENTITY.md）、用户关系（USER.md）、心跳状态（HEARTBEAT.md）及学习记录（LEARNINGS/ERRORS/LRN-20260308-001/FEATURE_REQUESTS）已从 https://github.com/Hermit-yu/Hermes-Agent-Memory 导入 memory 工具。Skills 已复制并应用。"
       },
       {
         "action": "remove",
-        "old_text": "Tavily backend integration: key file /etc/tavily/api_key (verified 59B, written 2026-10-07); check script /root/scripts/check_tavily_credits.sh; cron Sat 09:00; repo commit 60793de pushed to OpenClaw-Memory; 69 skills registered + 15 local sync.",
+        "old_text": "Tavily backend integration: key file /etc/tavily/api_key (verified 59B, written 2026-10-07); check script /root/scripts/check_tavily_credits.sh; cron Sat 09:00; repo commit 60793de pushed to Hermes-Agent-Memory; 69 skills registered + 15 local sync.",
         "target": "memory",
-        "matched_entry": "Tavily backend integration: key file /etc/tavily/api_key (verified 59B, written 2026-10-07); check script /root/scripts/check_tavily_credits.sh; cron Sat 09:00; repo commit 60793de pushed to OpenClaw-Memory; 69 skills registered + 15 local sync."
+        "matched_entry": "Tavily backend integration: key file /etc/tavily/api_key (verified 59B, written 2026-10-07); check script /root/scripts/check_tavily_credits.sh; cron Sat 09:00; repo commit 60793de pushed to Hermes-Agent-Memory; 69 skills registered + 15 local sync."
       },
       {
         "action": "add",

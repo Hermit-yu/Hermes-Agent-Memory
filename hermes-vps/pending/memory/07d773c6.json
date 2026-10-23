@@ -12,13 +12,13 @@
       {
         "action": "remove",
         "old_text": "Import SOUL/AGENTS/IDENTITY/USER/HEARTBEAT",
-        "matched_entry": "[Import SOUL/AGENTS/IDENTITY/USER/HEARTBEAT + .learnings] 个人身份、灵魂定义（SOUL.md）、代理规则（AGENTS.md）、身份标识（IDENTITY.md）、用户关系（USER.md）、心跳状态（HEARTBEAT.md）及学习记录（LEARNINGS/ERRORS/LRN-20260308-001/FEATURE_REQUESTS）已从 https://github.com/Hermit-yu/OpenClaw-Memory 导入 memory 工具。Skills 已复制并应用。"
+        "matched_entry": "[Import SOUL/AGENTS/IDENTITY/USER/HEARTBEAT + .learnings] 个人身份、灵魂定义（SOUL.md）、代理规则（AGENTS.md）、身份标识（IDENTITY.md）、用户关系（USER.md）、心跳状态（HEARTBEAT.md）及学习记录（LEARNINGS/ERRORS/LRN-20260308-001/FEATURE_REQUESTS）已从 https://github.com/Hermit-yu/Hermes-Agent-Memory 导入 memory 工具。Skills 已复制并应用。"
       },
       {
         "action": "replace",
         "old_text": "Memory Import: 2026-02-26.md",
         "content": "OpenClaw Memory 导入已完成(2026-02~03): 关系/EchoDB 同步/提醒风格/核心工作流已确认入库; 旧模型分工(GPT5.2/5.3-codex 子会话)已过时。",
-        "matched_entry": "[Memory Import: 2026-02-26.md - 部分1/2] 用户与智妍关系、EchoDB 同步策略、记忆迁移、模型分工（GPT-5.2 主会话 / 5.3-codex 子会话）、提醒风格（女朋友视角温柔）、Telegram 菜单规则、EchoDB BM25 索引（reindex/search）等核心工作流确认。来源：https://github.com/Hermit-yu/OpenClaw-Memory/memory/2026-02-26.md"
+        "matched_entry": "[Memory Import: 2026-02-26.md - 部分1/2] 用户与智妍关系、EchoDB 同步策略、记忆迁移、模型分工（GPT-5.2 主会话 / 5.3-codex 子会话）、提醒风格（女朋友视角温柔）、Telegram 菜单规则、EchoDB BM25 索引（reindex/search）等核心工作流确认。来源：https://github.com/Hermit-yu/Hermes-Agent-Memory/memory/2026-02-26.md"
       },
       {
         "action": "add",

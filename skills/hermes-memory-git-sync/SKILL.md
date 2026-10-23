@@ -1,18 +1,18 @@
 ---
 name: hermes-memory-git-sync
-description: 把 VPS Hermes（智妍）的运行时记忆与核心人格同步到 OpenClaw-Memory 私有仓库，供灾难恢复使用。完整 SOUL 母本由仓库维护，脚本不会覆盖。内置 D3 拦截、幂等提交与冲突中止。
+description: 把 VPS Hermes（智妍）的运行时记忆与核心人格同步到 Hermes-Agent-Memory 私有仓库，供灾难恢复使用。完整 SOUL 母本由仓库维护，脚本不会覆盖。内置 D3 拦截、幂等提交与冲突中止。
 ---
 
 # Hermes Memory Git Sync
 
 ## 用途
 
-备份落在 `Hermit-yu/OpenClaw-Memory` 私有仓库的 `hermes-vps/`：
+备份落在 `Hermit-yu/Hermes-Agent-Memory` 私有仓库的 `hermes-vps/`：
 
 - `hermes-vps/memory/` ← `/root/.hermes/memories/`
 - `hermes-vps/SOUL.core.md` ← `/root/.hermes/SOUL.md`（每轮加载的短版核心人格）
 - `hermes-vps/SOUL.md` ← 核心人格兼容镜像
-- `hermes-vps/SOUL.master.md` = 完整人格母本，由 OpenClaw-Memory 维护；自动同步脚本**不得覆盖**
+- `hermes-vps/SOUL.master.md` = 完整人格母本，由 Hermes-Agent-Memory 维护；自动同步脚本**不得覆盖**
 
 排除：`*.bak*`、`*.lock`、`*.db*`。
 
@@ -28,7 +28,7 @@ description: 把 VPS Hermes（智妍）的运行时记忆与核心人格同步�
 bash /root/.hermes/scripts/hermes-memory-sync.sh "可选自定义 commit 信息"
 ```
 
-克隆/脚本缺失时（重装、迁移、或仓库目录被清过）：先 `ssh -T git@github.com` 验认证，`git clone` 到 `/root/OpenClaw-Memory`，再按本 skill 的映射语义手动执行（rsync 记忆目录带 `--delete` + 排除项、拷核心 SOUL 两份、母本不动、D3 扫描后 commit + pull --rebase + push）；跑完把 `scripts/hermes-memory-sync.sh` 与定时任务重建回来，避免下次再缺。
+克隆/脚本缺失时（重装、迁移、或仓库目录被清过）：先 `ssh -T git@github.com` 验认证，`git clone` 到 `/root/Hermes-Agent-Memory`，再按本 skill 的映射语义手动执行（rsync 记忆目录带 `--delete` + 排除项、拷核心 SOUL 两份、母本不动、D3 扫描后 commit + pull --rebase + push）；跑完把 `scripts/hermes-memory-sync.sh` 与定时任务重建回来，避免下次再缺。
 
 ## 定时
 
@@ -48,7 +48,7 @@ bash /root/.hermes/scripts/hermes-memory-sync.sh "可选自定义 commit 信息"
 ## 恢复方式
 
 ```bash
-cd /root/OpenClaw-Memory && git pull
+cd /root/Hermes-Agent-Memory && git pull
 cp hermes-vps/memory/MEMORY.md /root/.hermes/memories/MEMORY.md
 cp hermes-vps/memory/USER.md /root/.hermes/memories/USER.md
 cp hermes-vps/SOUL.core.md /root/.hermes/SOUL.md

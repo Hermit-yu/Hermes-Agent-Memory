@@ -1,9 +1,9 @@
 # Repo Sync Verification (validated 2026-10-07)
 
-Concrete verified sequence for synchronizing identity/persona from `https://github.com/Hermit-yu/OpenClaw-Memory`:
+Concrete verified sequence for synchronizing identity/persona from `https://github.com/Hermit-yu/Hermes-Agent-Memory`:
 
 1. Verify SSH access: `ssh -o BatchMode=yes -T git@github.com` → expect `Hi Hermit-yu!`
-2. Clone: `git clone git@github.com:Hermit-yu/OpenClaw-Memory.git /tmp/openclaw_test`
+2. Clone: `git clone git@github.com:Hermit-yu/Hermes-Agent-Memory.git /tmp/openclaw_test`
 3. Read authority files: `hermes-vps/SOUL.master.md`, `governance/SOURCE-OF-TRUTH.md`, `ECHODB_STRUCTURE.md`
 4. Copy identity/persona to `/root/`: `cp ... /root/SOUL.md`; write `/root/REBUILD-VERIFICATION.md`
 5. Update memory: `memory` tool add entry confirming identity + repo link

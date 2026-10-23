@@ -1,4 +1,4 @@
-# OpenClaw-Memory Repository Index / 仓库导航索引
+# Hermes-Agent-Memory Repository Index / 仓库导航索引
 
 > This is the short operational map. The full 638-file inventory is archived at `archive/reports/REPOSITORY-ORGANIZATION-REPORT-2026-10-02.md`.
 > 这是日常使用的简版地图。638 个文件的完整盘点已归档到上述路径。
@@ -15,7 +15,7 @@
 ## Directory tree / 目录树
 
 ```text
-OpenClaw-Memory/
+Hermes-Agent-Memory/
 ├── governance/       Active rules and protocols / 当前治理规则与协议
 ├── hermes-vps/       Hermes identity and recovery / Hermes 人格与恢复镜像
 ├── memory-echoDB/    Long-term memory archive / 长期记忆归档

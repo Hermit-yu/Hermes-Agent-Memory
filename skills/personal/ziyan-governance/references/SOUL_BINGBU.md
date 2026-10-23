@@ -2,7 +2,7 @@
 
 ## 来源
 
-原始文件来自 OpenClaw-Memory：`echodb-fusion/ours/edict-governance/roles/SOUL_BINGBU.md`
+原始文件来自 Hermes-Agent-Memory：`echodb-fusion/ours/edict-governance/roles/SOUL_BINGBU.md`
 迁移至 Hermes `ziyan-governance` skill 参考体系，作为各机关完整角色定义。
 
 ---

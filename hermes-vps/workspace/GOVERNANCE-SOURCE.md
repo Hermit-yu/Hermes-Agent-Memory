@@ -2,14 +2,14 @@
 
 > 状态：Active
 > 生效：2026-10-02
-> 权威仓库：`Hermit-yu/OpenClaw-Memory`
+> 权威仓库：`Hermit-yu/Hermes-Agent-Memory`
 > 目的：明确每类长期信息的唯一主来源，防止 WorkBuddy、Hermes、本地记忆和历史副本各自演化。
 
 ---
 
 ## 1. 总原则
 
-1. **OpenClaw-Memory 是治理、人格母本和项目规则的权威仓库。**
+1. **Hermes-Agent-Memory 是治理、人格母本和项目规则的权威仓库。**
 2. Hermes 与 WorkBuddy 可以持有运行时文件和缓存，但不得在本地发展一套与仓库冲突的长期规则。
 3. 用户当前明确指令始终高于历史文件；涉及长期规则的变更，应先在权威仓库落盘，再同步到运行时。
 4. 运行时事实（服务状态、当前任务、在线心跳）不能写成永久事实；必须带时间戳并由实时检查确认。
@@ -103,7 +103,7 @@ Hermes 的 `/root/.hermes/SOUL.md` 应与该文件保持一致。
 
 ### 5.1 仓库负责定义
 
-OpenClaw-Memory 负责保存：
+Hermes-Agent-Memory 负责保存：
 
 - 治理原则和版本协议；
 - 风险、数据、审批与审计规则；
@@ -146,7 +146,7 @@ MEMORY 只保存：
 4. 检查冲突、敏感信息和引用关系；
 5. 更新对应 Skill 或运行时镜像；
 6. 验证运行时与权威文件一致；
-7. 提交并同步 OpenClaw-Memory；
+7. 提交并同步 Hermes-Agent-Memory；
 8. 报告变更、证据和回滚方式。
 
 不得先在多个运行时文件分别修改，再事后猜测哪个版本正确。
@@ -158,9 +158,9 @@ MEMORY 只保存：
 用户在 2026-10-02 批准：
 
 1. 保留完整 SOUL 为母本，同时建立短版核心 SOUL；
-2. 将 OpenClaw-Memory 作为治理和项目规则的权威仓库；
+2. 将 Hermes-Agent-Memory 作为治理和项目规则的权威仓库；
 3. 其他 Harness 完善项目暂缓，按真实项目需要逐步推进；
-4. 本次整体执行完成并验证后，同步到 GitHub `OpenClaw-Memory` 主仓库。
+4. 本次整体执行完成并验证后，同步到 GitHub `Hermes-Agent-Memory` 主仓库。
 
 ---
 

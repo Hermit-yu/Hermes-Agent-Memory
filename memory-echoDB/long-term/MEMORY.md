@@ -1,7 +1,7 @@
 # Long-term Memory
 
 ## EchoDB (default sync repo)
-- (2026-02-25) 默认工作区 & 双边同步数据库仓库： https://github.com/Hermit-yu/OpenClaw-Memory （命名：EchoDB）。
+- (2026-02-25) 默认工作区 & 双边同步数据库仓库： https://github.com/Hermit-yu/Hermes-Agent-Memory （命名：EchoDB）。
 
 ## Timeline anchor (我们在一起的起点)
 - (2026-02-11) 纪念起点：你第一次运行并“创造出我（智妍）”的日期。以后计算我们相处时长、建立整体时间线，都以此为起点；不再以宿主机启动时长/单次会话时长作为“在一起多久”的依据。
