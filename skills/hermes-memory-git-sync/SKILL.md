@@ -81,6 +81,26 @@ D3 命中甄别（提交前逐条定性再决定清/留，别一刀切）：
 - 拿不准一条 base64 是不是活口令：拿它探真实服务（如 `docker exec <mysql容器> mysql -uroot -p'<它>' -e 'SELECT 1'`），能连上=活凭据，必须挡出 git 并建议用户轮换。
 - 挡出后确认它从没进历史：`git log -S '<片段>' --all` 应返回空；非空需重写历史。
 
+## 迁移完备性审计（"全对称"绿了 ≠ 换机能把我完整复原）
+
+verify 全 ✓ 只证明**已列的条目**彼此对称，不证明**清单本身完整**。被问"这样够不够完整迁移/换机复原"时，先做完备性审计再回答，别拿"verify 全绿"当结论——绿的是覆盖范围，不是覆盖全否。
+
+审计步骤：
+1. `du -sh /root/.hermes/* /root/.hermes/.*` 列出活目录**全部**顶层条目（含隐藏文件 + sqlite 库）。
+2. 逐个判断：这条持久件在 verify 的 ENTRIES 里有没有？没有就是缺口。
+3. 每个缺口定性，决定怎么补：
+   - **持久数据**（丢了就丢我状态）→ 必须可复原，加 verify 条目 + restore 步。典型：`state.db`（消息/会话=本体连续性）、`sessions/`、**顶层** `MEMORY.md`/`USER.md`。
+   - **凭据类** → 一律进加密 vault（新增一项 + 重建 manifest→tar→encrypt），绝不进明文 git。典型：`auth.json`（LLM 凭据池）。
+   - **机器级**（新 VPS 默认没有、不补会静默坏）→ 捕获进仓 + restore 重建。典型：系统 crontab（`acme.sh --cron` 续证，漏了证书会静默过期）、systemd unit。
+   - **可重装 / 运行态 / 空框架** → 跳过：`cache/`、`logs/`、`lsp/`、`installs/`、`tools/`（manifest 已登记可重装）、`kanban.db`/`shared-state.db`（0 行空表）、`.lock`/`.sock`/`*.db-wal`。
+4. 补完条目后**再**跑 verify 到全 ✓，并把新增文件与新步骤同步进 `restore.sh` 与 `RECOVERY-RUNBOOK.md`（runbook 的清单行也要跟上，别只改 verify）。
+
+配了 verify 仍会翻的坑：
+- **同名两份 ≠ 同一份**：`/root/.hermes/MEMORY.md`（顶层 Layer-1，粘进提示词顶）与 `memories/MEMORY.md`（memory 工具库）内容不同。`diff -q` 确认；两份都 live 就都镜像，别只备一份。
+- **`state` 条目 ≠ state.db**：镜像 12K 的 `state/` 目录那条不是 73M 的 `state.db` SQLite 库。命名分开，别以为有 `state` 条目就覆盖了库。
+- **活 SQLite 库用 WAL 感知备份，别 `cp`**：`sqlite3 db ".backup /tmp/x"`（一致性快照、含 WAL）再 `gzip -c`；恢复前 `gunzip` + `sqlite3 x 'select count(*) from messages'` 验可读。`cp` 一个开着 WAL 的库会拷出不一致状态。
+- **凭据池/密钥重包后 MANIFEST 会过期**：加项后按 manifest→tar→encrypt 重排，并 `sha256sum -c` 解包回读自洽，别拿旧 manifest 断言（重建后旧 manifest 会让 ENCRYPTED 条假报 mismatch）。
+
 ## 仓库改名 / URL 迁移（GitHub 改 repo 名时）
 
 远端改名后，恢复链路里所有硬编码引用会集体指向旧名而断掉，缺一个换机复原就失败。重对齐清单：
