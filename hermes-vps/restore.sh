@@ -19,6 +19,8 @@ step "1) 还原 /root/.hermes 持久目录 (memory/soul/skills/plugins/cron/pend
 mkdir -p "$TGT/.hermes"
 cp -a "$REPO/hermes-vps/memory/."  "$TGT/.hermes/memories/" 2>/dev/null || { mkdir -p "$TGT/.hermes/memories"; cp -a "$REPO/hermes-vps/memory/." "$TGT/.hermes/memories/"; }
 cp -a "$REPO/hermes-vps/SOUL.core.md" "$TGT/.hermes/SOUL.md"
+# CLI 历史
+[ -f "$REPO/hermes-vps/.hermes_history" ] && cp -a "$REPO/hermes-vps/.hermes_history" "$TGT/.hermes/.hermes_history"
 # 顶层 Layer-1 记忆 (粘贴进提示词顶部, 与 memories/ 不同源, 两份都要)
 cp -a "$REPO/hermes-vps/MEMORY.md" "$TGT/.hermes/MEMORY.md"
 cp -a "$REPO/hermes-vps/USER.md" "$TGT/.hermes/USER.md"
@@ -28,6 +30,8 @@ cp -a "$REPO/hermes-vps/plugins/." "$TGT/.hermes/plugins/"
 cp -a "$REPO/hermes-vps/cron/." "$TGT/.hermes/cron/"
 cp -a "$REPO/hermes-vps/pending/." "$TGT/.hermes/pending/"
 cp -a "$REPO/hermes-vps/state/." "$TGT/.hermes/state/"
+# config.yaml 带时间戳自动备份 (verify 镜像了, restore 必须拷回, 否则新机无回滚锚点)
+cp -a "$REPO/hermes-vps/backups/." "$TGT/.hermes/backups/" 2>/dev/null || { mkdir -p "$TGT/.hermes/backups"; cp -a "$REPO/hermes-vps/backups/." "$TGT/.hermes/backups/"; }
 # curator 是 skills 派生的内容寻址缓存(可再生), 不入 git(历史版本曾内嵌共享 DB 活口令);
 # 新机重建即可, 这里只起一个空目录占位。
 mkdir -p "$TGT/.hermes/.curator_backups/blobs"
@@ -43,6 +47,8 @@ openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 \
 # 回落到原路径
 mkdir -p "$TGT/.hermes" "$TGT/.ssh" /home/web/certs/accounts /opt/sub-store/data /opt/nezha/agent
 install -m 600 "$STAGE/.hermes/env" "$TGT/.hermes/.env"
+# honcho.json (本地 honcho 栈连接配置, 含 api_key; vault 内实名 hermes-honcho-REAL.json)
+[ -f "$STAGE/hermes-honcho-REAL.json" ] && install -m 600 "$STAGE/hermes-honcho-REAL.json" "$TGT/.hermes/honcho.json" && echo "  honcho.json 配置还原 ✓"
 # auth.json (openrouter/agnesai 凭据池, 新机 LLM 直连/池化凭据)
 [ -f "$STAGE/auth.json" ] && install -m 600 "$STAGE/auth.json" "$TGT/.hermes/auth.json" && echo "  auth.json 凭据池还原 ✓"
 install -m 600 "$STAGE/ssh/id_ed25519" "$TGT/.ssh/id_ed25519"
@@ -80,10 +86,15 @@ echo "  Honcho 就绪: curl 127.0.0.1:8000/health"
 step "4) Hermes 本体运行态复原 (state.db + sessions, 对话连续性)"
 mkdir -p "$TGT/.hermes"
 gunzip -c "$REPO/services/state-snapshot/state-20261024.db.gz" > "$TGT/.hermes/state.db"
+# 空框架库一并灌回 (shared-state/kanban 当前 0 行, 但保持可写结构一致)
+gunzip -c "$REPO/services/state-snapshot/shared-state-20261024.db.gz" > "$TGT/.hermes/shared-state.db" 2>/dev/null || true
+gunzip -c "$REPO/services/state-snapshot/kanban-20261024.db.gz" > "$TGT/.hermes/kanban.db" 2>/dev/null || true
 echo "  state.db 灌回: $(python3 -c "import sqlite3;c=sqlite3.connect('$TGT/.hermes/state.db');print(c.execute('select count(*) from messages').fetchone()[0],'messages /',c.execute('select count(*) from sessions').fetchone()[0],'sessions')" 2>/dev/null || echo '  [warn] sqlite 校验跳过(无 python3)')"
-mkdir -p "$TGT/.hermes/sessions"
-tar -xzf "$REPO/services/state-snapshot/sessions-20261024.tar.gz" -C "$TGT/.hermes/sessions"
+# tar 内含 sessions/ 前缀, 故落到 $TGT/.hermes (解出即为 .hermes/sessions/)
+tar -xzf "$REPO/services/state-snapshot/sessions-20261024.tar.gz" -C "$TGT/.hermes"
 echo "  sessions/ 还原: $(ls "$TGT/.hermes/sessions" | wc -l) 项"
+# 设备标识 (保持 install_id 一致, 遥测/设备指纹不漂移)
+[ -f "$TGT/.hermes/install_id" ] || echo "2312366e707848a4b702de9a2a7fc4e8" > "$TGT/.hermes/install_id"
 
 step "5) 系统 crontab (acme.sh 每日续证 — 新机默认没有, 不重建证书会静默过期)"
 [ -f "$REPO/ops/system-crontab.txt" ] && crontab "$REPO/ops/system-crontab.txt" && echo "  系统 crontab 已装 (acme --cron)" || echo "  [warn] ops/system-crontab.txt 缺失"

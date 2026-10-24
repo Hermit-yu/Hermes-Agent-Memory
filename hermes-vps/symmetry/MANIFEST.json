@@ -37,10 +37,14 @@
     "mode": "MIRROR",
     "n_local_persist": 480,
     "n_repo": 480,
-    "sym_local_to_repo": true,
+    "sym_local_to_repo": false,
     "sym_repo_to_local": true,
-    "match": true,
-    "gaps_local_missing_in_repo": [],
+    "match": false,
+    "gaps_local_missing_in_repo": [
+      ".curator_ledger.jsonl",
+      ".usage.json",
+      "hermes-memory-git-sync/SKILL.md"
+    ],
     "gaps_orphan_in_repo": []
   },
   {
@@ -217,5 +221,15 @@
     "sym_local_to_repo": true,
     "sym_repo_to_local": true,
     "match": true
+  },
+  {
+    "id": "history",
+    "local": "/root/.hermes/.hermes_history",
+    "repo": "hermes-vps/.hermes_history",
+    "mode": "SNAPSHOT",
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "note": "点时转储(pg_dump/gzip), 非逐字节, 恢复时灌回即可"
   }
 ]

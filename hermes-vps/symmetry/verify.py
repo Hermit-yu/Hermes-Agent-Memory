@@ -64,6 +64,8 @@ ENTRIES = [
     # 顶层 Layer-1 记忆 (粘贴进提示词顶部, 与 memories/ 不同源, 两份都要)
     ("mem.md","/root/.hermes/MEMORY.md","hermes-vps/MEMORY.md","FILE",None),
     ("user.md","/root/.hermes/USER.md","hermes-vps/USER.md","FILE",None),
+    # CLI 历史 (持久小件, 仓内副本=提交点时转储; 校验=本地有+仓有即可, 非逐字节, 因活历史持续追加)
+    ("history","/root/.hermes/.hermes_history","hermes-vps/.hermes_history","SNAPSHOT",None),
 ]
 
 def check(e):
