@@ -179,5 +179,43 @@
     "sym_repo_to_local": true,
     "match": true,
     "note": "密钥仅存 .enc, 值不回显"
+  },
+  {
+    "id": "state.db",
+    "local": "/root/.hermes/state.db",
+    "repo": "services/state-snapshot/state-20261024.db.gz",
+    "mode": "SNAPSHOT",
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "note": "点时转储(pg_dump/gzip), 非逐字节, 恢复时灌回即可"
+  },
+  {
+    "id": "sessions",
+    "local": "/root/.hermes/sessions",
+    "repo": "services/state-snapshot/sessions-20261024.tar.gz",
+    "mode": "SNAPSHOT",
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true,
+    "note": "点时转储(pg_dump/gzip), 非逐字节, 恢复时灌回即可"
+  },
+  {
+    "id": "mem.md",
+    "local": "/root/.hermes/MEMORY.md",
+    "repo": "hermes-vps/MEMORY.md",
+    "mode": "FILE",
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true
+  },
+  {
+    "id": "user.md",
+    "local": "/root/.hermes/USER.md",
+    "repo": "hermes-vps/USER.md",
+    "mode": "FILE",
+    "sym_local_to_repo": true,
+    "sym_repo_to_local": true,
+    "match": true
   }
 ]

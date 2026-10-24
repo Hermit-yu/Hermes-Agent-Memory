@@ -56,8 +56,14 @@ ENTRIES = [
     ("tools","/root/.hermes/tools","hermes-vps/runtime/tools-manifest.txt","MANIFEST",None),
     # 数据快照 — 点时转储
     ("honcho.db","/var/lib/docker/volumes/honcho-local_honcho_pgdata","services/honcho/snapshots/honcho-pg-20261023.dump","SNAPSHOT",None),
-    # 密钥 — 加密包
+    # 密钥 — 加密包 (含 auth.json 凭据池, 共 14 项)
     ("secrets","/root/.hermes/.env","services/vault/hermes-secrets-20261023.tar.gz.enc","ENCRYPTED",None),
+    # Hermes 本体运行态 — 点时转储 (对话连续性: 12k+ messages / 84 sessions; WAL 感知 .backup)
+    ("state.db","/root/.hermes/state.db","services/state-snapshot/state-20261024.db.gz","SNAPSHOT",None),
+    ("sessions","/root/.hermes/sessions","services/state-snapshot/sessions-20261024.tar.gz","SNAPSHOT",None),
+    # 顶层 Layer-1 记忆 (粘贴进提示词顶部, 与 memories/ 不同源, 两份都要)
+    ("mem.md","/root/.hermes/MEMORY.md","hermes-vps/MEMORY.md","FILE",None),
+    ("user.md","/root/.hermes/USER.md","hermes-vps/USER.md","FILE",None),
 ]
 
 def check(e):
