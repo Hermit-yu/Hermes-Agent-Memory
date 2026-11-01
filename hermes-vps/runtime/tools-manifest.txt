@@ -1,0 +1,14 @@
+# 可重装项 — 换新机按此重装 (体积大, 不入 git; 对称性由清单保证)
+hermes-agent 版本:   Hermes Agent v0.21.5+8817.gd02f211 (2026.9.24) · upstream d02f2118
+hermes-agent 位置: /root/.hermes/hermes-agent (git checkout, 官方安装器 / git 拉取, 之后 hermes update 保持最新)
+node: /root/.hermes/tools/node-26.7.0-linux-x64/bin/node (v26.7.0)
+npm: /root/.hermes/tools/npm-12.0.2-linux-x64 (12.0.2)
+go: go version go1.25.4 linux/amd64
+python: /root/.hermes/tools/python-3.14.7* (Python 3.14.7)
+ffmpeg: ffmpeg-9.0.1-linux-x64
+chromium: chromium-1208
+cua-driver: 0.21.0
+uv: 0.12.3
+ripgrep: 15.2.0
+agent-browser: 0.26.0
+# 重装来源: hermes 安装器自带 / 各上游官方下载; lsp/installs 目录由 hermes 首次运行按需生成

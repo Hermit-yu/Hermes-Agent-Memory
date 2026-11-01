@@ -56,7 +56,7 @@ compression:
   max_attempts: 3
   codex_app_server_auto: native
   codex_responses_native: false
-  codex_responses_compact_threshold: null
+  codex_responses_compact_threshold:
   protect_first_n: 3
   idle_compact_after_seconds: 0
   hygiene_max_turn_hold_seconds: 10
@@ -72,7 +72,7 @@ memory:
   user_char_limit: 4000
   nudge_interval: 10
   provider: honcho
-max_concurrent_sessions: null
+max_concurrent_sessions:
 group_sessions_per_user: true
 streaming:
   enabled: false
@@ -127,41 +127,41 @@ gateway:
     history_tool_output_max_chars: 0
 platform_toolsets:
   cli:
-  - hermes-cli
+    - hermes-cli
   telegram:
-  - browser
-  - clarify
-  - code_execution
-  - computer_use
-  - connections
-  - cronjob
-  - delegation
-  - file
-  - image_gen
-  - memory
-  - session_search
-  - skills
-  - terminal
-  - todo
-  - tts
-  - vision
-  - web
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - connections
+    - cronjob
+    - delegation
+    - file
+    - image_gen
+    - memory
+    - session_search
+    - skills
+    - terminal
+    - todo
+    - tts
+    - vision
+    - web
   discord:
-  - hermes-discord
+    - hermes-discord
   whatsapp:
-  - hermes-whatsapp
+    - hermes-whatsapp
   slack:
-  - hermes-slack
+    - hermes-slack
   signal:
-  - hermes-signal
+    - hermes-signal
   qqbot:
-  - hermes-qqbot
+    - hermes-qqbot
   yuanbao:
-  - hermes-yuanbao
+    - hermes-yuanbao
   teams:
-  - hermes-teams
+    - hermes-teams
   google_chat:
-  - hermes-google_chat
+    - hermes-google_chat
 stt:
   enabled: true
   local:
@@ -188,6 +188,10 @@ display:
   streaming: true
   skin: default
   personality: hype
+  tool_progress: all
+  interim_assistant_messages: true
+  long_running_notifications: true
+  busy_ack_detail: true
 telemetry:
   shared_metrics:
     enabled: false
@@ -203,62 +207,62 @@ updates:
   non_interactive_local_changes: stash
 known_plugin_toolsets:
   telegram:
-  - a2a
-  - spotify
+    - a2a
+    - spotify
 known_builtin_toolsets:
   telegram:
-  - browser
-  - clarify
-  - code_execution
-  - computer_use
-  - connections
-  - context_engine
-  - cronjob
-  - delegation
-  - discord
-  - discord_admin
-  - file
-  - image_gen
-  - kanban
-  - memory
-  - session_search
-  - skills
-  - spotify
-  - stt
-  - terminal
-  - todo
-  - tts
-  - video
-  - video_gen
-  - vision
-  - web
-  - x_search
-  - yuanbao
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - connections
+    - context_engine
+    - cronjob
+    - delegation
+    - discord
+    - discord_admin
+    - file
+    - image_gen
+    - kanban
+    - memory
+    - session_search
+    - skills
+    - spotify
+    - stt
+    - terminal
+    - todo
+    - tts
+    - video
+    - video_gen
+    - vision
+    - web
+    - x_search
+    - yuanbao
 command_allowlist:
-- overwrite system config
-- overwrite system file via redirection
-- recursive delete
-- script execution via -e/-c flag
+  - overwrite system config
+  - overwrite system file via redirection
+  - recursive delete
+  - script execution via -e/-c flag
 onboarding:
   seen:
     tool_progress_prompt: true
     busy_input_prompt: true
 custom_providers:
-- name: agnesAI
-  base_url: https://apihub.agnes-ai.com/v1
-  key_env: HERMES_CUSTOM_APIHUB_AGNES_AI_COM_API_KEY
-  model: agnes-3.0-flash
-  models:
-    agnes-2.5-pro-alpha: {}
-    agnes-3.0-flash: {}
-    agnes-2.5-flash: {}
-    agnes-2.5-pro-beta: {}
-  models_discovered: true
+  - name: agnesAI
+    base_url: https://apihub.agnes-ai.com/v1
+    key_env: HERMES_CUSTOM_APIHUB_AGNES_AI_COM_API_KEY
+    model: agnes-3.0-flash
+    models:
+      agnes-2.5-pro-alpha: {}
+      agnes-3.0-flash: {}
+      agnes-2.5-flash: {}
+      agnes-2.5-pro-beta: {}
+    models_discovered: true
 fallback_providers:
-- provider: openrouter
-  model: openrouter/free
-  base_url: https://openrouter.ai/api/v1
-  api_mode: chat_completions
+  - provider: openrouter
+    model: openrouter/free
+    base_url: https://openrouter.ai/api/v1
+    api_mode: chat_completions
 model_aliases:
   sensenova:
     model: sensenova-6.8-flash-lite
@@ -267,6 +271,21 @@ model_aliases:
     key_env: SENSENOVA_API_KEY
   sensenova-flash:
     model: sensenova-6.8-flash-lite
+    provider: custom
+    base_url: https://token.sensenova.cn/v1
+    key_env: SENSENOVA_API_KEY
+  sensenova-img:
+    model: sensenova-u1.5-lite
+    provider: custom
+    base_url: https://token.sensenova.cn/v1
+    key_env: SENSENOVA_API_KEY
+  deepseek-v41-flash:
+    model: deepseek-flash
+    provider: custom
+    base_url: https://token.sensenova.cn/v1
+    key_env: SENSENOVA_API_KEY
+  glm-52:
+    model: glm-5.2
     provider: custom
     base_url: https://token.sensenova.cn/v1
     key_env: SENSENOVA_API_KEY

@@ -1,7 +1,7 @@
 # OpenClaw workspace: ignore runtime/artifacts by default
 
-# OpenClaw runtime & caches
-runtime/
+# OpenClaw runtime & caches (仓顶层锚定, 放行 hermes-vps/runtime 镜像)
+/runtime/
 .clawhub/
 
 # Logs/state/artifacts
