@@ -43,6 +43,9 @@ bash /root/.hermes/scripts/hermes-memory-sync.sh "可选自定义 commit 信息"
 - `pull --rebase` 冲突时自动 `--abort` 并交人工处理。
 - 自动脚本只同步 `memory/`、`SOUL.core.md` 与兼容 `SOUL.md`，不修改 `SOUL.master.md`。
 - 本同步属用户已授权的日常外部同步；若用户撤销，应停止定时任务。
+- **重建 crontab 用合并式，禁用整表替换**：`echo "new" | crontab -` 会把整张 crontab 替换成一行（曾把 acme.sh --cron 续证行清掉，证书会静默过期）。重建定时任务必须 `crontab -l 2>/dev/null | { 原有行; 新行; } | crontab -` 或 `crontab -l | grep -v 旧pattern; echo 新行 | crontab -`（先读后合并去重），写完 `crontab -l` 逐行核对 acme 等非同步条目还在。acme.sh 续证属"机器级"条目（漏了证书静默过期），任何重建 crontab 后都要当场核对。
+- **MIRROR 镜像前挡出含活凭据的实体**：活侧 skills 若混入 `.env` 实体文件（含真 API key，如 sn-env/.env 被 37 个 sn-* 软链指向），逐字节 MIRROR 会把活凭据送进 git。sync 前先 `find <镜像源> -name '*.env' -type f` 找实体（软链 `-type l` 安全，git 存 mode 120000 路径文本），实体加 `.gitignore` 挡出 + 生成 `env.example` 占位（key 打码、非敏感值保留）+ 本地镜像一份占 `verify` 的 R→L 孤儿。提交后必须 `git ls-tree -r HEAD` 逐 blob 核对 .env 存的是软链文本而非真文件（`git cat-file -p` 跟软链会读到活侧目标、造成"含 key"假阳性，要看 mode 120000 才准）。
+- **重建后对称收口**：verify.py 可能报 `runtime.cfg`/`memories` GAP（同步脚本只 rsync memory/SOUL，不碰 runtime/config.yaml）；收口时 `cp -f /root/.hermes/config.yaml hermes-vps/runtime/config.yaml` 补齐，再跑 verify 到全 ✓。
 - 访问前必须验证 SSH (`ssh -T git@github.com`); 若 crawl/extract 失败，必须报告失败并切换到 SSH/clone 验证，不能假装成功读取。
 
 ## 恢复方式
