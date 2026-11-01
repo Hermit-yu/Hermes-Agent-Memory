@@ -37,10 +37,13 @@
     "mode": "MIRROR",
     "n_local_persist": 1632,
     "n_repo": 1632,
-    "sym_local_to_repo": true,
+    "sym_local_to_repo": false,
     "sym_repo_to_local": true,
-    "match": true,
-    "gaps_local_missing_in_repo": [],
+    "match": false,
+    "gaps_local_missing_in_repo": [
+      ".curator_ledger.jsonl",
+      ".usage.json"
+    ],
     "gaps_orphan_in_repo": []
   },
   {
