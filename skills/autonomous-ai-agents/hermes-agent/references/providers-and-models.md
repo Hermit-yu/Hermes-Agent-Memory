@@ -72,3 +72,9 @@ Built-in aliases (catalog-resolved against the active provider): `sonnet`,
 `opus`, `haiku`, `claude`, `gpt5`, `gpt`, `codex`, `o3`, `o4`, `gemini`,
 `deepseek`, `grok`, `llama`, `qwen`, `minimax`, `nemotron`, `kimi`, `glm`,
 `step`, `mimo`, `trinity`.
+
+Concrete openai-compatible custom pattern (SenseNova-style; extends the `theta`/`local-qwen` examples above):
+  `provider: custom`; `base_url: "https://token.sensenova.cn/v1"`; `key_env: SENSENOVA_API_KEY`
+  The env var lives in `~/.hermes/.env` (`SENSENOVA_API_KEY=***`); never put the literal key in `config.yaml`. After writing `.env`, verify with `curl -H "Authorization: Bearer $SENSENOVA_API_KEY" https://token.sensenova.cn/v1/chat/completions -d '{"model":"sensenova-6.8-flash-lite",...}'` before trusting `/model <alias>`.
+
+Editing `.env` secrets: rewrite line-by-line in Python; sed/awk silently corrupt keys with quotes/backslashes. Confirm sha256 of each secret against the source file after rewrite — a mangled line can pass a length check while carrying the wrong value.

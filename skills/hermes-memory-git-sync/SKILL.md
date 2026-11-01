@@ -101,13 +101,23 @@ verify 全 ✓ 只证明**已列的条目**彼此对称，不证明**清单本�
 - **活 SQLite 库用 WAL 感知备份，别 `cp`**：`sqlite3 db ".backup /tmp/x"`（一致性快照、含 WAL）再 `gzip -c`；恢复前 `gunzip` + `sqlite3 x 'select count(*) from messages'` 验可读。`cp` 一个开着 WAL 的库会拷出不一致状态。
 - **凭据池/密钥重包后 MANIFEST 会过期**：加项后按 manifest→tar→encrypt 重排，并 `sha256sum -c` 解包回读自洽，别拿旧 manifest 断言（重建后旧 manifest 会让 ENCRYPTED 条假报 mismatch）。
 
+## restore 落地闭环（verify 全绿 ≠ 新机能复原）
+
+verify 证的是仓侧自洽，restore 侧每一步都要有对应动作；缺一步，新机就静默缺件。闭环验证方法：
+1. **dry-run 对账**：把 restore.sh 的复制/解密/灌库逻辑在临时目录（如 `/tmp/newm`）真跑一遍，再 walk 活 `/root/.hermes` 全树，逐个判定每个持久文件 ∈{已落新机 / 可重建 / 运行态白名单 / 真漏项}；真漏项必须归零才算闭环。这一步不能省——它抓的是 verify 覆盖不到的 restore 脚本自身缺陷。
+2. **verify 有镜像条 ≠ restore 有拷贝步**：每个 MIRROR/FILE/SNAPSHOT/ENCRYPTED 条目的仓侧落点，restore.sh 里必须有一条对应 `cp`/`gunzip`/`install`。补 verify 条目时顺手补 restore 步，两处一起改。
+3. **加密包里的每个文件都要有 install 行**：vault 加项（如 `auth.json`、honcho 配置）后，restore 侧对应 `install -m 600 "$STAGE/x" $TGT/...` 同步加，否则密钥解包了但没落位。
+4. **tar 前缀陷阱**：打包带目录前缀的快照（tar 内含 `sessions/...`），解包必须 `-C <父目录>` 而非 `-C <子目录>`，否则嵌套成 `sessions/sessions/`。WHY：tar 保留打包时的相对路径，`-C` 的落点决定前缀落哪。解包前 `tar -tzf | head` 看一眼内部结构。
+5. **活追加件别用 FILE 逐字节**：CLI 历史、curator ledger 等持续追加的文件，verify 用 SNAPSHOT 语义（本地有+仓有），逐字节比对会在每次交互后碎。
+6. **rsync 进仓库目录用绝对路径**：在仓库 cwd 下写相对目标可能解析到仓外（如 `hermes-vps/../../skills` 解析到 `/root/skills`），静默写错位置还让 verify 继续 GAP。WHY：相对路径随 shell cwd 走，不随脚本位置走。
+
 ## 仓库改名 / URL 迁移（GitHub 改 repo 名时）
 
 远端改名后，恢复链路里所有硬编码引用会集体指向旧名而断掉，缺一个换机复原就失败。重对齐清单：
 1. `git remote set-url origin <新地址>`，再 `git push` 验证（远端会回显 "This repository moved"）。
 2. 本地 clone 目录 `mv` 改名，并同步 `verify.py` 的 `REPO=`、`restore.sh` 的 `REPO=` 默认路径、sync 脚本的 `REPO=`。
 3. runbook/RECOVERY 的 `git clone ... && cd ...` 两行改成新名。
-4. 全树文本替换旧名→新名（仓内文件 + `/root/.hermes` 活侧镜像目录 + SOUL），**别动**运行态 log/cache/sessions/curator。
+4. 全树文本替换旧名→新名（仓内文件 + `/root/.hermes` 活侧镜像目录 + SOUL），**别动**运行态 log/cache/sessions/curator。替换活侧时只限 verify 镜像的目录（memories/skills/pending/workspace/SOUL.md），一次 `grep -rl` 枚举再逐文件 sed，别整棵 .hermes 无差别替换。
 5. 改完跑 verify：若某 `MIRROR` 条 GAP，多半是"仓侧正文已改、活侧没改"（或反之）→ 把活侧对应镜像目录做同样的文本替换，再跑，直到全 ✓。
 
 ## 失败处理

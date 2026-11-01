@@ -1,0 +1,23 @@
+{
+  "name": "ai-video-production-workflow",
+  "version": "1.2.0",
+  "description": "Universal video production pipeline based on Ploto reference analysis (Blender + Remotion + ffmpeg + code)",
+  "author": "Derived from reference: Ploto (plotome) Bilibili tutorial video",
+  "frameworks": [
+    "opencode",
+    "hermes-agent",
+    "claude-code",
+    "generic-ai-agent"
+  ],
+  "entry_points": {
+    "skill": "SKILL.md",
+    "docs": "docs/video-workflow.md",
+    "scripts_dir": "scripts/"
+  },
+  "dependencies": [
+    "ffmpeg",
+    "node (optional)",
+    "blender (optional)"
+  ],
+  "license": "MIT (derived content; original reference is public Bilibili video by Ploto)"
+}

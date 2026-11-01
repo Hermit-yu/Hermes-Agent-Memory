@@ -224,5 +224,9 @@ terminal(command="tmux new-session -d -s resumed 'hermes --resume 20260225_14305
 - **Never break prompt caching** — don't change past context, toolsets, or the system prompt mid-conversation. The only exception is context compression.
 - **Message role alternation** — never two assistant or two user messages in a row; only `tool` results can repeat.
 - **Secrets in `.env`, settings in `config.yaml`** — never tell a user to put a non-credential setting in `.env`.
+
+- **OpenAI-compatible provider (SenseNova-style): wire via alias, never change `model.default`.** Create `model_aliases.<name>` with `provider: custom`, its own `base_url` (e.g. `https://token.sensenova.cn/v1`), and `key_env` matching the env var in `~/.hermes/.env` (e.g. `SENSENOVA_API_KEY`). Read the key from the file (line-by-line Python), never inline a literal into `config.yaml`; verify with a live `curl` to `/v1/chat/completions` before relying on the alias. Changing `model.default` or global `base_url` routes all gateway messages through this endpoint and can silently break concurrent other tasks.
+
+- **Edit `.env` secrets in Python, never sed/awk; byte-compare after any rewrite.** Secrets containing special chars (quotes, backslashes) silently corrupt sed patterns and truncate the line; only a line-by-line Python read/rewrite preserves the value. After any rewrite, confirm each secret's sha256 against the source file — length-only cross-check misses a mangled value that looks intact.
 - **Profile-safe paths** — `get_hermes_home()` in code, `$HERMES_HOME` when resolving paths in a session.
 - **Never hand-edit `config.yaml` for the user** — use `hermes config set KEY VAL`; a stray indent can corrupt the file and break the live gateway.

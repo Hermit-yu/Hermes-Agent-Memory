@@ -1,0 +1,36 @@
+# Blender Template Reference
+# scripts/blender-template.blend
+# This describes the settings for the base Blender scene matching the reference video style.
+# Import this as a .blend reference file when generating 3D motion graphics.
+
+## Scene Settings
+- Resolution: 1920 x 1080 (X=1920, Y=1080)
+- Frame Rate: 24 fps
+- Color Management: Standard (not Filmic) — flat colors required
+- Background: Cream `#f2ede4`
+
+## Camera
+- Type: Perspective
+- Focal Length: 35mm (slight depth, not extreme wide)
+- Position: (0, -8, 4) looking at origin (0,0,0)
+- Clip Start: 0.1m, End: 100m
+
+## Lighting
+- Key Light (Sun): Strength 3.0, Color `#fff5e6` (warm white), Angle 30°
+- Fill Light (Area): Strength 1.0, Color `#e8dcc8`, Size 3x3
+- No environment lighting (World background disabled or pure cream)
+
+## Materials (Pixel / Flat Style)
+- All objects use Principled BSDF with:
+  - Base Color: exact hex from palette
+  - Roughness: 1.0 (fully matte, no shine)
+  - Subsurface: 0
+  - Metallic: 0
+- Pixel mascot: Orange `#ff8c42`, 8-bit style, sharp edges (no smooth shading)
+
+## Render Output
+- Format: PNG (RGBA if needed)
+- Color: RGBA
+- Output path: ./frames/render_%04d.png
+- Resolution %: 100
+- Post Processing: Denoise off (preserve sharp pixels)

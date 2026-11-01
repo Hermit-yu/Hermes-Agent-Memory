@@ -114,6 +114,18 @@ When searching, consider these common categories:
 2. **Try alternative terms**: If "deploy" doesn't work, try "deployment" or "ci-cd"
 3. **Check popular sources**: Many skills come from `vercel-labs/agent-skills` or `ComposioHQ/awesome-claude-skills`
 
+## Installing skills that are NOT in the `npx skills` ecosystem (direct GitHub monorepos)
+
+Many skills ship as whole GitHub repos where the root `SKILL.md` is the entry point plus runtime support directories (methodology/, extractors/, references/, scripts/, schemas/). Installation recipe that worked in this environment:
+
+1. Clone with `GIT_TERMINAL_PROMPT=0` (a guessed/wrong repo name 404s and git hangs on a credential prompt); verify the repo layout first — `SKILL.md` at repo root is the install target.
+2. Copy ONLY the runtime necessities into `~/.hermes/skills/<skill-name>/`: root `SKILL.md` + support dirs the SKILL.md references + LICENSE. Skip dev/distribution material (website/, tests/, books/, benchmarks/, dist/, examples/ of finished products) — it is not needed at runtime and bloats the library.
+3. Install script dependencies (Python scripts: PyYAML, jsonschema, …) and run the repo's self-check if it has one (e.g. `python3 scripts/<name>.py doctor`) until green.
+4. Verify global registration with `skill_view(name)` — linked_files must list the copied scripts; `readiness_status: available` is the pass signal. A root SKILL.md with a `metadata.` block (non-hermes frontmatter) is fine; Hermes tolerates unknown metadata keys.
+5. Clean up the scratch clone — keep the installed copy under ~/.hermes/skills/ as the source of truth.
+
+Note: cangjie-skill and nuwa-skill were installed this way and are globally active under ~/.hermes/skills/.
+
 ## When No Skills Are Found
 
 If no relevant skills exist:

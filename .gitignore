@@ -35,3 +35,8 @@ Thumbs.db
 
 # Curator 派生缓存 (内容寻址, 由 skills 派生可再生; 历史版本内嵌过共享 DB 活口令) -> 不入 git
 hermes-vps/curator-backups/
+
+# Sn-env 共享密钥文件 (含活 API key, 37 个 sn-* skill 软链指向它) -> 不入 git, 值走加密 vault
+skills/sn-env/.env
+# skills 运行态锁 -> 不入 git
+skills/.locks/
