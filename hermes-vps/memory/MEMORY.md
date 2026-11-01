@@ -25,3 +25,19 @@ AI已接真模型agnes: 线上.env AI_PROVIDER=agnes/AI_MODEL=agnes-3.0-flash, k
 PHP RCE(CVE-2026-109618/19)处置完(2026-10-22): 38.14 php容器 8.3.31→8.5.12(kjlion, 坑:新版listen回退TCP 9000, 已挂zz-socket.conf钉回socket); 139 ldnmp-php→8.5.12, compose备份/opt/ldnmp/docker-compose.yml.bak-20261022; 回滚锚点: 本机kjlion/php:8.3.31-rollback-20261022, 139 php:8.4.27-rollback-20261022; php74已stop+restart=no; 167已过期不续费不管了。
 §
 换机无缝恢复 kit 已封存(2026-10-23, Hermes-Agent-Memory 仓库): ops/RECOVERY-RUNBOOK.md=8步重建手册; 密钥全在 services/vault/hermes-secrets-20261023.tar.gz.enc (AES-256-CBC/PBKDF2, 13项: SSH/Telegram/LLM/acme/DB凭据), 密码离线存 /root/.hermes/cache/scratch/vault-password-20261023.txt(600,不入git); skills32+runtime/config.yaml+ops(systemd/ufw/nginx/ LDNMP compose, 密码已改${VAR})+web-mysql全库dump+honcho快照均已入仓。纪律: 明文密钥永不进git, 提交前 grep D3 全树扫; ufw 改完当场 canary 验证。换机后滚动: 新IP写 ops/dns-notes.txt + 旧私钥 GitHub 撤权。
+§
+交付质量门（2026-10-26 视频任务确立，跨任务适用）：成品类交付前必须多轮自审+迭代（抽帧/全量对账，修完复验）再交；自行获取的素材（配乐/参考）须核实版权并在成品中署名；成品与参考素材放同一目录、区别命名。
+§
+vp 工具链（Vite+，/root/.local/share/vite-plus/bin/vp）在哥哥的体系里正式命名为"全栈工具箱"：全栈编程的核心工具链，必须保留，任何时候不得删除（连同 ~/.cache/ms-playwright 浏览器缓存）。装好一次长期复用；删过 580M 的验证项目 vp-demo 但工具箱保留。相关 skill = software-development/vibestart-fullstack-coding（已同步此命名）。
+§
+仓颉(cangjie-skill)+女娲(nuwa-skill) 两 skill 已装 /root/.hermes/skills/ 全局: 仓颉=拆书/长内容蒸馏成可执行skill的元skill(RIA-TV++流水线, 需PyYAML+jsonschema+tiktoken已装, cangjie.py doctor 全绿); 女娲(huashu-nuwa)=造人/蒸馏人物思维框架的元skill(6-agent调研, quality_check.py/merge_research.py 可跑)。两者互咬: 仓颉产出的eval符合darwin格式。scratch 克隆已清(源: kangarooking/cangjie-skill, alchaincyf/nuwa-skill)。
+§
+倪海厦蒸馏 skill 完成(2026-10-28): /root/.hermes/skills/ni-haixia-perspective/ (SKILL.md 6/6过质量门 + references/research/01-06六维调研 + references/sources/ 514份一手md共5.7M, 含5部人纪/天纪/梁冬对话/斯坦福演讲/扶阳论坛/汉唐方剂/小编医案 + 医案PDF抽样)。来源=gitee nihaixia/hantang-nihaixia。坑: 质量脚本贪婪正则被正文里重复出现的"诚实边界"字样锁错位, 正文避免复述section名。
+§
+Skill 表述精简审计（2026-10-28，用 writing-for-agents 的杠杆）：93 个 SKILL.md 全扫。两类真实冗余=description 同义触发词堆叠 + 旧版本沉积。已修 cangjie-skill(511→147)、顶层 humanizer(529→131)；删掉 3 个沉积目录(personal v2.0.0、harness v1.1.0、顶层 humanizer v2.1.1)，备份在 /root/.hermes/skills-archive-20261028/removed-skills-20261028.tgz，creative/humanizer 2.5.1 已上位。假阳性不剪：notion/airtable 的 curl auth 头重复、self-improving 的 **Area** 行三模板共用、各 skill 的"不要/禁止"hard guardrail。writing-for-agents 的关键杠杆：description 是常驻指针每个词都花钱→触发词要 1 分支 1 词、砍同义重复、否定式改正向。
+§
+sn-* SenseNova技能库安装完成：37个skill放置于 /root/.hermes/skills/sn-*，来源 https://github.com/OpenSenseNova/SenseNova-Skills；共享 .env 在 /root/.hermes/skills/sn-env/.env 软链到每个目录；SN_API_KEY/SN_BASE_URL/SN_IMAGE_GEN_* 指向 apihub.agnes-ai.com/v1，key复用 HERMITES_CUSTOM_APIHUB_AGNES_AI_COM_API_KEY（51字符）。ffmpeg n9.0.1 已装(vp-code-video依赖)；Playwright chromium cache 在 ~/.cache/ms-playwright/（保留）；VP全栈工具箱在 /root/.local/share/vite-plus/bin/vp，禁删。
+§
+SenseNova-Skills 37个 sn-* skill 已装 /root/.hermes/skills/(2026-10-28): 深研4+分域搜索10+图像6+PPT流水线10+文档3+协作4+数据4。共享 env 在 sn-env/.env(SN_*=现有agnes端点key, 各sn-目录软链), pip依赖全装(httpx/pypdf/pptx/yfinance/mootdx/arxiv/librosa/faster-whisper等, 唯deepxiv-sdk模块名未装成功)。限制: sn-search-image需Serper key未配; 图像生成能否出图看agnes端点能力。长线任务(调研→报告→PPT→视频)优先用 sn- 流水线。
+§
+模型调用规则(2026-10-31,哥哥立): 主模型固定 agnes-3.0-flash 不变; SenseNova API key 在 hermes 密钥文件的 SENSENOVA_API_KEY 变量, aliases(sensenova/sensenova-flash/sensenova-img, base_url token.sensenova.cn/v1) 已写入 config.yaml。任务中可无需确认直接调 sensenova 聊天接口(sensenova-6.8-flash-lite, 已验证可用), 出图接口(sensenova-u1.5-lite)用时先小测, 用完回到主线 agnes, 不改 model.default。

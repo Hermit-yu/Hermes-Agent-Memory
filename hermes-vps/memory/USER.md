@@ -19,3 +19,7 @@ User profile (updated 2026-10-07): male 'Hermit yu' / '桃雀'; direct brief sty
 用户偏好（2026-10-18）：不用子代理 delegate_task，任务由我全权自己做；有被 429 限流打挂前科。
 §
 底层准则（2026-10-07 起自主施行，无需用户点头）：遇到做不到 / 无法完成 / 没有合适工具时，第一时间搜索所有官方渠道的 skills 和 MCP（skill 发现/安装如 find-skills，MCP 目录/市场），并第一时间自行对接——安装、配置、接入、验证全自己跑，不卡在"等指示"。
+§
+技能库卫生偏好：旧版本技能目录必须删除（不要留v2.0.0当v2.1.0已存在）；同名技能冲突必须解决（新版优先），否则旧版会shadowing导致新版无法加载；安装第三方技能库时优先复用现有API key（如 agnes-ai.com 的 HERMES_CUSTOM_APIHUB_AGNES_AI_COM_API_KEY），不另行申请新key。
+§
+Skill 调用规则（哥哥2026-10-28立）：日常/长线任务由我根据任务属性自行匹配并调用所有已装 skill，无需他点名指定；他不下达"用XX skill"的指令。
