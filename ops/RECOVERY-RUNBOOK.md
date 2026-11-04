@@ -1,9 +1,15 @@
 # 换机复原手册 — Hermes-Agent 全量 (Full Restore Runbook)
 
-> 最后全量同步: 2026-10-23。
-> 目标: 本机整体损坏时，在干净 VPS (Debian/Ubuntu, root) 上**一次 `git clone` 复原全部 Hermes-Agent 资产**。
-> 范围: 本仓只保证 **Hermes-Agent 本体** (人格/记忆/技能/插件/配置/cron/honcho/密钥)。
-> 网站与基础设施 (LDNMP/nginx/WordPress/web-mysql/nezha/sub-store/ufw/DNS) **不在本仓保证范围内**，由 kejilion 脚本单独备份复原。
+> 最后全量同步: **2026-11-05（全资产快照 v2，含基础设施）**；上一版 2026-10-23（Hermes 本体 v1）。
+> 目标: 本机整体损坏时，在干净 VPS (Debian/Ubuntu, root) 上**一次 `git clone` + 一份全量包** 复原全部资产。
+
+## 2026-11-05 全资产快照（v2，新增）
+- **大文件实体**（12G rsync 活目录块，不入 git）: 本机 /data 分区下中文目录(名含"的"字)的 `backup-20261105/`
+  - 8 块: hermes-home / root-caches / home-web(LDNMP+MySQL数据) / opt-srv / etc-config(含 /etc/horizon 密钥 600) / docker-images(2.0G 自构建) / docker-volumes / db(honcho pg_dump, 锚点 messages=685)
+  - 校验: `sha256sum -c SHA256SUMS` 全 OK 才算完整
+  - 清单: `MANIFEST.txt`（本仓 `ops/full-backup-20261105/` 有副本）
+- **复原顺序**: 灵魂层 hermes-home → 目录还原 → docker load → compose up → psql 恢复 honcho(核对 messages 行数) → crontab/systemd → DNS 切 + 证书重签 + ufw 快照
+- 与 kejilion 旧分工的更新: 本次 v2 快照**把网站/基础设施也纳入了全量包**（home-web + docker + systemd + ufw 快照），换机直接用它，无需再找 kejilion 脚本
 
 ## 对称保证的边界
 本仓的"双边对称"由 `hermes-vps/symmetry/verify.py` 机器校验 (非口头):

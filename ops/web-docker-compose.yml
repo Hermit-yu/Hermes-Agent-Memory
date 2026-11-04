@@ -55,11 +55,11 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${WEB_MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: MkEE5+th1y1Kok1GtURvFA==
       MYSQL_USER: c23f4f59
-      MYSQL_PASSWORD: ${WEB_MYSQL_PASSWORD}
+      MYSQL_PASSWORD: Vj0huRnRhX8=
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${WEB_MYSQL_ROOT_PASSWORD}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pMkEE5+th1y1Kok1GtURvFA=="]
       interval: 30s
       timeout: 5s
       retries: 5

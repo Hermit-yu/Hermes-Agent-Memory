@@ -1,0 +1,36 @@
+# 智妍的家 全量备份 — 2026-11-05 (v2, rsync 活系统安全版)
+# 生成者: Hermes Agent (智妍), 宿主 38.14.254.100
+# 同步去向: Hermit-yu/Hermes-Agent-Memory (repo /root/Hermes-Agent-Memory)
+# 验收: 裁判模型 sensenova 8/8 PASS (verdict-20261105-053329.json)
+
+## 块清单 (rsync 活目录直拷, 非 tar)
+| 块 | 内容 | 体积 | 复原目标 |
+|---|---|---|---|
+| hermes-home/ | /root/.hermes 灵魂层 (SOUL/memories/skills/cron/state/sessions + tools/cache) | 6.0G | /root/.hermes |
+| root-caches/ | /root/.cache/ms-playwright, /root/.local/share/vite-plus, /root/.acme.sh | 1.8G | 对应 /root 路径 |
+| home-web/ | /home/web (LDNMP 站点+mysql 数据+vaultwarden/subconv) | 778M | /home/web |
+| opt-srv/opt/ | /opt (horizon/sub-store/nezha/交付目录) | 1.1G | /opt |
+| etc-config/ | systemd units + /etc/letsencrypt + /etc/horizon(600 密钥) + root-crontab | 328K | /etc 对应路径 |
+| docker-images.tar | docker 全量镜像 save (自构建 kjlion 等, 2.0G) | 2.0G | docker load |
+| docker-volumes.tgz | /var/lib/docker/volumes 具名卷 | 31M | 挂载进 docker |
+| db/honcho-pg.sql | honcho 整库 pg_dump (13 表, 2.9M) | 2.9M | psql 恢复 |
+| db/pg-baseline.txt | 恢复锚点: honcho_messages_baseline=685 | 48B | 恢复后核对 |
+| SHA256.<块> | 各块逐文件签名 (压缩后入仓) | 9M | 解压后 sha256sum -c |
+| SHA256SUMS | 顶层文件签名 | 333B | sha256sum -c |
+
+## 校验结果 (2026-11-05 05:25)
+- 逐块 sha256sum -c: hermes-home/root-caches/home-web/opt-srv/etc-config/db + 顶层 = 全绿
+- 总盘口 12G, /data 余 35G
+
+## 复原顺序 (新机)
+1. rsync 复原 hermes-home → /root/.hermes (灵魂层)
+2. 复原 root-caches / home-web / opt-srv/opt → /opt / etc-config → /etc
+3. docker load docker-images.tar → 挂 volumes (解压 docker-volumes.tgz 回 /var/lib/docker)
+4. home-web 内 LDNMP compose up
+5. psql 恢复 db/honcho-pg.sql, 核对 messages == 685 (pg-baseline.txt)
+6. crontab (etc-config/root-crontab.txt) + systemd enable
+7. DNS 切新 IP, acme.sh 重签, ufw 按快照
+
+## 备注
+- 活系统备份: rsync 读时变更只 warning 不失败 (tar 会 rc=1 崩链), 见 cjk-path-safety skill
+- honcho 基线演进: 05:06 快照 675 → 05:23 实 dump 时 685 (系统持续写入, dump 为准)

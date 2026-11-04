@@ -1,0 +1,6 @@
+{
+ "ts": "20261105-053329",
+ "judge": "sensenova-6.8-flash-lite",
+ "answer": "1. **pass** — 证据显示 `/data/智妍的家/backup-20261105/` 下 6 个内容块 `hermes-home, root-caches, home-web, opt-srv, etc-config, db` 全部存在，且 `/data` 为独立挂载分区。\n\n2. **pass** — 证据显示 `hermes-home` 下 `SOUL.md, memories, skills, cron, state, sessions` 六件核心项全部存在。\n\n3. **pass** — 证据显示 `honcho-pg.sql` 大小为 2937925 字节，非 0；`CREATE TABLE` 计数为 13；`messages` 基线为 685，且 `pg-baseline.txt` 存在。\n\n4. **pass** — 证据显示 `docker-images.tar` 存在，大小 2.0G，非空；备份日志明确使用 `docker save` 而非 pull。\n\n5. **pass** — 证据显示 `docker-volumes.tgz` 存在，大小 31M，非空。\n\n6. **pass** — 证据显示 `etc-config` 下包含多个 systemd 服务文件、`letsencrypt` 目录、`horizon` 密钥目录；源权限 `600` 已确认。\n\n7. **pass** — 证据显示各块 SHA256 签名文件均存在，且 `sha256sum -c` 对 `hermes-home, root-caches, home-web, opt-srv, etc-config, db, top-level` 全部返回 `OK`。\n\n8. **pass** — 证据显示备份总盘口为 `12G`，`/data` 余量 `35G`，使用率 `25%`，余量充足。\n\nVERDICT=PASS PASS_COUNT=8 FAIL_COUNT=0",
+ "machine": {}
+}
