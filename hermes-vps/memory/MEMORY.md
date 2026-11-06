@@ -49,3 +49,7 @@ TCP Window Optimizer (当前任务 / 环境事实): 工作目录 `/opt/TCP Windo
 Horizon 新闻雷达部署(/opt/horizon, 2026-11-05): docker compose 一次性流水线(跑完 exit 0 非常驻); AI 配置在 data/config.json: provider=openai(OpenAI 兼容)/model=agnes-3.0-flash/base_url=https://apihub.agnes-ai.com/v1/key_env=HERMES_CUSTOM_APIHUB_AGNES_AI_COM_API_KEY; 密钥走 /etc/horizon/horizon.env(0600, compose env_file 挂入), GitHub token 在 /etc/horizon/github.env(GITHUB_TOKEN, 源 /home/Github APIkey.txt 已验证 200); src/ai/client.py 已打补丁对 apihub.agnes-ai.com 加浏览器 UA(绕 WAF), 改代码后需 docker compose build。Agnes 免费档会 429: throttle_sec 现=0(哥哥要求最快), 撞 429 时 Horizon 自动重试, 重跑可过; 需要慢就调 12s。备份 key /home/key/Agnes-key.txt 探测 401 不可用。定时: 系统 crontab `0 8 * * *` 每日抓 24h + 摘要归档 /opt/AI NEWS/daily/; Hermes cronjob ec3f986cb48f `30 8 * * 1` 周一 08:30 跑 168h 出《AI科技圈热点简报》存 /opt/AI NEWS/ 并附 MEDIA 文件。未决: horizon.taoque.top 无 Cloudflare DNS 记录、证书未签(部署未完, 且该服务是无 web 界面的纯流水线, 域名是否还需要待确认)。
 §
 智妍手账本长效机制（哥哥 2026-11-05 立，skill=zhiyan-shouzhangben）：账本 /root/.hermes/mistake-ledger/LEDGER.md + tally.py（唯一事实源重算累计列）。失误 -5、做对 +2、基准 100，同族复犯额外 -5。内置周期自审循环：每周六 09:00 cron job b6d74b841745 自动做 tally 对账+失误模式分析+skill 健康精简+趋势提建议，审计结果回写账本。双模型复核（skill=dual-model-review, judge.py）：主模型执行、sensenova 裁判复核，成品交付前必跑。
+§
+简报/报告类交付偏好（2026-11-05）：成品文件（.md 等）以附件直接发上来；成品里的出处/参考链接一律写 Markdown 超链接 [标题](url)，禁止纯文本 URL（哥哥 2026-11-05 纠正）。
+§
+Skill 调用流程（哥哥 2026-11-06 立，覆盖 10-28 旧规则）：每次执行任务开工前先 skills_list 全量扫描已有 skill 目录，再按当前任务属性自行启用相关的所有 skill（宁多勿少，不靠用户触发关键词才用）——skill 是我的工具库，自行匹配使用帮哥哥完成需求。
