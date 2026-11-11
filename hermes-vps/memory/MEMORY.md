@@ -61,3 +61,5 @@ YunSu(云速)网络优化项目(2026-11-08): /opt/YunSu/, GitHub=https://github.
 sysctl 单文件惯例(2026-11-10,哥哥立): 每台机器只留一份 /etc/sysctl.d/90-netopt.conf, 只保留实测有用的参数, 多个优化文件互相覆盖视为故障源。YunSu 脚本已改标记块模式: H2N_SYSCTL_CONF=90-netopt.conf + [BEGIN/END hyst2-netopt] 块, apply 只合并自己那段(块置文件末尾), 回滚只删标记块不删文件。已清: 139 旧项目4文件(备份/root/sysctl-legacy-20261108.tgz), 45 的 99-sysctl.conf(cubic非法值冲突, 备份45:/root/sysctl-backup-20261108)。fq horizon 2s 开机兜底=fq-horizon.service(oneshot自启, rc.local在这台不生效)。
 §
 配置卫生偏好(2026-11-10, 哥哥立): 只保留有用的参数、整合为一份优化文件, 不要多份互相覆盖(原话"这样就不会乱了")。适用于 sysctl/证书/服务等一切配置文件: 先查清哪些活着哪些是遗留, 保留活的不删, 遗留的备份后清除。
+§
+hermes.taoque.top 控制台(2026-11-11): hermes-dashboard.service(systemd enabled) 绑 172.18.0.1:9119, nginx容器反代(WS支持), basic_auth 用户名hermes/密码在/root/key/hermes-dashboard-20261110.txt(0600); dashboard.public_url=https://hermes.taoque.top(Host白名单, 漏配400 Invalid Host header); 证书 docker certbot 管(hermes.taoque.top-0001, 2027-02-08, -0001后缀因预建占位目录); 同期修复 komari/pass/www 单证书缺中间CA暗亏(切fullchain+改acme.sh钩子同步fullchain)。
