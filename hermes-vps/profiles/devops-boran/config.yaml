@@ -1,0 +1,6 @@
+model:
+  default: openrouter/free
+  provider: openrouter
+  base_url: https://openrouter.ai/api/v1
+  api_mode: chat_completions
+_config_version: 50

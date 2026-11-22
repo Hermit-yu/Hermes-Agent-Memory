@@ -40,3 +40,10 @@ hermes-vps/curator-backups/
 skills/sn-env/.env
 # skills 运行态锁 -> 不入 git
 skills/.locks/
+
+# 编程团队 profile 实体 .env (含活 API key) -> 不入 git, 只提交 env.example 打码占位
+hermes-vps/profiles/*/.env
+hermes-vps/profiles/*/state.db*
+# 编程团队工作区运行态/产物 (只镜像结构+README)
+coding-team/src/
+coding-team/tests/
